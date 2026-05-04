@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "flipped=false": {
+      "model": "minecells:block/cage"
+    },
+    "flipped=true": {
+      "model": "minecells:block/cage",
+      "x": 180
+    }
+  }
+}

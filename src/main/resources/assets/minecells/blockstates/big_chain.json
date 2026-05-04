@@ -1,0 +1,17 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "minecells:block/big_chain_sideways",
+      "y": 90
+    },
+    "axis=y,connected=false": {
+      "model": "minecells:block/big_chain_hanging"
+    },
+    "axis=y,connected=true": {
+      "model": "minecells:block/big_chain"
+    },
+    "axis=z": {
+      "model": "minecells:block/big_chain_sideways"
+    }
+  }
+}

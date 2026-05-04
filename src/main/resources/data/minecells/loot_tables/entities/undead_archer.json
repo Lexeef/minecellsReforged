@@ -1,0 +1,38 @@
+{
+  "pools": [
+    {
+      "rolls": {
+        "min": 0,
+        "max": 1
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecells:monster_cell"
+        }
+      ]
+    },
+    {
+      "rolls": { "min": 0, "max": 1 },
+      "entries": [{ "type": "minecraft:item", "name": "minecells:guts" }]
+    },
+    {
+      "rolls": {
+        "min": 0,
+        "max": 3
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 3,
+          "name": "minecraft:arrow"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "minecells:infected_flesh"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "minecells:alchemy_equipment_2",
+    "minecells:alchemy_equipment_1",
+    "minecells:alchemy_equipment_0",
+    "minecells:conjunctivius_box",
+    "minecells:doorway_frame",
+    "minecells:prison_doorway",
+    "minecells:promenade_doorway",
+    "minecells:insufferable_crypt_doorway"
+  ]
+}

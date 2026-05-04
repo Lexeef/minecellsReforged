@@ -1,0 +1,11 @@
+{
+  "type": "minecells:promenade_wall_z",
+  "biomes": [
+    "minecells:promenade"
+  ],
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "start_height": {
+    "absolute": 48
+  }
+}
