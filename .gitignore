@@ -30,3 +30,5 @@ crash-reports/
 
 # Files from Forge MDK
 forge*changelog.txt
+
+LOCAL_PORTING_GUIDE.md

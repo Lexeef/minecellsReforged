@@ -1,6 +1,1 @@
-{
-  "parent": "minecells:block/colored_torch/colored_torch_standing",
-  "textures": {
-    "flame": "minecells:block/colored_torch/prison"
-  }
-}
+{"parent":"minecells:block/colored_torch/colored_torch_standing","textures":{"flame":"minecells:block/colored_torch/prison"}}

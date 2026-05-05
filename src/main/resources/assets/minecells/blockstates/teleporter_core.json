@@ -1,7 +1,1 @@
-{
-  "variants": {
-    "": {
-      "model": "minecells:block/teleporter/middle"
-    }
-  }
-}
+{"variants":{"":{"model":"minecells:block/teleporter/middle"}}}

@@ -1,0 +1,1 @@
+{"variants":{"facing=north":{"model":"minecells:block/return_stone"},"facing=east":{"model":"minecells:block/return_stone","y":90},"facing=south":{"model":"minecells:block/return_stone","y":180},"facing=west":{"model":"minecells:block/return_stone","y":270}}}

@@ -1,8 +1,1 @@
-{
-  "textures": [
-    "minecells:charge/charge_0",
-    "minecells:charge/charge_1",
-    "minecells:charge/charge_2",
-    "minecells:charge/charge_3"
-  ]
-}
+{"textures":["minecells:charge/charge_0","minecells:charge/charge_1","minecells:charge/charge_2","minecells:charge/charge_3"]}

@@ -1,6 +1,1 @@
-{
-	"parent": "minecells:arrow/default",
-	"textures": {
-		"arrow": "minecells:item/arrow_entity/explosive_bolt"
-	}
-}
+{"parent":"minecells:arrow/default","textures":{"arrow":"minecells:item/arrow_entity/explosive_bolt"}}

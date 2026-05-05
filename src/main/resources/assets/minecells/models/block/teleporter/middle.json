@@ -1,5 +1,1 @@
-{
-  "textures": {
-    "particle": "minecells:block/prison_stone"
-  }
-}
+{"textures":{"particle":"minecells:block/prison_stone"}}
