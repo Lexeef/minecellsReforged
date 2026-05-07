@@ -1,35 +1,63 @@
-# eclipse
-bin
+# IDEs
+bin/
+out/
 *.launch
-.settings
-.metadata
-.classpath
-.project
-
-# idea
-out
 *.ipr
 *.iws
 *.iml
-.idea
+.settings/
+.metadata/
+.classpath
+.project
+.idea/
+.vscode/
 
-# gradle
-build
-.gradle
+# Gradle
 .gradle/
 build/
+run-data/
 
-# other
-eclipse
-TODO
-run
+# Forge runtime
+run/
 logs/
 crash-reports/
+saves/
+downloads/
+usercache.json
+usernamecache.json
+eula.txt
+banned-ips.json
+banned-players.json
+ops.json
+whitelist.json
+
+# Local work dirs
+.tmp_forge_src/
+tmp/
+temp/
+
+# Generated/exported artifacts
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
 *.log
 *.tmp
 *.bak
+*.orig
 
-# Files from Forge MDK
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local publishing/secrets
+publishing.properties
+mcmodsrepo/
+
+# Forge MDK leftovers
 forge*changelog.txt
+changelog.txt
 
+# Local-only notes
 LOCAL_PORTING_GUIDE.md
+TODO
+TODO.md
