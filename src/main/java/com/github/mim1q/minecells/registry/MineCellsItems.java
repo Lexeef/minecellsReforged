@@ -2,7 +2,9 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.item.CellHolderItem;
+import com.github.mim1q.minecells.item.DimensionalRuneItem;
 import com.github.mim1q.minecells.item.HealthFlaskItem;
+import com.github.mim1q.minecells.item.ResetRuneItem;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -23,7 +25,7 @@ public final class MineCellsItems {
     public static final RegistryObject<Item> CONJUNCTIVIUS_RESPAWN_RUNE = register("conjunctivius_respawn_rune", new Item.Properties().stacksTo(1));
     public static final RegistryObject<Item> CONCIERGE_RESPAWN_RUNE = register("concierge_respawn_rune", new Item.Properties().stacksTo(1));
     public static final RegistryObject<Item> VINE_RUNE = register("vine_rune", new Item.Properties().stacksTo(1).durability(8));
-    public static final RegistryObject<Item> RESET_RUNE = ITEMS.register("reset_rune", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> RESET_RUNE = ITEMS.register("reset_rune", () -> new ResetRuneItem(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> SEWAGE_BUCKET = ITEMS.register("sewage_bucket", () -> new BucketItem(MineCellsFluids.STILL_SEWAGE, new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)));
     public static final RegistryObject<Item> ANCIENT_SEWAGE_BUCKET = ITEMS.register("ancient_sewage_bucket", () -> new BucketItem(MineCellsFluids.STILL_ANCIENT_SEWAGE, new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)));
     public static final RegistryObject<Item> CELL_HOLDER = ITEMS.register("cell_holder", () -> new CellHolderItem(new Item.Properties().stacksTo(1)));
@@ -84,11 +86,11 @@ public final class MineCellsItems {
     public static final RegistryObject<Item> LIGHTNING_BOLT = registerDurable("lightning_bolt", 600);
     public static final RegistryObject<Item> THROWING_KNIFE = registerSimple("throwing_knife");
     public static final RegistryObject<Item> FIREBRANDS = registerSimple("firebrands");
-    public static final RegistryObject<Item> PRISON_DIMENSIONAL_RUNE = registerSimple("prison_dimensional_rune");
-    public static final RegistryObject<Item> PROMENADE_DIMENSIONAL_RUNE = registerSimple("promenade_dimensional_rune");
-    public static final RegistryObject<Item> RAMPARTS_DIMENSIONAL_RUNE = registerSimple("ramparts_dimensional_rune");
-    public static final RegistryObject<Item> INSUFFERABLE_CRYPT_DIMENSIONAL_RUNE = registerSimple("insufferable_crypt_dimensional_rune");
-    public static final RegistryObject<Item> BLACK_BRIDGE_DIMENSIONAL_RUNE = registerSimple("black_bridge_dimensional_rune");
+    public static final RegistryObject<Item> PRISON_DIMENSIONAL_RUNE = ITEMS.register("prison_dimensional_rune", () -> new DimensionalRuneItem(new Item.Properties().stacksTo(1), MineCellsBlocks.PRISON_DOORWAY.get()));
+    public static final RegistryObject<Item> PROMENADE_DIMENSIONAL_RUNE = ITEMS.register("promenade_dimensional_rune", () -> new DimensionalRuneItem(new Item.Properties().stacksTo(1), MineCellsBlocks.PROMENADE_DOORWAY.get()));
+    public static final RegistryObject<Item> RAMPARTS_DIMENSIONAL_RUNE = ITEMS.register("ramparts_dimensional_rune", () -> new DimensionalRuneItem(new Item.Properties().stacksTo(1), MineCellsBlocks.RAMPARTS_DOORWAY.get()));
+    public static final RegistryObject<Item> INSUFFERABLE_CRYPT_DIMENSIONAL_RUNE = ITEMS.register("insufferable_crypt_dimensional_rune", () -> new DimensionalRuneItem(new Item.Properties().stacksTo(1), MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY.get()));
+    public static final RegistryObject<Item> BLACK_BRIDGE_DIMENSIONAL_RUNE = ITEMS.register("black_bridge_dimensional_rune", () -> new DimensionalRuneItem(new Item.Properties().stacksTo(1), MineCellsBlocks.BLACK_BRIDGE_DOORWAY.get()));
     public static final RegistryObject<ForgeSpawnEggItem> LEAPING_ZOMBIE_SPAWN_EGG = registerSpawnEgg("leaping_zombie_spawn_egg", MineCellsEntities.LEAPING_ZOMBIE, 0x5B7B53, 0x8DBB4E);
     public static final RegistryObject<ForgeSpawnEggItem> SHOCKER_SPAWN_EGG = registerSpawnEgg("shocker_spawn_egg", MineCellsEntities.SHOCKER, 0x2B5369, 0x5FBED1);
     public static final RegistryObject<ForgeSpawnEggItem> GRENADIER_SPAWN_EGG = registerSpawnEgg("grenadier_spawn_egg", MineCellsEntities.GRENADIER, 0x8B3D56, 0xDB7CDB);

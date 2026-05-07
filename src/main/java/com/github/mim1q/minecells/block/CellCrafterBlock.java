@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.block;
 
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.CellCrafterBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -8,6 +9,7 @@ import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -22,6 +24,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 public class CellCrafterBlock extends Block implements EntityBlock {
@@ -52,6 +55,20 @@ public class CellCrafterBlock extends Block implements EntityBlock {
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+            BlockEntity blockEntity = level.getBlockEntity(pos);
+            if (blockEntity instanceof CellCrafterBlockEntity cellCrafterBlockEntity) {
+                NetworkHooks.openScreen(serverPlayer, cellCrafterBlockEntity, pos);
+                var server = level.getServer();
+                if (server != null) {
+                    var advancement = server.getAdvancements().getAdvancement(MineCells.id("cell_crafter"));
+                    if (advancement != null) {
+                        serverPlayer.getAdvancements().award(advancement, "use_cell_crafter");
+                    }
+                }
+                return InteractionResult.CONSUME;
+            }
+        }
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 

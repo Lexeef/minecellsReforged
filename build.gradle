@@ -164,18 +164,11 @@ tasks.named('processResources', ProcessResources).configure {
         expand replaceProperties + [project: project]
     }
 
-    exclude 'data/minecells/worldgen/**'
-    exclude 'data/minecells/dimension/**'
-    exclude 'data/minecells/dimension_type/**'
-    exclude 'data/minecells/structures/**'
     exclude 'data/minecells/advancements/**'
     exclude 'data/minecells/loot_tables/**'
     exclude 'data/minecells/patchouli_books/**'
-    exclude 'data/minecells/recipes/cell_crafter/**'
     exclude 'data/minecells/recipes/compat/**'
     exclude 'data/minecells/recipes/minecells_guidebook.json'
-    exclude 'data/minecells/spawner_runes/**'
-    exclude 'data/minecells/tags/**'
     exclude 'data/minecells/value_calculators/**'
     exclude 'data/minecells/weapon_attributes/**'
     exclude 'data/bewitchment/**'

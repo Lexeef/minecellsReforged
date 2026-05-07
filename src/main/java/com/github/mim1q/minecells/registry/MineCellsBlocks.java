@@ -22,12 +22,14 @@ import com.github.mim1q.minecells.block.RiftBlock;
 import com.github.mim1q.minecells.block.SkeletonDecorationBlock;
 import com.github.mim1q.minecells.block.ShockwaveFlameBlock;
 import com.github.mim1q.minecells.block.SmallCrateBlock;
+import com.github.mim1q.minecells.block.SpawnerRuneBlock;
 import com.github.mim1q.minecells.block.SpikesBlock;
 import com.github.mim1q.minecells.block.WallLeavesBlock;
 import com.github.mim1q.minecells.block.WoodenBoardBlock;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
 import com.github.mim1q.minecells.block.portal.TeleporterFrameBlock;
 import com.github.mim1q.minecells.item.FlagBlockItem;
+import com.github.mim1q.minecells.item.DoorwayItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -158,7 +160,7 @@ public final class MineCellsBlocks {
     public static final RegistryObject<Block> CONJUNCTIVIUS_BOX = registerBlock("conjunctivius_box", () -> new Block(BlockBehaviour.Properties.copy(Blocks.BEDROCK).noLootTable()));
     public static final RegistryObject<Block> CONCIERGE_BOX = registerBlock("concierge_box", () -> new Block(BlockBehaviour.Properties.copy(Blocks.BEDROCK).noLootTable()));
     public static final RegistryObject<Block> BEAM_PLACER = registerBlock("beam_placer", () -> new Block(BlockBehaviour.Properties.copy(Blocks.BEDROCK).noLootTable()));
-    public static final RegistryObject<Block> SPAWNER_RUNE = registerBlock("spawner_rune", () -> new Block(BlockBehaviour.Properties.copy(Blocks.BARRIER).noCollission().noOcclusion().noLootTable()));
+    public static final RegistryObject<SpawnerRuneBlock> SPAWNER_RUNE = registerBlock("spawner_rune", () -> new SpawnerRuneBlock(BlockBehaviour.Properties.copy(Blocks.BARRIER).noCollission().noOcclusion().noLootTable()));
     public static final RegistryObject<BarrierControllerBlock> BOSS_BARRIER_CONTROLLER = registerBlock("boss_barrier_controller", () -> new BarrierControllerBlock(BlockBehaviour.Properties.copy(Blocks.BARRIER).noCollission().noOcclusion(), BarrierControllerBlock::bossPredicate));
     public static final RegistryObject<BarrierControllerBlock> BOSS_ENTRY_BARRIER_CONTROLLER = registerBlock("boss_entry_barrier_controller", () -> new BarrierControllerBlock(BlockBehaviour.Properties.copy(Blocks.BARRIER).noCollission().noOcclusion(), BarrierControllerBlock::bossEntryPredicate));
     public static final RegistryObject<BarrierControllerBlock> PLAYER_BARRIER_CONTROLLER = registerBlock("player_barrier_controller", () -> new BarrierControllerBlock(BlockBehaviour.Properties.copy(Blocks.BARRIER).noCollission().noOcclusion(), BarrierControllerBlock::playerPredicate));
@@ -167,11 +169,11 @@ public final class MineCellsBlocks {
     public static final RegistryObject<Block> DOORWAY_FRAME = registerBlock("doorway_frame", () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHER_PORTAL).strength(10.0F, 1200.0F).noOcclusion().noLootTable()));
     public static final RegistryObject<Block> UNBREAKABLE_DOORWAY_FRAME = registerBlock("unbreakable_doorway_frame", () -> new Block(BlockBehaviour.Properties.copy(Blocks.BEDROCK).noOcclusion().noLootTable()));
     public static final RegistryObject<DoorwayPortalBlock> OVERWORLD_DOORWAY = registerBlock("overworld_doorway", () -> new DoorwayPortalBlock(doorwayProperties(), DoorwayPortalBlock.DoorwayType.OVERWORLD));
-    public static final RegistryObject<DoorwayPortalBlock> PRISON_DOORWAY = registerBlockWithItem("prison_doorway", () -> new DoorwayPortalBlock(doorwayProperties(), DoorwayPortalBlock.DoorwayType.PRISON));
-    public static final RegistryObject<DoorwayPortalBlock> PROMENADE_DOORWAY = registerBlockWithItem("promenade_doorway", () -> new DoorwayPortalBlock(doorwayProperties(), DoorwayPortalBlock.DoorwayType.PROMENADE));
-    public static final RegistryObject<DoorwayPortalBlock> INSUFFERABLE_CRYPT_DOORWAY = registerBlockWithItem("insufferable_crypt_doorway", () -> new DoorwayPortalBlock(doorwayProperties(), DoorwayPortalBlock.DoorwayType.INSUFFERABLE_CRYPT));
-    public static final RegistryObject<DoorwayPortalBlock> RAMPARTS_DOORWAY = registerBlockWithItem("ramparts_doorway", () -> new DoorwayPortalBlock(doorwayProperties(), DoorwayPortalBlock.DoorwayType.RAMPARTS));
-    public static final RegistryObject<DoorwayPortalBlock> BLACK_BRIDGE_DOORWAY = registerBlockWithItem("black_bridge_doorway", () -> new DoorwayPortalBlock(doorwayProperties(), DoorwayPortalBlock.DoorwayType.BLACK_BRIDGE));
+    public static final RegistryObject<DoorwayPortalBlock> PRISON_DOORWAY = registerBlockWithItem("prison_doorway", () -> new DoorwayPortalBlock(doorwayProperties(), DoorwayPortalBlock.DoorwayType.PRISON), block -> new DoorwayItem((DoorwayPortalBlock) block, new Item.Properties()));
+    public static final RegistryObject<DoorwayPortalBlock> PROMENADE_DOORWAY = registerBlockWithItem("promenade_doorway", () -> new DoorwayPortalBlock(doorwayProperties(), DoorwayPortalBlock.DoorwayType.PROMENADE), block -> new DoorwayItem((DoorwayPortalBlock) block, new Item.Properties()));
+    public static final RegistryObject<DoorwayPortalBlock> INSUFFERABLE_CRYPT_DOORWAY = registerBlockWithItem("insufferable_crypt_doorway", () -> new DoorwayPortalBlock(doorwayProperties(), DoorwayPortalBlock.DoorwayType.INSUFFERABLE_CRYPT), block -> new DoorwayItem((DoorwayPortalBlock) block, new Item.Properties()));
+    public static final RegistryObject<DoorwayPortalBlock> RAMPARTS_DOORWAY = registerBlockWithItem("ramparts_doorway", () -> new DoorwayPortalBlock(doorwayProperties(), DoorwayPortalBlock.DoorwayType.RAMPARTS), block -> new DoorwayItem((DoorwayPortalBlock) block, new Item.Properties()));
+    public static final RegistryObject<DoorwayPortalBlock> BLACK_BRIDGE_DOORWAY = registerBlockWithItem("black_bridge_doorway", () -> new DoorwayPortalBlock(doorwayProperties(), DoorwayPortalBlock.DoorwayType.BLACK_BRIDGE), block -> new DoorwayItem((DoorwayPortalBlock) block, new Item.Properties()));
     public static final RegistryObject<RiftBlock> RIFT = registerBlock("rift", () -> new RiftBlock(BlockBehaviour.Properties.copy(Blocks.BARRIER).noOcclusion()));
     public static final RegistryObject<Block> PRISON_STONE = registerBlockWithItem("prison_stone", () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
     public static final RegistryObject<StairBlock> PRISON_STONE_STAIRS = registerStairs("prison_stone_stairs", Blocks.STONE);
@@ -226,6 +228,12 @@ public final class MineCellsBlocks {
     private static <T extends Block> RegistryObject<T> registerBlockWithItem(String name, java.util.function.Supplier<T> supplier) {
         RegistryObject<T> block = registerBlock(name, supplier);
         MineCellsItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+        return block;
+    }
+
+    private static <T extends Block> RegistryObject<T> registerBlockWithItem(String name, java.util.function.Supplier<T> supplier, java.util.function.Function<T, Item> itemFactory) {
+        RegistryObject<T> block = registerBlock(name, supplier);
+        MineCellsItems.ITEMS.register(name, () -> itemFactory.apply(block.get()));
         return block;
     }
 

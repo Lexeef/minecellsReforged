@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.Containers;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -75,6 +76,18 @@ public class ArrowSignBlock extends Block implements EntityBlock {
         if (sourcePos.equals(pos.above())) {
             level.updateNeighborsAt(pos.below(), this);
         }
+    }
+
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+        if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof ArrowSignBlockEntity arrowSign) {
+            ItemStack stored = arrowSign.getItemStack();
+            if (!stored.isEmpty()) {
+                Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stored);
+                arrowSign.setItemStack(ItemStack.EMPTY);
+            }
+        }
+        super.onRemove(state, level, pos, newState, movedByPiston);
     }
 
     private static void updateChainState(Level level, BlockPos pos, BlockState state) {

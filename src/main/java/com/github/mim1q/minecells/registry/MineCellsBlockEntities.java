@@ -5,10 +5,12 @@ import com.github.mim1q.minecells.block.blockentity.ArrowSignBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.BarrierControllerBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.CellCrafterBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.DecorativeStatueBlockEntity;
+import com.github.mim1q.minecells.block.blockentity.DoorwayPortalBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.FlagBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.ReturnStoneBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.RiftBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.RunicVinePlantBlockEntity;
+import com.github.mim1q.minecells.block.blockentity.SpawnerRuneBlockEntity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -63,6 +65,23 @@ public final class MineCellsBlockEntities {
         "rift",
         RiftBlockEntity::new,
         MineCellsBlocks.RIFT
+    );
+    public static final RegistryObject<BlockEntityType<SpawnerRuneBlockEntity>> SPAWNER_RUNE = register(
+        "spawner_rune",
+        SpawnerRuneBlockEntity::new,
+        MineCellsBlocks.SPAWNER_RUNE
+    );
+    public static final RegistryObject<BlockEntityType<DoorwayPortalBlockEntity>> DOORWAY = BLOCK_ENTITIES.register(
+        "doorway",
+        () -> BlockEntityType.Builder.of(
+            DoorwayPortalBlockEntity::new,
+            MineCellsBlocks.OVERWORLD_DOORWAY.get(),
+            MineCellsBlocks.PRISON_DOORWAY.get(),
+            MineCellsBlocks.PROMENADE_DOORWAY.get(),
+            MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY.get(),
+            MineCellsBlocks.RAMPARTS_DOORWAY.get(),
+            MineCellsBlocks.BLACK_BRIDGE_DOORWAY.get()
+        ).build(null)
     );
 
     private MineCellsBlockEntities() {

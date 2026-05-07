@@ -198,6 +198,11 @@ fi
 # Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
 DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
 
+if [ -z "${JAVA_TOOL_OPTIONS:-}" ] ; then
+    JAVA_TOOL_OPTIONS='-Xmx2048m'
+    export JAVA_TOOL_OPTIONS
+fi
+
 # Collect all arguments for the java command;
 #   * $DEFAULT_JVM_OPTS, $JAVA_OPTS, and $GRADLE_OPTS can contain fragments of
 #     shell script including quotes and variable substitutions, so put them in

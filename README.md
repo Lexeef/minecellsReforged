@@ -9,6 +9,7 @@ This is a Forge 1.20.1 porting project for Mine Cells.
 ```
 
 On Windows, `gradlew.bat build` can also be used.
+The wrapper now supplies a default `JAVA_TOOL_OPTIONS=-Xmx2048m` when unset, which avoids local `reobfJar` failures on machines with a small paging file.
 
 ## Status
 

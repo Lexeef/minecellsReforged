@@ -15,6 +15,9 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.world.level.Level;
 
 import java.util.Map;
@@ -88,6 +91,41 @@ public record CellForgeRecipe(
     @Override
     public boolean isSpecial() {
         return true;
+    }
+
+    public boolean matchesInventory(Inventory inventory, Level level) {
+        return matches(inventory, level);
+    }
+
+    public void consumeIngredients(Inventory inventory) {
+        for (Map.Entry<Item, Integer> ingredient : ingredients.entrySet()) {
+            int remaining = ingredient.getValue();
+            for (int slot = 0; slot < inventory.getContainerSize() && remaining > 0; slot++) {
+                ItemStack stack = inventory.getItem(slot);
+                if (!stack.is(ingredient.getKey())) {
+                    continue;
+                }
+
+                int taken = Math.min(stack.getCount(), remaining);
+                stack.shrink(taken);
+                remaining -= taken;
+            }
+        }
+
+        inventory.setChanged();
+    }
+
+    public boolean isUnlockedFor(ServerPlayer player) {
+        if (requiredAdvancement.isEmpty()) {
+            return true;
+        }
+
+        Advancement advancement = player.server.getAdvancements().getAdvancement(requiredAdvancement.get());
+        if (advancement == null) {
+            return true;
+        }
+
+        return player.getAdvancements().getOrStartProgress(advancement).isDone();
     }
 
     public enum Category implements StringRepresentable {

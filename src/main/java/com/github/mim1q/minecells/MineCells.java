@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells;
 
+import com.github.mim1q.minecells.command.MineCellsDataCommand;
 import com.mojang.logging.LogUtils;
 import com.github.mim1q.minecells.config.MineCellsConfig;
 import com.github.mim1q.minecells.network.MineCellsNetwork;
@@ -10,11 +11,14 @@ import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsFluids;
 import com.github.mim1q.minecells.registry.MineCellsGameRules;
 import com.github.mim1q.minecells.registry.MineCellsItems;
+import com.github.mim1q.minecells.registry.MineCellsMenus;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsPointOfInterestTypes;
 import com.github.mim1q.minecells.registry.MineCellsRecipeTypes;
+import com.github.mim1q.minecells.registry.MineCellsReloadListeners;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+import com.github.mim1q.minecells.registry.MineCellsStructurePlacementTypes;
 import com.github.mim1q.minecells.registry.MineCellsStructureProcessorTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -42,9 +46,11 @@ public class MineCells {
         MineCellsBlocks.register(modEventBus);
         MineCellsBlockEntities.register(modEventBus);
         MineCellsItems.register(modEventBus);
+        MineCellsMenus.register(modEventBus);
         MineCellsCreativeTabs.register(modEventBus);
         MineCellsRecipeTypes.register(modEventBus);
         MineCellsPointOfInterestTypes.register(modEventBus);
+        MineCellsStructurePlacementTypes.register(modEventBus);
         MineCellsStructureProcessorTypes.register(modEventBus);
         MineCellsGameRules.init();
         MineCellsNetwork.init();
@@ -53,6 +59,8 @@ public class MineCells {
         context.registerConfig(ModConfig.Type.COMMON, MineCellsConfig.COMMON_SPEC);
         context.registerConfig(ModConfig.Type.CLIENT, MineCellsConfig.CLIENT_SPEC);
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.addListener(MineCellsDataCommand::register);
+        MinecraftForge.EVENT_BUS.addListener(MineCellsReloadListeners::onAddReloadListeners);
         DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> MineCellsClient::init);
     }
 

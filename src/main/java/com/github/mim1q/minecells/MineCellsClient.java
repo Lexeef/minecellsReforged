@@ -1,5 +1,7 @@
 package com.github.mim1q.minecells;
 
+import com.github.mim1q.minecells.client.MineCellsItemDescriptionTooltips;
+import com.github.mim1q.minecells.client.screen.CellCrafterScreen;
 import com.github.mim1q.minecells.client.renderer.NoopMineCellsMonsterRenderer;
 import com.github.mim1q.minecells.client.renderer.blockentity.ArrowSignBlockEntityRenderer;
 import com.github.mim1q.minecells.client.renderer.blockentity.FlagBlockEntityRenderer;
@@ -10,10 +12,16 @@ import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsFluids;
+import com.github.mim1q.minecells.registry.MineCellsMenus;
+import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterMenu;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -28,6 +36,7 @@ public final class MineCellsClient {
         modEventBus.addListener(MineCellsClient::clientSetup);
         modEventBus.addListener(MineCellsClient::registerLayerDefinitions);
         modEventBus.addListener(MineCellsClient::registerEntityRenderers);
+        MinecraftForge.EVENT_BUS.register(new MineCellsItemDescriptionTooltips());
     }
 
     private static void clientSetup(final FMLClientSetupEvent event) {
@@ -92,6 +101,7 @@ public final class MineCellsClient {
             ItemBlockRenderTypes.setRenderLayer(MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(MineCellsBlocks.RAMPARTS_DOORWAY.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(MineCellsBlocks.BLACK_BRIDGE_DOORWAY.get(), RenderType.cutout());
+            MenuScreens.register(MineCellsMenus.CELL_CRAFTER.get(), (CellCrafterMenu menu, Inventory inventory, Component title) -> new CellCrafterScreen(menu, inventory, title));
         });
     }
 
