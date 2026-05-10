@@ -35,6 +35,10 @@ public class DimensionalRuneItem extends Item {
         this.portalBlock = portalBlock;
     }
 
+    public DoorwayPortalBlock getPortalBlock() {
+        return portalBlock;
+    }
+
     @Override
     public InteractionResult useOn(UseOnContext context) {
         Level level = context.getLevel();

@@ -1,0 +1,51 @@
+{
+    "name":  "minecells:ramparts/tower/room",
+    "fallback":  "minecraft:empty",
+    "elements":  [
+                     {
+                         "weight":  3,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/tower/room/0",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  3,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/tower/room/1",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  3,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/tower/room/2",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/tower/room/3",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  2,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/tower/room/4",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     }
+                 ]
+}

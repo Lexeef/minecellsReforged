@@ -1,0 +1,33 @@
+{
+    "name":  "minecells:common/corpse",
+    "fallback":  "minecraft:empty",
+    "elements":  [
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:common/corpse/corpse",
+                                         "processors":  "minecraft:empty",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:common/corpse/rotting_corpse",
+                                         "processors":  "minecraft:empty",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:common/corpse/skeleton",
+                                         "processors":  "minecraft:empty",
+                                         "projection":  "rigid"
+                                     }
+                     }
+                 ]
+}

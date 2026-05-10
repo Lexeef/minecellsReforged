@@ -5,6 +5,19 @@ import com.github.mim1q.minecells.item.CellHolderItem;
 import com.github.mim1q.minecells.item.DimensionalRuneItem;
 import com.github.mim1q.minecells.item.HealthFlaskItem;
 import com.github.mim1q.minecells.item.ResetRuneItem;
+import com.github.mim1q.minecells.item.weapon.BasicBowWeaponItem;
+import com.github.mim1q.minecells.item.weapon.BasicCrossbowWeaponItem;
+import com.github.mim1q.minecells.item.weapon.BasicMeleeWeaponItem;
+import com.github.mim1q.minecells.item.weapon.BasicShieldWeaponItem;
+import com.github.mim1q.minecells.item.weapon.ElectricWhipItem;
+import com.github.mim1q.minecells.item.weapon.FirebrandsItem;
+import com.github.mim1q.minecells.item.weapon.FrostBlastItem;
+import com.github.mim1q.minecells.item.weapon.LightningBoltItem;
+import com.github.mim1q.minecells.item.weapon.MultipleNocksBowItem;
+import com.github.mim1q.minecells.item.weapon.PhaserItem;
+import com.github.mim1q.minecells.item.weapon.QuickBowWeaponItem;
+import com.github.mim1q.minecells.item.weapon.ThrowingKnifeItem;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -17,6 +30,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.Nullable;
 
 public final class MineCellsItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MineCells.MOD_ID);
@@ -53,39 +67,39 @@ public final class MineCellsItems {
     public static final RegistryObject<Item> ARCANE_GOO = registerSimple("arcane_goo");
     public static final RegistryObject<Item> ICE_ARROW = registerSimple("ice_arrow");
     public static final RegistryObject<Item> EXPLOSIVE_BOLT = registerSimple("explosive_bolt");
-    public static final RegistryObject<Item> ASSASSINS_DAGGER = registerDurable("assassins_dagger", 1200);
-    public static final RegistryObject<Item> BLOOD_SWORD = registerDurable("blood_sword", 1200);
-    public static final RegistryObject<Item> CURSED_SWORD = registerDurable("cursed_sword", 600);
-    public static final RegistryObject<Item> TENTACLE = register("tentacle", new Item.Properties().stacksTo(1).durability(800).rarity(Rarity.EPIC));
-    public static final RegistryObject<Item> HATTORIS_KATANA = registerDurable("hattoris_katana", 1200);
-    public static final RegistryObject<Item> BROADSWORD = registerDurable("broadsword", 1000);
-    public static final RegistryObject<Item> BALANCED_BLADE = registerDurable("balanced_blade", 1200);
-    public static final RegistryObject<Item> CROWBAR = registerDurable("crowbar", 1100);
-    public static final RegistryObject<Item> NUTCRACKER = registerDurable("nutcracker", 1000);
-    public static final RegistryObject<Item> FROST_BLAST = registerDurable("frost_blast", 32);
+    public static final RegistryObject<Item> ASSASSINS_DAGGER = ITEMS.register("assassins_dagger", () -> new BasicMeleeWeaponItem(2, -1.6F, new Item.Properties().stacksTo(1).durability(1200)));
+    public static final RegistryObject<Item> BLOOD_SWORD = ITEMS.register("blood_sword", () -> new BasicMeleeWeaponItem(4, -2.2F, new Item.Properties().stacksTo(1).durability(1200)));
+    public static final RegistryObject<Item> CURSED_SWORD = ITEMS.register("cursed_sword", () -> new BasicMeleeWeaponItem(7, -2.8F, new Item.Properties().stacksTo(1).durability(600)));
+    public static final RegistryObject<Item> TENTACLE = ITEMS.register("tentacle", () -> new BasicMeleeWeaponItem(3, -2.0F, new Item.Properties().stacksTo(1).durability(800).rarity(Rarity.EPIC)));
+    public static final RegistryObject<Item> HATTORIS_KATANA = ITEMS.register("hattoris_katana", () -> new BasicMeleeWeaponItem(3, -1.8F, new Item.Properties().stacksTo(1).durability(1200)));
+    public static final RegistryObject<Item> BROADSWORD = ITEMS.register("broadsword", () -> new BasicMeleeWeaponItem(5, -2.6F, new Item.Properties().stacksTo(1).durability(1000)));
+    public static final RegistryObject<Item> BALANCED_BLADE = ITEMS.register("balanced_blade", () -> new BasicMeleeWeaponItem(3, -2.0F, new Item.Properties().stacksTo(1).durability(1200)));
+    public static final RegistryObject<Item> CROWBAR = ITEMS.register("crowbar", () -> new BasicMeleeWeaponItem(4, -2.3F, new Item.Properties().stacksTo(1).durability(1100)));
+    public static final RegistryObject<Item> NUTCRACKER = ITEMS.register("nutcracker", () -> new BasicMeleeWeaponItem(6, -3.0F, new Item.Properties().stacksTo(1).durability(1000)));
+    public static final RegistryObject<Item> FROST_BLAST = ITEMS.register("frost_blast", () -> new FrostBlastItem(new Item.Properties().stacksTo(1).durability(32)));
     public static final RegistryObject<Item> FLINT = register("flint", new Item.Properties().stacksTo(1).durability(1000).rarity(Rarity.EPIC));
-    public static final RegistryObject<Item> SPITE_SWORD = registerDurable("spite_sword", 1200);
-    public static final RegistryObject<Item> PHASER = registerDurable("phaser", 32);
+    public static final RegistryObject<Item> SPITE_SWORD = ITEMS.register("spite_sword", () -> new BasicMeleeWeaponItem(4, -2.1F, new Item.Properties().stacksTo(1).durability(1200)));
+    public static final RegistryObject<Item> PHASER = ITEMS.register("phaser", () -> new PhaserItem(new Item.Properties().stacksTo(1).durability(32)));
     public static final RegistryObject<Item> HEALTH_FLASK = ITEMS.register("health_flask", () -> new HealthFlaskItem(new Item.Properties().stacksTo(16)));
-    public static final RegistryObject<Item> MULTIPLE_NOCKS_BOW = registerDurable("multiple_nocks_bow", 500);
-    public static final RegistryObject<Item> BOW_AND_ENDLESS_QUIVER = registerDurable("bow_and_endless_quiver", 400);
-    public static final RegistryObject<Item> MARKSMANS_BOW = registerDurable("marksmans_bow", 450);
-    public static final RegistryObject<Item> INFANTRY_BOW = registerDurable("infantry_bow", 450);
-    public static final RegistryObject<Item> QUICK_BOW = registerDurable("quick_bow", 800);
-    public static final RegistryObject<Item> ICE_BOW = registerDurable("ice_bow", 400);
-    public static final RegistryObject<Item> NERVES_OF_STEEL = registerDurable("nerves_of_steel", 450);
-    public static final RegistryObject<Item> HEAVY_CROSSBOW = register("heavy_crossbow", new Item.Properties().stacksTo(1).durability(600).rarity(Rarity.EPIC));
-    public static final RegistryObject<Item> EXPLOSIVE_CROSSBOW = registerDurable("explosive_crossbow", 500);
-    public static final RegistryObject<Item> CUDGEL = registerDurable("cudgel", 500);
-    public static final RegistryObject<Item> RAMPART = registerDurable("rampart", 400);
-    public static final RegistryObject<Item> ASSAULT_SHIELD = registerDurable("assault_shield", 600);
-    public static final RegistryObject<Item> BLOODTHIRSTY_SHIELD = registerDurable("bloodthirsty_shield", 500);
-    public static final RegistryObject<Item> GREED_SHIELD = registerDurable("greed_shield", 300);
-    public static final RegistryObject<Item> ICE_SHIELD = registerDurable("ice_shield", 360);
-    public static final RegistryObject<Item> ELECTRIC_WHIP = registerDurable("electric_whip", 450);
-    public static final RegistryObject<Item> LIGHTNING_BOLT = registerDurable("lightning_bolt", 600);
-    public static final RegistryObject<Item> THROWING_KNIFE = registerSimple("throwing_knife");
-    public static final RegistryObject<Item> FIREBRANDS = registerSimple("firebrands");
+    public static final RegistryObject<Item> MULTIPLE_NOCKS_BOW = ITEMS.register("multiple_nocks_bow", () -> new MultipleNocksBowItem(new Item.Properties().stacksTo(1).durability(500)));
+    public static final RegistryObject<Item> BOW_AND_ENDLESS_QUIVER = ITEMS.register("bow_and_endless_quiver", () -> new BasicBowWeaponItem(new Item.Properties().stacksTo(1).durability(400)));
+    public static final RegistryObject<Item> MARKSMANS_BOW = ITEMS.register("marksmans_bow", () -> new BasicBowWeaponItem(new Item.Properties().stacksTo(1).durability(450)));
+    public static final RegistryObject<Item> INFANTRY_BOW = ITEMS.register("infantry_bow", () -> new BasicBowWeaponItem(new Item.Properties().stacksTo(1).durability(450)));
+    public static final RegistryObject<Item> QUICK_BOW = ITEMS.register("quick_bow", () -> new QuickBowWeaponItem(new Item.Properties().stacksTo(1).durability(800)));
+    public static final RegistryObject<Item> ICE_BOW = ITEMS.register("ice_bow", () -> new BasicBowWeaponItem(new Item.Properties().stacksTo(1).durability(400)));
+    public static final RegistryObject<Item> NERVES_OF_STEEL = ITEMS.register("nerves_of_steel", () -> new BasicBowWeaponItem(new Item.Properties().stacksTo(1).durability(450)));
+    public static final RegistryObject<Item> HEAVY_CROSSBOW = ITEMS.register("heavy_crossbow", () -> new BasicCrossbowWeaponItem(new Item.Properties().stacksTo(1).durability(600).rarity(Rarity.EPIC)));
+    public static final RegistryObject<Item> EXPLOSIVE_CROSSBOW = ITEMS.register("explosive_crossbow", () -> new BasicCrossbowWeaponItem(new Item.Properties().stacksTo(1).durability(500)));
+    public static final RegistryObject<Item> CUDGEL = ITEMS.register("cudgel", () -> new BasicShieldWeaponItem(new Item.Properties().stacksTo(1).durability(500)));
+    public static final RegistryObject<Item> RAMPART = ITEMS.register("rampart", () -> new BasicShieldWeaponItem(new Item.Properties().stacksTo(1).durability(400)));
+    public static final RegistryObject<Item> ASSAULT_SHIELD = ITEMS.register("assault_shield", () -> new BasicShieldWeaponItem(new Item.Properties().stacksTo(1).durability(600)));
+    public static final RegistryObject<Item> BLOODTHIRSTY_SHIELD = ITEMS.register("bloodthirsty_shield", () -> new BasicShieldWeaponItem(new Item.Properties().stacksTo(1).durability(500)));
+    public static final RegistryObject<Item> GREED_SHIELD = ITEMS.register("greed_shield", () -> new BasicShieldWeaponItem(new Item.Properties().stacksTo(1).durability(300)));
+    public static final RegistryObject<Item> ICE_SHIELD = ITEMS.register("ice_shield", () -> new BasicShieldWeaponItem(new Item.Properties().stacksTo(1).durability(360)));
+    public static final RegistryObject<Item> ELECTRIC_WHIP = ITEMS.register("electric_whip", () -> new ElectricWhipItem(new Item.Properties().stacksTo(1).durability(450)));
+    public static final RegistryObject<Item> LIGHTNING_BOLT = ITEMS.register("lightning_bolt", () -> new LightningBoltItem(new Item.Properties().stacksTo(1).durability(600)));
+    public static final RegistryObject<Item> THROWING_KNIFE = ITEMS.register("throwing_knife", () -> new ThrowingKnifeItem(new Item.Properties().stacksTo(16)));
+    public static final RegistryObject<Item> FIREBRANDS = ITEMS.register("firebrands", () -> new FirebrandsItem(new Item.Properties().stacksTo(16)));
     public static final RegistryObject<Item> PRISON_DIMENSIONAL_RUNE = ITEMS.register("prison_dimensional_rune", () -> new DimensionalRuneItem(new Item.Properties().stacksTo(1), MineCellsBlocks.PRISON_DOORWAY.get()));
     public static final RegistryObject<Item> PROMENADE_DIMENSIONAL_RUNE = ITEMS.register("promenade_dimensional_rune", () -> new DimensionalRuneItem(new Item.Properties().stacksTo(1), MineCellsBlocks.PROMENADE_DOORWAY.get()));
     public static final RegistryObject<Item> RAMPARTS_DIMENSIONAL_RUNE = ITEMS.register("ramparts_dimensional_rune", () -> new DimensionalRuneItem(new Item.Properties().stacksTo(1), MineCellsBlocks.RAMPARTS_DOORWAY.get()));
@@ -109,6 +123,26 @@ public final class MineCellsItems {
     public static final RegistryObject<ForgeSpawnEggItem> SWEEPER_SPAWN_EGG = registerSpawnEgg("sweeper_spawn_egg", MineCellsEntities.SWEEPER, 0x5C73BF, 0xFFCC00);
 
     private MineCellsItems() {
+    }
+
+    @Nullable
+    public static Item getDimensionalRune(ResourceLocation dimensionId) {
+        if (dimensionId.equals(MineCellsBlocks.PRISON_DOORWAY.get().getType().dimensionId())) {
+            return PRISON_DIMENSIONAL_RUNE.get();
+        }
+        if (dimensionId.equals(MineCellsBlocks.PROMENADE_DOORWAY.get().getType().dimensionId())) {
+            return PROMENADE_DIMENSIONAL_RUNE.get();
+        }
+        if (dimensionId.equals(MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY.get().getType().dimensionId())) {
+            return INSUFFERABLE_CRYPT_DIMENSIONAL_RUNE.get();
+        }
+        if (dimensionId.equals(MineCellsBlocks.RAMPARTS_DOORWAY.get().getType().dimensionId())) {
+            return RAMPARTS_DIMENSIONAL_RUNE.get();
+        }
+        if (dimensionId.equals(MineCellsBlocks.BLACK_BRIDGE_DOORWAY.get().getType().dimensionId())) {
+            return BLACK_BRIDGE_DIMENSIONAL_RUNE.get();
+        }
+        return null;
     }
 
     public static void register(IEventBus eventBus) {

@@ -165,7 +165,7 @@ tasks.named('processResources', ProcessResources).configure {
     }
 
     exclude 'data/minecells/advancements/**'
-    exclude 'data/minecells/loot_tables/**'
+    exclude 'data/minecells/loot_tables/advancements/**'
     exclude 'data/minecells/patchouli_books/**'
     exclude 'data/minecells/recipes/compat/**'
     exclude 'data/minecells/recipes/minecells_guidebook.json'

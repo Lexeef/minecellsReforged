@@ -1,0 +1,48 @@
+{
+    "name":  "minecells:ramparts/pole",
+    "fallback":  "minecraft:empty",
+    "elements":  [
+                     {
+                         "weight":  2,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/pole/2",
+                                         "processors":  "minecraft:empty",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/pole/3",
+                                         "processors":  "minecraft:empty",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  4,
+                         "element":  {
+                                         "element_type":  "minecraft:empty_pool_element"
+                                     }
+                     },
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/pole/1",
+                                         "processors":  "minecraft:empty",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/pole/0",
+                                         "processors":  "minecraft:empty",
+                                         "projection":  "rigid"
+                                     }
+                     }
+                 ]
+}

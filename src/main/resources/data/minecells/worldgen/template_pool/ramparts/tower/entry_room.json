@@ -1,0 +1,42 @@
+{
+    "name":  "minecells:ramparts/tower/entry_room",
+    "fallback":  "minecraft:empty",
+    "elements":  [
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/tower/room/3",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  2,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/tower/entry_room/double_bookshelves",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  2,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/tower/entry_room/ranged_platforms",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  3,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/tower/entry_room/double",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     }
+                 ]
+}

@@ -51,6 +51,14 @@ public enum MineCellsDimension {
         return yaw;
     }
 
+    public int getDimensionLevel() {
+        return switch (this) {
+            case PROMENADE_OF_THE_CONDEMNED -> 1;
+            case RAMPARTS -> 2;
+            default -> 0;
+        };
+    }
+
     public Vec3 getTeleportPosition(BlockPos pos, ServerLevel originLevel) {
         ServerLevel destination = getLevel(originLevel);
         if (destination == null) {

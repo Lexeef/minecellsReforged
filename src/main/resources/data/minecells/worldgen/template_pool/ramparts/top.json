@@ -1,0 +1,69 @@
+{
+    "name":  "minecells:ramparts/top",
+    "fallback":  "minecraft:empty",
+    "elements":  [
+                     {
+                         "weight":  3,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/top/room",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  3,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/top/wooden_platform",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  6,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/top/flat",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/top/two_sweepers",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  2,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/top/shooting_range",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  2,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/top/floating_platforms",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  2,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/top/wooden_over_spikes",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     }
+                 ]
+}

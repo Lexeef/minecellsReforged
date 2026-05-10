@@ -1,0 +1,33 @@
+{
+    "name":  "minecells:common/hanged_corpse",
+    "fallback":  "minecraft:empty",
+    "elements":  [
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:common/hanged_corpse/corpse",
+                                         "processors":  "minecraft:empty",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:common/hanged_corpse/rotting_corpse",
+                                         "processors":  "minecraft:empty",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:common/hanged_corpse/skeleton",
+                                         "processors":  "minecraft:empty",
+                                         "projection":  "rigid"
+                                     }
+                     }
+                 ]
+}

@@ -1,0 +1,42 @@
+{
+    "name":  "minecells:promenade/chain_pile",
+    "fallback":  "minecraft:empty",
+    "elements":  [
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:promenade/chain_pile/0",
+                                         "processors":  "minecraft:empty",
+                                         "projection":  "terrain_matching"
+                                     }
+                     },
+                     {
+                         "weight":  2,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:promenade/chain_pile/1",
+                                         "processors":  "minecraft:empty",
+                                         "projection":  "terrain_matching"
+                                     }
+                     },
+                     {
+                         "weight":  2,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:promenade/chain_pile/2",
+                                         "processors":  "minecraft:empty",
+                                         "projection":  "terrain_matching"
+                                     }
+                     },
+                     {
+                         "weight":  2,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:promenade/chain_pile/3",
+                                         "processors":  "minecraft:empty",
+                                         "projection":  "terrain_matching"
+                                     }
+                     }
+                 ]
+}

@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.network;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.network.c2s.CellCrafterCraftRequestC2SPacket;
+import com.github.mim1q.minecells.network.c2s.RequestSyncMineCellsPlayerDataC2SPacket;
 import com.github.mim1q.minecells.network.c2s.RequestUnlockedCellCrafterRecipesC2SPacket;
 import com.github.mim1q.minecells.network.s2c.SendUnlockedCellCrafterRecipesS2CPacket;
 import com.github.mim1q.minecells.network.s2c.ShockwaveClientEventS2CPacket;
@@ -64,6 +65,13 @@ public final class MineCellsNetwork {
             RequestUnlockedCellCrafterRecipesC2SPacket::encode,
             RequestUnlockedCellCrafterRecipesC2SPacket::decode,
             RequestUnlockedCellCrafterRecipesC2SPacket::handle
+        );
+        CHANNEL.registerMessage(
+            nextId++,
+            RequestSyncMineCellsPlayerDataC2SPacket.class,
+            RequestSyncMineCellsPlayerDataC2SPacket::encode,
+            RequestSyncMineCellsPlayerDataC2SPacket::decode,
+            RequestSyncMineCellsPlayerDataC2SPacket::handle
         );
         CHANNEL.registerMessage(
             nextId++,

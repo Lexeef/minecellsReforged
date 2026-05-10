@@ -1,0 +1,15 @@
+{
+    "name":  "minecells:ramparts/base",
+    "fallback":  "minecraft:empty",
+    "elements":  [
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:ramparts/base",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     }
+                 ]
+}

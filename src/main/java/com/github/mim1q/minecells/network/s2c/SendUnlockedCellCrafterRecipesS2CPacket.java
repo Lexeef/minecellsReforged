@@ -1,9 +1,7 @@
 package com.github.mim1q.minecells.network.s2c;
 
-import com.github.mim1q.minecells.client.screen.CellCrafterScreen;
-import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.registry.MineCellsRecipeTypes;
-import net.minecraft.client.Minecraft;
+import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -42,9 +40,11 @@ public class SendUnlockedCellCrafterRecipesS2CPacket {
     public static void handle(SendUnlockedCellCrafterRecipesS2CPacket packet, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> {
-            Minecraft minecraft = Minecraft.getInstance();
-            if (minecraft.screen instanceof CellCrafterScreen cellCrafterScreen) {
-                cellCrafterScreen.updateUnlockedRecipes(packet.unlockedRecipes);
+            try {
+                Class<?> handlerClass = Class.forName("com.github.mim1q.minecells.client.MineCellsClientPacketHandlers");
+                handlerClass.getMethod("handleUnlockedCellCrafterRecipes", Map.class).invoke(null, packet.unlockedRecipes);
+            } catch (ReflectiveOperationException exception) {
+                throw new RuntimeException("Failed to handle unlocked Cell Crafter recipes on the client", exception);
             }
         });
         context.setPacketHandled(true);

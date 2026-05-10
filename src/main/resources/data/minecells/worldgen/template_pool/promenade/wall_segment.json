@@ -1,0 +1,60 @@
+{
+    "name":  "minecells:promenade/wall_segment",
+    "fallback":  "minecraft:empty",
+    "elements":  [
+                     {
+                         "weight":  28,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:promenade/wall_segment/0",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  2,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:promenade/wall_segment/1",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  2,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:promenade/wall_segment/2",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:promenade/wall_segment/3",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:promenade/wall_segment/4",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:promenade/wall_segment/5",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     }
+                 ]
+}

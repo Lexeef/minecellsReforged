@@ -1,1 +1,6 @@
-{"parent":"minecells:block/spawner_rune"}
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecells:entity/spawner_rune"
+  }
+}

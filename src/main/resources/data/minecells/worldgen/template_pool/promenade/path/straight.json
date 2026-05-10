@@ -1,0 +1,33 @@
+{
+    "name":  "minecells:promenade/path/straight",
+    "fallback":  "minecraft:empty",
+    "elements":  [
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:promenade/path/straight/0",
+                                         "processors":  "minecells:promenade/path",
+                                         "projection":  "terrain_matching"
+                                     }
+                     },
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:promenade/path/straight/1",
+                                         "processors":  "minecells:promenade/path",
+                                         "projection":  "terrain_matching"
+                                     }
+                     },
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:promenade/path/straight/2",
+                                         "processors":  "minecells:promenade/path",
+                                         "projection":  "terrain_matching"
+                                     }
+                     }
+                 ]
+}

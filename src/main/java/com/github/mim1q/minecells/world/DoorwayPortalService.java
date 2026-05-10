@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.world;
 import com.github.mim1q.minecells.block.blockentity.DoorwayPortalBlockEntity;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
+import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.world.state.MineCellsData;
 import net.minecraft.core.BlockPos;
@@ -14,6 +15,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
@@ -32,6 +35,7 @@ public final class DoorwayPortalService {
         ResourceLocation targetDimension = block.getType().dimensionId();
         MineCellsDimension targetMineCellsDimension = MineCellsDimension.of(targetDimension);
         MineCellsData.PlayerData playerData = MineCellsData.getPlayerData(player, level, anchor);
+        boolean firstVisitToTarget = !playerData.hasVisitedDimension(targetDimension);
 
         if (!canEnter(currentDimension, targetDimension, playerData)) {
             player.displayClientMessage(Component.literal("This doorway is not unlocked yet."), true);
@@ -44,7 +48,7 @@ public final class DoorwayPortalService {
             return InteractionResult.FAIL;
         }
 
-        BlockPos targetPos = resolveTargetPos(level, pos, currentDimension, targetDimension, playerData, targetLevel);
+        BlockPos targetPos = resolveTargetPos(level, pos, currentDimension, targetDimension, player, playerData, targetLevel);
         BlockPos sourcePos = pos.relative(level.getBlockState(pos).getValue(DoorwayPortalBlock.FACING));
 
         playerData.addPortalData(currentDimension, targetDimension, sourcePos, targetPos);
@@ -53,6 +57,7 @@ public final class DoorwayPortalService {
         Vec3 target = Vec3.atBottomCenterOf(targetPos);
         float targetYaw = targetMineCellsDimension != null ? targetMineCellsDimension.yaw() : player.getYRot();
         player.teleportTo(targetLevel, target.x, target.y, target.z, targetYaw, player.getXRot());
+        grantFirstVisitRune(player, targetDimension, firstVisitToTarget);
         level.playSound(null, pos, MineCellsSounds.PORTAL_USE.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         targetLevel.playSound(null, targetPos, MineCellsSounds.PORTAL_ACTIVATE.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         return InteractionResult.CONSUME;
@@ -73,6 +78,7 @@ public final class DoorwayPortalService {
         BlockPos sourcePos,
         ResourceLocation currentDimension,
         ResourceLocation targetDimension,
+        ServerPlayer player,
         MineCellsData.PlayerData playerData,
         ServerLevel targetLevel
     ) {
@@ -81,6 +87,9 @@ public final class DoorwayPortalService {
             return existing.get().toPos();
         }
         if (targetDimension.equals(OVERWORLD_ID)) {
+            if (player.getRespawnDimension() == net.minecraft.world.level.Level.OVERWORLD && player.getRespawnPosition() != null) {
+                return player.getRespawnPosition();
+            }
             return targetLevel.getSharedSpawnPos();
         }
         MineCellsDimension target = MineCellsDimension.of(targetDimension);
@@ -93,5 +102,19 @@ public final class DoorwayPortalService {
     private static ServerLevel resolveLevel(ServerLevel sourceLevel, ResourceLocation dimensionId) {
         ResourceKey<net.minecraft.world.level.Level> key = ResourceKey.create(Registries.DIMENSION, dimensionId);
         return sourceLevel.getServer().getLevel(key);
+    }
+
+    private static void grantFirstVisitRune(ServerPlayer player, ResourceLocation targetDimension, boolean firstVisitToTarget) {
+        if (!firstVisitToTarget || targetDimension.equals(OVERWORLD_ID)) {
+            return;
+        }
+        Item rune = MineCellsItems.getDimensionalRune(targetDimension);
+        if (rune == null) {
+            return;
+        }
+        ItemStack stack = new ItemStack(rune);
+        if (!player.getInventory().add(stack)) {
+            player.drop(stack, false);
+        }
     }
 }

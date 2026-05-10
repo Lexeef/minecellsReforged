@@ -1,0 +1,33 @@
+{
+    "name":  "minecells:promenade/path/building",
+    "fallback":  "minecraft:empty",
+    "elements":  [
+                     {
+                         "weight":  3,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:promenade/path/building/0",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     },
+                     {
+                         "weight":  2,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:promenade/path/building/1",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "terrain_matching"
+                                     }
+                     },
+                     {
+                         "weight":  1,
+                         "element":  {
+                                         "element_type":  "minecraft:single_pool_element",
+                                         "location":  "minecells:promenade/overground_top/7",
+                                         "processors":  "minecells:promenade",
+                                         "projection":  "rigid"
+                                     }
+                     }
+                 ]
+}
