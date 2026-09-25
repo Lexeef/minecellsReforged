@@ -1,11 +1,29 @@
 {
   "replace": false,
   "values": [
-    "minecells:crate",
-    "minecells:small_crate",
-    "minecells:brittle_barrel",
-    "minecells:alchemy_equipment_0",
-    "minecells:alchemy_equipment_1",
-    "minecells:alchemy_equipment_2"
+    {
+      "id": "minecells:crate",
+      "required": false
+    },
+    {
+      "id": "minecells:small_crate",
+      "required": false
+    },
+    {
+      "id": "minecells:brittle_barrel",
+      "required": false
+    },
+    {
+      "id": "minecells:alchemy_equipment_0",
+      "required": false
+    },
+    {
+      "id": "minecells:alchemy_equipment_1",
+      "required": false
+    },
+    {
+      "id": "minecells:alchemy_equipment_2",
+      "required": false
+    }
   ]
 }

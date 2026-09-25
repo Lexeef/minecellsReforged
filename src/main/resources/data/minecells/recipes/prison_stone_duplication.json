@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "SP",
+    "PS"
+  ],
+  "key": {
+    "P": {
+      "item": "minecells:prison_stone"
+    },
+    "S": {
+      "item": "minecraft:stone"
+    }
+  },
+  "result": {
+    "item": "minecells:prison_stone",
+    "count": 4
+  },
+  "show_notification": true
+}

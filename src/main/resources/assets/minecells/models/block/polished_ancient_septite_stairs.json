@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "top": "minecells:block/polished_ancient_septite",
+    "side": "minecells:block/polished_ancient_septite",
+    "bottom": "minecells:block/polished_ancient_septite"
+  }
+}

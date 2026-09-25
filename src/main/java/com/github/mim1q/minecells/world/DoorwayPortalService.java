@@ -3,8 +3,8 @@ package com.github.mim1q.minecells.world;
 import com.github.mim1q.minecells.block.blockentity.DoorwayPortalBlockEntity;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
-import com.github.mim1q.minecells.registry.MineCellsItems;
-import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.dimension.MineCellsDimensionGraph;
+import com.github.mim1q.minecells.util.TeleportUtils;
 import com.github.mim1q.minecells.world.state.MineCellsData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -13,8 +13,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
@@ -23,6 +23,7 @@ import java.util.Optional;
 
 public final class DoorwayPortalService {
     private static final ResourceLocation OVERWORLD_ID = new ResourceLocation("minecraft", "overworld");
+    private static final MineCellsDimensionGraph DIMENSION_GRAPH = new MineCellsDimensionGraph();
 
     private DoorwayPortalService() {
     }
@@ -35,9 +36,12 @@ public final class DoorwayPortalService {
         ResourceLocation targetDimension = block.getType().dimensionId();
         MineCellsDimension targetMineCellsDimension = MineCellsDimension.of(targetDimension);
         MineCellsData.PlayerData playerData = MineCellsData.getPlayerData(player, level, anchor);
-        boolean firstVisitToTarget = !playerData.hasVisitedDimension(targetDimension);
 
-        if (!canEnter(currentDimension, targetDimension, playerData)) {
+        if (!doorway.isOwnerAllowed(player)) {
+            player.displayClientMessage(Component.literal("Only " + doorway.getOwnerName() + " can use this doorway."), true);
+            return InteractionResult.FAIL;
+        }
+        if (!canEnter(currentDimension, targetDimension, playerData, player)) {
             player.displayClientMessage(Component.literal("This doorway is not unlocked yet."), true);
             return InteractionResult.FAIL;
         }
@@ -48,29 +52,44 @@ public final class DoorwayPortalService {
             return InteractionResult.FAIL;
         }
 
-        BlockPos targetPos = resolveTargetPos(level, pos, currentDimension, targetDimension, player, playerData, targetLevel);
+        BlockPos runSourcePos = currentDimension.equals(OVERWORLD_ID) ? anchor.atY(pos.getY()) : pos;
+        BlockPos targetPos = resolveTargetPos(level, runSourcePos, currentDimension, targetDimension, player, playerData, targetLevel, doorway.getSpecialPointTarget());
         BlockPos sourcePos = pos.relative(level.getBlockState(pos).getValue(DoorwayPortalBlock.FACING));
 
         playerData.addPortalData(currentDimension, targetDimension, sourcePos, targetPos);
         MineCellsData.syncCurrentPlayerData(player, level);
 
         Vec3 target = Vec3.atBottomCenterOf(targetPos);
-        float targetYaw = targetMineCellsDimension != null ? targetMineCellsDimension.yaw() : player.getYRot();
-        player.teleportTo(targetLevel, target.x, target.y, target.z, targetYaw, player.getXRot());
-        grantFirstVisitRune(player, targetDimension, firstVisitToTarget);
-        level.playSound(null, pos, MineCellsSounds.PORTAL_USE.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-        targetLevel.playSound(null, targetPos, MineCellsSounds.PORTAL_ACTIVATE.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        float targetYaw = targetMineCellsDimension != null
+            ? targetMineCellsDimension.getTeleportYaw(runSourcePos, level, doorway.getSpecialPointTarget())
+            : player.getYRot();
+        // Prefer TeleportUtils so C2ME / config-forced main-thread teleports stay safe.
+        TeleportUtils.teleportToDimension(player, targetLevel, target, targetYaw);
         return InteractionResult.CONSUME;
     }
 
-    private static boolean canEnter(ResourceLocation currentDimension, ResourceLocation targetDimension, MineCellsData.PlayerData playerData) {
+    public static boolean canEnter(ResourceLocation currentDimension, ResourceLocation targetDimension, MineCellsData.PlayerData playerData) {
         if (currentDimension.equals(targetDimension)) {
             return false;
         }
         if (targetDimension.equals(OVERWORLD_ID) || targetDimension.equals(DoorwayPortalBlock.DoorwayType.PRISON.dimensionId())) {
             return true;
         }
+        MineCellsDimension current = MineCellsDimension.of(currentDimension);
+        MineCellsDimension target = MineCellsDimension.of(targetDimension);
+        if (current != null && target != null && DIMENSION_GRAPH.areAdjacent(current, target)) {
+            return true;
+        }
         return playerData.hasVisitedDimension(targetDimension);
+    }
+
+    public static boolean canEnter(ResourceLocation currentDimension, ResourceLocation targetDimension, MineCellsData.PlayerData playerData, Player player) {
+        if (canEnter(currentDimension, targetDimension, playerData)) {
+            return true;
+        }
+        return !currentDimension.equals(targetDimension)
+            && targetDimension.equals(DoorwayPortalBlock.DoorwayType.INSUFFERABLE_CRYPT.dimensionId())
+            && DoorwayRequirements.hasVineRune(player);
     }
 
     private static BlockPos resolveTargetPos(
@@ -80,41 +99,47 @@ public final class DoorwayPortalService {
         ResourceLocation targetDimension,
         ServerPlayer player,
         MineCellsData.PlayerData playerData,
-        ServerLevel targetLevel
+        ServerLevel targetLevel,
+        ResourceLocation specialPointTarget
     ) {
-        Optional<MineCellsData.PortalData> existing = playerData.getPortalData(currentDimension, targetDimension);
-        if (existing.isPresent()) {
-            return existing.get().toPos();
-        }
         if (targetDimension.equals(OVERWORLD_ID)) {
-            if (player.getRespawnDimension() == net.minecraft.world.level.Level.OVERWORLD && player.getRespawnPosition() != null) {
-                return player.getRespawnPosition();
-            }
-            return targetLevel.getSharedSpawnPos();
+            return findOverworldEntrance(player, playerData, targetLevel);
         }
+        Optional<MineCellsData.PortalData> existing = playerData.getPortalData(currentDimension, targetDimension);
         MineCellsDimension target = MineCellsDimension.of(targetDimension);
+        if (existing.isPresent()) {
+            BlockPos existingTargetPos = existing.get().toPos();
+            if (target == null || target.isValidStoredTeleportTarget(currentDimension, sourcePos, sourceLevel, existingTargetPos)) {
+                return existingTargetPos;
+            }
+        }
         if (target != null) {
-            return BlockPos.containing(target.getTeleportPosition(sourcePos, sourceLevel));
+            return BlockPos.containing(target.getTeleportPosition(sourcePos, sourceLevel, specialPointTarget));
         }
         return targetLevel.getSharedSpawnPos();
+    }
+
+    /**
+     * The Overworld doorway the player used to enter this run, else their Overworld respawn point, else world spawn.
+     */
+    public static BlockPos findOverworldEntrance(ServerPlayer player, MineCellsData.PlayerData playerData, ServerLevel overworld) {
+        for (int i = playerData.portals.size() - 1; i >= 0; i--) {
+            MineCellsData.PortalData portal = playerData.portals.get(i);
+            if (portal.fromDimension().equals(OVERWORLD_ID)) {
+                return portal.fromPos();
+            }
+            if (portal.toDimension().equals(OVERWORLD_ID)) {
+                return portal.toPos();
+            }
+        }
+        if (player.getRespawnDimension() == net.minecraft.world.level.Level.OVERWORLD && player.getRespawnPosition() != null) {
+            return player.getRespawnPosition();
+        }
+        return overworld.getSharedSpawnPos();
     }
 
     private static ServerLevel resolveLevel(ServerLevel sourceLevel, ResourceLocation dimensionId) {
         ResourceKey<net.minecraft.world.level.Level> key = ResourceKey.create(Registries.DIMENSION, dimensionId);
         return sourceLevel.getServer().getLevel(key);
-    }
-
-    private static void grantFirstVisitRune(ServerPlayer player, ResourceLocation targetDimension, boolean firstVisitToTarget) {
-        if (!firstVisitToTarget || targetDimension.equals(OVERWORLD_ID)) {
-            return;
-        }
-        Item rune = MineCellsItems.getDimensionalRune(targetDimension);
-        if (rune == null) {
-            return;
-        }
-        ItemStack stack = new ItemStack(rune);
-        if (!player.getInventory().add(stack)) {
-            player.drop(stack, false);
-        }
     }
 }

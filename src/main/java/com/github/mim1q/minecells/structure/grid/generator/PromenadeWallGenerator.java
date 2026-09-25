@@ -8,10 +8,10 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Rotation;
 
 public class PromenadeWallGenerator extends RoomGridGenerator {
-    private static final ResourceLocation TOP = MineCells.id("promenade/border_wall/top");
-    private static final ResourceLocation MIDDLE = MineCells.id("promenade/border_wall/middle");
-    private static final ResourceLocation BOTTOM = MineCells.id("promenade/border_wall/bottom");
-    private static final ResourceLocation UNDERGROUND = MineCells.id("promenade/border_wall/underground");
+    public static final ResourceLocation TOP = MineCells.id("promenade/border_wall/top");
+    public static final ResourceLocation MIDDLE = MineCells.id("promenade/border_wall/middle");
+    public static final ResourceLocation BOTTOM = MineCells.id("promenade/border_wall/bottom");
+    public static final ResourceLocation UNDERGROUND = MineCells.id("promenade/border_wall/underground");
 
     private final boolean zAxis;
 

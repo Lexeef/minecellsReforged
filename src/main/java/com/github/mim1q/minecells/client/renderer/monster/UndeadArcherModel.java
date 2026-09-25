@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.client.renderer.monster;
 import com.github.mim1q.minecells.entity.MineCellsMonsterEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -10,10 +11,13 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.util.Mth;
 
-public class UndeadArcherModel extends EntityModel<MineCellsMonsterEntity> {
+public class UndeadArcherModel extends EntityModel<MineCellsMonsterEntity> implements ArmedModel {
     private final ModelPart root;
+    private final ModelPart waist;
+    private final ModelPart torso;
     private final ModelPart rightLeg;
     private final ModelPart leftLeg;
     private final ModelPart leftArm;
@@ -22,10 +26,10 @@ public class UndeadArcherModel extends EntityModel<MineCellsMonsterEntity> {
 
     public UndeadArcherModel(ModelPart root) {
         this.root = root.getChild("root");
-        ModelPart waist = this.root.getChild("waist");
+        this.waist = this.root.getChild("waist");
         this.rightLeg = waist.getChild("right_leg");
         this.leftLeg = waist.getChild("left_leg");
-        ModelPart torso = waist.getChild("torso");
+        this.torso = waist.getChild("torso");
         this.leftArm = torso.getChild("left_arm");
         this.rightArm = torso.getChild("right_arm");
         this.head = torso.getChild("neck").getChild("head");
@@ -49,6 +53,7 @@ public class UndeadArcherModel extends EntityModel<MineCellsMonsterEntity> {
 
     @Override
     public void setupAnim(MineCellsMonsterEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        root.getAllParts().forEach(ModelPart::resetPose);
         MineCellsModelAnimationUtils.rotateHead(netHeadYaw, headPitch, head);
         MineCellsModelAnimationUtils.bipedWalk(limbSwing, limbSwingAmount, root, rightLeg, leftLeg, rightArm, leftArm, null, null);
         leftArm.zRot = 0.0F;
@@ -57,10 +62,37 @@ public class UndeadArcherModel extends EntityModel<MineCellsMonsterEntity> {
         rightArm.xRot -= 60.0F * Mth.DEG_TO_RAD;
         rightArm.yRot = 0.0F;
         leftArm.z = -1.0F;
+
+        if (entity instanceof com.github.mim1q.minecells.entity.UndeadArcherEntity archer) {
+            float rightArmPitch = -90.0F * Mth.DEG_TO_RAD;
+            float rightArmYaw = -15.0F * Mth.DEG_TO_RAD;
+            float leftArmPitch = -90.0F * Mth.DEG_TO_RAD;
+            float leftArmYaw = 30.0F * Mth.DEG_TO_RAD;
+
+            archer.handsUpProgess.update(ageInTicks);
+            float delta = archer.handsUpProgess.getValue();
+            archer.pullProgress.update(ageInTicks);
+            float deltaPull = archer.pullProgress.getValue();
+
+            leftArm.z = 2.0F - delta * 4.0F;
+            leftArm.x = 4.0F + delta;
+            leftArm.yRot = (15.0F * delta + 15.0F * deltaPull) * Mth.DEG_TO_RAD;
+
+            rightArm.xRot = rightArmPitch * delta;
+            leftArm.xRot = leftArmPitch * delta;
+            leftArm.yRot += leftArmYaw * delta;
+            rightArm.yRot += rightArmYaw * delta;
+        }
     }
 
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    }
+
+    @Override
+    public void translateToHand(HumanoidArm arm, PoseStack poseStack) {
+        poseStack.translate(0.0F, 0.5F, 0.0F);
+        (arm == HumanoidArm.RIGHT ? rightArm : leftArm).translateAndRotate(poseStack);
     }
 }

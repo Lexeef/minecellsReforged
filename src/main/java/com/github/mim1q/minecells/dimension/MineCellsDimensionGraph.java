@@ -32,6 +32,13 @@ public final class MineCellsDimensionGraph {
         return node != null && node.canTraverseToOverworld(edgePredicate);
     }
 
+    public boolean areAdjacent(MineCellsDimension first, MineCellsDimension second) {
+        Node firstNode = graph.get(first);
+        Node secondNode = graph.get(second);
+        return firstNode != null && firstNode.hasUpstream(second)
+            || secondNode != null && secondNode.hasUpstream(first);
+    }
+
     public void rescueIfStuck(ServerPlayer player) {
         if (!MineCellsDimension.isMineCellsDimension(player.serverLevel())) {
             return;
@@ -74,6 +81,15 @@ public final class MineCellsDimensionGraph {
             }
             for (Node next : upstream) {
                 if (edgePredicate.test(dimension, next.dimension) && next.canTraverseToOverworld(edgePredicate)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private boolean hasUpstream(MineCellsDimension target) {
+            for (Node next : upstream) {
+                if (next.dimension == target) {
                     return true;
                 }
             }

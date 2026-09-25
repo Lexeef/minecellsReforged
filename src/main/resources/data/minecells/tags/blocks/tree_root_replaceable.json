@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:air",
+    "minecells:prison_stone",
+    "minecells:prison_cobblestone",
+    "minecells:wilted_grass_block",
+    "minecells:bloomrock_wilted_grass_block"
+  ]
+}

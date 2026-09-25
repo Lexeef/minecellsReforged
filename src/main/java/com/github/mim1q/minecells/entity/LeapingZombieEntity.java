@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -32,6 +33,8 @@ public class LeapingZombieEntity extends MineCellsMonsterEntity {
     private static final EntityDataAccessor<Boolean> LEAP_CHARGING = SynchedEntityData.defineId(LeapingZombieEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> LEAP_RELEASING = SynchedEntityData.defineId(LeapingZombieEntity.class, EntityDataSerializers.BOOLEAN);
 
+    public final AnimationProperty additionalRotation = new AnimationProperty(0.0F);
+
     public LeapingZombieEntity(EntityType<? extends LeapingZombieEntity> type, Level level) {
         super(type, level);
         noCulling = true;
@@ -54,14 +57,19 @@ public class LeapingZombieEntity extends MineCellsMonsterEntity {
         goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
         goalSelector.addGoal(7, new LookAtPlayerGoal(this, LivingEntity.class, 6.0F));
         goalSelector.addGoal(8, new RandomLookAroundGoal(this));
-        targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        addDefaultTargetGoals();
     }
 
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide && getLeapCooldown() > 0) {
+        if (level().isClientSide) {
+            if (isLeapCharging()) {
+                additionalRotation.setupTransitionTo(90.0F, 15.0F);
+            } else {
+                additionalRotation.setupTransitionTo(0.0F, 15.0F);
+            }
+        } else if (getLeapCooldown() > 0) {
             setLeapCooldown(getLeapCooldown() - 1);
         }
     }

@@ -51,8 +51,8 @@ public class MutatedBatModel extends EntityModel<MineCellsMonsterEntity> {
 
     @Override
     public void setupAnim(MineCellsMonsterEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.root.xRot = headPitch * Mth.DEG_TO_RAD * 0.35F;
-        this.root.yRot = netHeadYaw * Mth.DEG_TO_RAD * 0.35F;
+        this.root.xRot = headPitch * Mth.DEG_TO_RAD;
+        this.root.yRot = netHeadYaw * Mth.DEG_TO_RAD;
         this.root.y = 18.0F + Mth.sin(ageInTicks * 0.5F - 1.5F) * 2.0F;
         this.leftWing.zRot = -Mth.PI * 0.25F - Mth.sin(ageInTicks * 0.5F) * 0.5F;
         this.rightWing.zRot = -this.leftWing.zRot;

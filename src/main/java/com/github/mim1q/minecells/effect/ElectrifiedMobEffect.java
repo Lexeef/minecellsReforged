@@ -47,11 +47,7 @@ public class ElectrifiedMobEffect extends MobEffect {
         var particleSize = 0.3F + entity.getBbWidth() * 0.15F;
         if (entity.level() instanceof ServerLevel serverLevel) {
             for (int i = 0; i < 5; ++i) {
-                var randomDirection = new Vec3(
-                    (entity.getRandom().nextDouble() - 0.5D) * 2.0D,
-                    (entity.getRandom().nextDouble() - 0.5D) * 2.0D,
-                    (entity.getRandom().nextDouble() - 0.5D) * 2.0D
-                );
+                var randomDirection = Vec3.ZERO.offsetRandom(entity.getRandom(), 1.0F);
                 serverLevel.sendParticles(
                     new ElectricParticleEffect(randomDirection, 2, 0xFFFFFF, particleSize, true),
                     entity.getX(),
@@ -80,7 +76,12 @@ public class ElectrifiedMobEffect extends MobEffect {
                 continue;
             }
 
-            livingEntity.addEffect(new MobEffectInstance(effect));
+            var currentEffect = livingEntity.getEffect(MineCellsStatusEffects.ELECTRIFIED.get());
+            if (currentEffect == null) {
+                livingEntity.addEffect(new MobEffectInstance(effect));
+            } else {
+                currentEffect.update(effect);
+            }
 
             var particlePos = entity.position().add(0.0D, entity.getBbHeight() / 2.0D, 0.0D);
             var targetPos = other.position().add(0.0D, other.getBbHeight() / 2.0D, 0.0D);

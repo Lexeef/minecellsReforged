@@ -2,10 +2,14 @@ package com.github.mim1q.minecells.client;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
+import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.item.DimensionalRuneItem;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsItems;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.BiomeColors;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,7 +19,7 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = MineCells.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class MineCellsColorHandlers {
-    private static final int DEFAULT_FOLIAGE_COLOR = 0x80CC80;
+    private static final int DEFAULT_COLOR = 0x80CC80;
 
     private MineCellsColorHandlers() {
     }
@@ -23,15 +27,40 @@ public final class MineCellsColorHandlers {
     @SubscribeEvent
     public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
         event.register(
-            (state, level, pos, tintIndex) -> level == null || pos == null ? DEFAULT_FOLIAGE_COLOR : BiomeColors.getAverageFoliageColor(level, pos),
+            (state, level, pos, tintIndex) -> level == null || pos == null
+                ? DEFAULT_COLOR
+                : BiomeColors.getAverageFoliageColor(level, pos),
             MineCellsBlocks.WILTED_LEAVES.get(),
-            MineCellsBlocks.WILTED_HANGING_LEAVES.get(),
+            MineCellsBlocks.WILTED_HANGING_LEAVES.get()
+        );
+        event.register(
+            (state, level, pos, tintIndex) -> {
+                if (level == null || pos == null) {
+                    return DEFAULT_COLOR;
+                }
+                long seed = Mth.getSeed(pos.getX(), pos.getY(), pos.getZ());
+                double factor = Mth.clamp((((seed & 15L) / 15.0F) - 0.5) * 0.5, -1, 1) * 0.5 + 1;
+                int color = BiomeColors.getAverageFoliageColor(level, pos);
+                int r = (int) ((color >> 16 & 0xFF) * factor);
+                int g = (int) ((color >> 8 & 0xFF) * factor);
+                int b = (int) ((color & 0xFF) * factor);
+                return (r << 16) | (g << 8) | b;
+            },
             MineCellsBlocks.WILTED_WALL_LEAVES.get()
         );
         event.register(
-            (state, level, pos, tintIndex) -> level == null || pos == null ? DEFAULT_FOLIAGE_COLOR : BiomeColors.getAverageGrassColor(level, pos),
+            (state, level, pos, tintIndex) -> level == null || pos == null
+                ? DEFAULT_COLOR
+                : BiomeColors.getAverageGrassColor(level, pos),
             MineCellsBlocks.WILTED_GRASS_BLOCK.get(),
             MineCellsBlocks.BLOOMROCK_WILTED_GRASS_BLOCK.get()
+        );
+        event.register(
+            (state, level, pos, tintIndex) -> {
+                ClientLevel clientLevel = Minecraft.getInstance().level;
+                return MineCellsDimension.getColor(clientLevel, 0xFFC540);
+            },
+            MineCellsBlocks.SPAWNER_RUNE.get()
         );
     }
 
@@ -56,7 +85,7 @@ public final class MineCellsColorHandlers {
             MineCellsBlocks.BLACK_BRIDGE_DOORWAY.get().asItem()
         );
         event.register(
-            (stack, tintIndex) -> DEFAULT_FOLIAGE_COLOR,
+            (stack, tintIndex) -> DEFAULT_COLOR,
             MineCellsBlocks.WILTED_LEAVES.get().asItem(),
             MineCellsBlocks.WILTED_HANGING_LEAVES.get().asItem(),
             MineCellsBlocks.WILTED_WALL_LEAVES.get().asItem(),

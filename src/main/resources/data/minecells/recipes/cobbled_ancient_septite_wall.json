@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecells:cobbled_ancient_septite"
+    }
+  },
+  "result": {
+    "item": "minecells:cobbled_ancient_septite_wall",
+    "count": 6
+  },
+  "show_notification": true
+}

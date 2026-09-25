@@ -42,12 +42,12 @@ public final class MineCellsConfig {
 
         private Common(ForgeConfigSpec.Builder builder) {
             builder.push("common");
-            unlockedBossEntry = builder.define("unlockedBossEntry", false);
-            teleportForceMainThread = builder.defineEnum("teleportForceMainThread", ForceServerThreadMode.DEFAULT);
-            autoWipeData = builder.define("autoWipeData", false);
-            disableFallProtection = builder.define("disableFallProtection", false);
-            baseTentacleMaxDistance = builder.defineInRange("baseTentacleMaxDistance", 24, 0, 64);
-            additionalParryTime = builder.defineInRange("additionalParryTime", 0, 0, 200);
+            unlockedBossEntry = builder.comment("Whether the entry door to boss rooms should remain unlocked").define("unlockedBossEntry", false);
+            teleportForceMainThread = builder.comment("Forces the teleport between dimensions method to be used from the main server thread", "Might be necessary when used with mods that mess with threading, like C2ME", "(if DEFAULT is set, this option will enable itself if that mod is present)", "Warning: This may cause weird desync issues, so use at your own risk and only if it crashes without it", "Possible values: ALWAYS | NEVER | DEFAULT").defineEnum("teleportForceMainThread", ForceServerThreadMode.DEFAULT);
+            autoWipeData = builder.comment("Whether the Mine Cells data should automatically get wiped after major updates").define("autoWipeData", false);
+            disableFallProtection = builder.comment("Disable the fall protection feature of the Ramparts.", "This will let players explore the bottom of the dimension freely, but keep in mind:", "that isn't the intended way to explore the dimension.").define("disableFallProtection", false);
+            baseTentacleMaxDistance = builder.comment("The maximum distance (in blocks) the Conjunctivius' Tentacle weapon can stretch when activated", "Breaks at large distances (above around 64 blocks), so be careful with high values.").defineInRange("baseTentacleMaxDistance", 24, 0, Integer.MAX_VALUE);
+            additionalParryTime = builder.comment("The additional time (in ticks) after holding up a shield that allows you to parry an attack").defineInRange("additionalParryTime", 0, 0, Integer.MAX_VALUE);
             builder.push("elevator");
             elevatorMaxAssemblyHeight = builder.defineInRange("maxAssemblyHeight", 256, 64, 320);
             elevatorMinAssemblyHeight = builder.defineInRange("minAssemblyHeight", 1, 1, 10);
@@ -88,12 +88,12 @@ public final class MineCellsConfig {
 
         private Client(ForgeConfigSpec.Builder builder) {
             builder.push("client");
-            keepOriginalGuiModels = builder.define("keepOriginalGuiModels", false);
-            showCritIndicator = builder.define("showCritIndicator", true);
-            experimentalMusicLooping = builder.define("experimentalMusicLooping", true);
-            customBossBars = builder.define("customBossBars", true);
-            builder.push("screenShake");
-            screenShakeGlobal = builder.defineInRange("global", 1.0, 0.0, 10.0);
+            keepOriginalGuiModels = builder.comment("If you enable this and have the 3D Weapon Pack installed, weapons will only be displayed as 3D in hand.", "In the inventory, they will be displayed as the original 2D textures.").define("keepOriginalGuiModels", false);
+            showCritIndicator = builder.comment("Whether to show a little red sword icon next to your crosshair if the weapon you are holding will deal critical damage on the next hit.").define("showCritIndicator", true);
+            experimentalMusicLooping = builder.comment("Loops the song playing in a given dimension. If disabled, the Vanilla music algorithm will be used.").define("experimentalMusicLooping", true);
+            customBossBars = builder.comment("Enables the MineCells custom boss bar rendering.").define("customBossBars", true);
+            builder.comment("The screen shake intensity for various events.").push("screenShake");
+            screenShakeGlobal = builder.comment("Affects all screen shake events. Can also be adjusted in the game's accessibility settings.").defineInRange("global", 1.0, 0.0, 10.0);
             screenShakeWeaponFlint = builder.defineInRange("weaponFlint", 1.5, 0.0, 10.0);
             screenShakeWeaponLightningBolt = builder.defineInRange("weaponLightningBolt", 0.5, 0.0, 10.0);
             screenShakeShieldBlock = builder.defineInRange("shieldBlock", 0.4, 0.0, 10.0);

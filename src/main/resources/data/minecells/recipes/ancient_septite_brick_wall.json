@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecells:ancient_septite_bricks"
+    }
+  },
+  "result": {
+    "item": "minecells:ancient_septite_brick_wall",
+    "count": 6
+  },
+  "show_notification": true
+}

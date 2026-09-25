@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.client.renderer.monster;
 import com.github.mim1q.minecells.entity.MineCellsMonsterEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -11,10 +12,13 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.util.Mth;
+import org.joml.Quaternionf;
 
-public class ShieldbearerModel extends EntityModel<MineCellsMonsterEntity> {
+public class ShieldbearerModel extends EntityModel<MineCellsMonsterEntity> implements ArmedModel {
     private final ModelPart root;
+    private final ModelPart waist;
     private final ModelPart leftLeg;
     private final ModelPart rightLeg;
     private final ModelPart lowerTorso;
@@ -26,7 +30,7 @@ public class ShieldbearerModel extends EntityModel<MineCellsMonsterEntity> {
 
     public ShieldbearerModel(ModelPart root) {
         this.root = root.getChild("root");
-        ModelPart waist = this.root.getChild("waist");
+        this.waist = this.root.getChild("waist");
         this.leftLeg = waist.getChild("left_leg");
         this.rightLeg = waist.getChild("right_leg");
         this.lowerTorso = waist.getChild("lower_torso");
@@ -74,5 +78,11 @@ public class ShieldbearerModel extends EntityModel<MineCellsMonsterEntity> {
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    }
+
+    @Override
+    public void translateToHand(HumanoidArm arm, PoseStack poseStack) {
+        poseStack.translate(0.3F, 0.6F, -0.3F);
+        poseStack.mulPose(new Quaternionf().rotationXYZ(Mth.HALF_PI, 0.0F, Mth.HALF_PI));
     }
 }

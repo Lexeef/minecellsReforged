@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.client;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.config.MineCellsSyncedConfig;
 import com.github.mim1q.minecells.network.MineCellsNetwork;
 import com.github.mim1q.minecells.network.c2s.RequestSyncMineCellsPlayerDataC2SPacket;
 import net.minecraftforge.api.distmarker.Dist;
@@ -22,5 +23,6 @@ public final class MineCellsClientSessionEvents {
     @SubscribeEvent
     public static void onLoggingOut(ClientPlayerNetworkEvent.LoggingOut event) {
         MineCellsClientData.resetSessionData();
+        MineCellsSyncedConfig.clearServerValues();
     }
 }

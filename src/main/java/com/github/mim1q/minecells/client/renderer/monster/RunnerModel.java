@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.client.renderer.monster;
 
 import com.github.mim1q.minecells.entity.MineCellsMonsterEntity;
+import com.github.mim1q.minecells.entity.RunnerEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;
@@ -53,6 +54,7 @@ public class RunnerModel extends EntityModel<MineCellsMonsterEntity> {
 
     @Override
     public void setupAnim(MineCellsMonsterEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        root.getAllParts().forEach(ModelPart::resetPose);
         MineCellsModelAnimationUtils.rotateHead(netHeadYaw, headPitch, head);
         MineCellsModelAnimationUtils.bipedWalk(limbSwing, limbSwingAmount, root, rightLeg, leftLeg, rightArm, leftArm, lowerTorso, upperTorso);
         rightArm.zRot = 35.0F * Mth.DEG_TO_RAD;
@@ -64,6 +66,52 @@ public class RunnerModel extends EntityModel<MineCellsMonsterEntity> {
         lowerTorso.yRot = 0.0F;
         leftArm.yRot = 0.0F;
         rightArm.yRot = 0.0F;
+
+        if (!(entity instanceof RunnerEntity runner)) {
+            return;
+        }
+
+        if (runner.isAggressive() && runner.getDeltaMovement().length() > 0.1D) {
+            runner.bendAngle.setupTransitionTo(30.0F, 10.0F);
+        } else {
+            runner.bendAngle.setupTransitionTo(0.0F, 10.0F);
+        }
+        if (runner.isAttackCharging()) {
+            runner.swingChargeProgress.setupTransitionTo(1.0F, 10.0F);
+        } else {
+            runner.swingChargeProgress.setupTransitionTo(0.0F, 5.0F);
+        }
+        if (runner.isAttackReleasing()) {
+            runner.swingReleaseProgress.setupTransitionTo(1.0F, 3.0F);
+        } else {
+            runner.swingReleaseProgress.setupTransitionTo(0.0F, 10.0F);
+        }
+
+        runner.bendAngle.update(ageInTicks);
+        runner.swingChargeProgress.update(ageInTicks);
+        runner.swingReleaseProgress.update(ageInTicks);
+
+        float angle = runner.bendAngle.getValue() * Mth.DEG_TO_RAD;
+        leftArm.xRot += angle;
+        rightArm.xRot += angle;
+        lowerTorso.xRot += angle * 0.5F;
+        upperTorso.xRot += angle * 0.5F;
+        neck.xRot = -angle;
+
+        float swingChargeProgress = runner.swingChargeProgress.getValue();
+        MineCellsModelAnimationUtils.lerpModelPartRotation(leftArm, 45.0F, 15.0F, -90.0F, swingChargeProgress);
+        MineCellsModelAnimationUtils.lerpModelPartRotation(rightArm, -45.0F, 35.0F, -45.0F, swingChargeProgress);
+        MineCellsModelAnimationUtils.lerpModelPartRotation(upperTorso, 0.0F, -25.0F, -15.0F, swingChargeProgress);
+        MineCellsModelAnimationUtils.lerpModelPartRotation(head, 10.0F, -15.0F, 0.0F, swingChargeProgress);
+        lowerTorso.yRot = Mth.lerp(swingChargeProgress, 0.0F, -15.0F * Mth.DEG_TO_RAD);
+
+        float swingReleaseProgress = runner.swingReleaseProgress.getValue();
+        MineCellsModelAnimationUtils.lerpModelPartRotation(leftArm, -60.0F, 40.0F, 25.0F, swingReleaseProgress);
+        MineCellsModelAnimationUtils.lerpModelPartRotation(rightArm, 20.0F, 0.0F, 0.0F, swingReleaseProgress);
+        MineCellsModelAnimationUtils.lerpModelPartRotation(upperTorso, 0.0F, 10.0F, -5.0F, swingReleaseProgress);
+        MineCellsModelAnimationUtils.lerpModelPartRotation(lowerTorso, 0.0F, 10.0F, 0.0F, swingReleaseProgress);
+        MineCellsModelAnimationUtils.lerpModelPartRotation(head, 5.0F, -15.0F, 0.0F, swingReleaseProgress);
+        head.yRot = Mth.lerp(swingChargeProgress, head.yRot, -15.0F * Mth.DEG_TO_RAD);
     }
 
     @Override

@@ -1,0 +1,13 @@
+{
+  "type": "minecells:cell_forge_recipe",
+  "priority": 91,
+  "category": "decoration",
+  "input": {
+    "minecraft:stick": 1,
+    "minecraft:brown_wool": 2
+  },
+  "output": {
+    "id": "minecells:brown_ribbon_flag",
+    "Count": 1
+  }
+}

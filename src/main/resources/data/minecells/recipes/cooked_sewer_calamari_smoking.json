@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smoking",
+  "category": "food",
+  "ingredient": {
+    "item": "minecells:sewer_calamari"
+  },
+  "result": "minecells:cooked_sewer_calamari",
+  "experience": 0.35,
+  "cookingtime": 100
+}

@@ -9,27 +9,27 @@ public enum MineCellsWeaponTier implements Tier {
 
     @Override
     public int getUses() {
-        return 1400;
+        return 700;
     }
 
     @Override
     public float getSpeed() {
-        return 7.0F;
+        return 6.0F;
     }
 
     @Override
     public float getAttackDamageBonus() {
-        return 2.5F;
+        return 2.0F;
     }
 
     @Override
     public int getLevel() {
-        return 3;
+        return 2;
     }
 
     @Override
     public int getEnchantmentValue() {
-        return 16;
+        return 18;
     }
 
     @Override

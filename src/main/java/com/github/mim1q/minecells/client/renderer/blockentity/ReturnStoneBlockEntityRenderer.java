@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.client.renderer.blockentity;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.ReturnStoneBlock;
 import com.github.mim1q.minecells.block.blockentity.ReturnStoneBlockEntity;
+import com.github.mim1q.minecells.util.RenderUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.gui.Font;
@@ -12,6 +13,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix3f;
@@ -43,7 +45,7 @@ public class ReturnStoneBlockEntityRenderer implements BlockEntityRenderer<Retur
     private void renderArrow(PoseStack poseStack, MultiBufferSource bufferSource, float rotation) {
         poseStack.pushPose();
         poseStack.mulPose(new Quaternionf().rotationY((float) Math.toRadians(rotation)));
-        VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityCutout(TEXTURE));
+        VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityShadow(TEXTURE));
         poseStack.translate(0.0F, 0.5F / 16.0F, 5.01F / 16.0F);
         PoseStack.Pose pose = poseStack.last();
         Matrix4f position = pose.pose();
@@ -64,7 +66,7 @@ public class ReturnStoneBlockEntityRenderer implements BlockEntityRenderer<Retur
         poseStack.mulPose(dispatcher.cameraOrientation());
         VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityTranslucent(TEXTURE));
         float d = 7.0F / 16.0F;
-        drawBillboard(consumer, poseStack, d, d, 1.0F / 32.0F, 8.0F / 32.0F, 17.0F / 32.0F, 24.0F / 32.0F, 0xFFFFFFFF);
+        RenderUtils.drawBillboard(consumer, poseStack, LightTexture.FULL_BRIGHT, d, d, 1.0F / 32.0F, 8.0F / 32.0F, 17.0F / 32.0F, 24.0F / 32.0F, 0xFFFFFFFF, OverlayTexture.NO_OVERLAY);
         poseStack.popPose();
     }
 
@@ -79,24 +81,11 @@ public class ReturnStoneBlockEntityRenderer implements BlockEntityRenderer<Retur
         poseStack.popPose();
     }
 
-    private static void drawBillboard(VertexConsumer consumer, PoseStack poseStack, float width, float height, float minU, float maxU, float minV, float maxV, int color) {
-        PoseStack.Pose pose = poseStack.last();
-        Matrix4f position = pose.pose();
-        Matrix3f normal = pose.normal();
-        float dx = width / 2.0F;
-        float dy = height / 2.0F;
-        int alpha = color >>> 24;
-        produceVertex(consumer, position, normal, -dx, -dy, 0.0F, minU, maxV, alpha);
-        produceVertex(consumer, position, normal, dx, -dy, 0.0F, maxU, maxV, alpha);
-        produceVertex(consumer, position, normal, dx, dy, 0.0F, maxU, minV, alpha);
-        produceVertex(consumer, position, normal, -dx, dy, 0.0F, minU, minV, alpha);
-    }
-
     private static void produceVertex(VertexConsumer consumer, Matrix4f position, Matrix3f normal, float x, float y, float z, float u, float v, int alpha) {
         consumer.vertex(position, x, y, z)
             .color(255, 255, 255, alpha)
             .uv(u, v)
-            .overlayCoords(0)
+            .overlayCoords(OverlayTexture.NO_OVERLAY)
             .uv2(LightTexture.FULL_BRIGHT)
             .normal(normal, 0.0F, 1.0F, 0.0F)
             .endVertex();

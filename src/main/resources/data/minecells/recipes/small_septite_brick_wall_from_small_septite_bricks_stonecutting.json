@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "minecells:small_septite_bricks"
+  },
+  "result": "minecells:small_septite_brick_wall",
+  "count": 1
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "SB",
+    "BS"
+  ],
+  "key": {
+    "B": {
+      "item": "minecells:bloomrock"
+    },
+    "S": {
+      "item": "minecraft:stone"
+    }
+  },
+  "result": {
+    "item": "minecells:bloomrock",
+    "count": 4
+  },
+  "show_notification": true
+}

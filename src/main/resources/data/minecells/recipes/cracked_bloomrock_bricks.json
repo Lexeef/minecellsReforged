@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": {
+    "item": "minecells:bloomrock_bricks"
+  },
+  "result": "minecells:cracked_bloomrock_bricks",
+  "cookingtime": 200
+}

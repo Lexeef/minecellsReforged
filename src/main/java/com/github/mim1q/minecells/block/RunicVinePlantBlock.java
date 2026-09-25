@@ -30,6 +30,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class RunicVinePlantBlock extends Block implements EntityBlock {
     public static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
+    public static final int PARTICLE_COLOR = 0x49B74A;
 
     public RunicVinePlantBlock(Properties properties) {
         super(properties);
@@ -44,8 +45,10 @@ public class RunicVinePlantBlock extends Block implements EntityBlock {
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        level.setBlock(pos, state.cycle(ACTIVATED), 3);
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        if (level.getBlockEntity(pos) instanceof RunicVinePlantBlockEntity blockEntity) {
+            return blockEntity.use(state, level, pos, player, hand);
+        }
+        return InteractionResult.FAIL;
     }
 
     @Override
@@ -58,7 +61,7 @@ public class RunicVinePlantBlock extends Block implements EntityBlock {
 
     @Override
     public RenderShape getRenderShape(BlockState state) {
-        return RenderShape.MODEL;
+        return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
@@ -69,7 +72,7 @@ public class RunicVinePlantBlock extends Block implements EntityBlock {
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, net.minecraft.util.RandomSource random) {
         Vec3 particlePos = Vec3.atLowerCornerOf(pos).add(random.nextDouble(), random.nextDouble(), random.nextDouble());
-        level.addParticle(MineCellsParticles.SPECKLE.get().get(0x49b74a), particlePos.x, particlePos.y, particlePos.z, 0.0D, 0.01D + random.nextDouble() * 0.03D, 0.0D);
+        level.addParticle(MineCellsParticles.SPECKLE.get().get(PARTICLE_COLOR), particlePos.x, particlePos.y, particlePos.z, 0.0D, 0.01D + random.nextDouble() * 0.03D, 0.0D);
     }
 
     @Nullable

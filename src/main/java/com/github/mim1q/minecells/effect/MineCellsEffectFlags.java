@@ -18,4 +18,21 @@ public enum MineCellsEffectFlags {
     public int getOffset() {
         return offset;
     }
+
+    public boolean isSet(int flags) {
+        return (flags & offset) != 0;
+    }
+
+    public static int compute(net.minecraft.world.entity.LivingEntity entity) {
+        int flags = 0;
+        for (net.minecraft.world.effect.MobEffectInstance instance : entity.getActiveEffects()) {
+            if (instance.getEffect() instanceof MineCellsMobEffect effect) {
+                MineCellsEffectFlags flag = effect.flag();
+                if (flag != null) {
+                    flags |= flag.getOffset();
+                }
+            }
+        }
+        return flags;
+    }
 }

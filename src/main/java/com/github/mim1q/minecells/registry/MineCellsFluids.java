@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.block.fluid.SewageFluid;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.material.FlowingFluid;
@@ -16,27 +17,24 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.function.Consumer;
 
 public final class MineCellsFluids {
-    private static final ResourceLocation WATER_STILL = new ResourceLocation("block/water_still");
-    private static final ResourceLocation WATER_FLOW = new ResourceLocation("block/water_flow");
-
     public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, MineCells.MOD_ID);
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, MineCells.MOD_ID);
 
-    public static final RegistryObject<FluidType> SEWAGE_TYPE = FLUID_TYPES.register("sewage", () -> new TintedFluidType(0xFFA2E751, FluidType.Properties.create()
+    public static final RegistryObject<FluidType> SEWAGE_TYPE = FLUID_TYPES.register("sewage", () -> new SewageFluidType(MineCells.id("block/fluid/toxic_sewage"), MineCells.id("block/fluid/toxic_sewage_flowing"), FluidType.Properties.create()
         .canSwim(true)
         .canDrown(true)
         .canConvertToSource(false)
         .rarity(Rarity.COMMON)));
-    public static final RegistryObject<FluidType> ANCIENT_SEWAGE_TYPE = FLUID_TYPES.register("ancient_sewage", () -> new TintedFluidType(0xFFE0C93B, FluidType.Properties.create()
+    public static final RegistryObject<FluidType> ANCIENT_SEWAGE_TYPE = FLUID_TYPES.register("ancient_sewage", () -> new SewageFluidType(MineCells.id("block/fluid/ancient_sewage"), MineCells.id("block/fluid/ancient_sewage_flowing"), FluidType.Properties.create()
         .canSwim(true)
         .canDrown(true)
         .canConvertToSource(false)
         .rarity(Rarity.COMMON)));
 
-    public static final RegistryObject<FlowingFluid> STILL_SEWAGE = FLUIDS.register("sewage", () -> new ForgeFlowingFluid.Source(sewageProperties()));
-    public static final RegistryObject<FlowingFluid> FLOWING_SEWAGE = FLUIDS.register("flowing_sewage", () -> new ForgeFlowingFluid.Flowing(sewageProperties()));
-    public static final RegistryObject<FlowingFluid> STILL_ANCIENT_SEWAGE = FLUIDS.register("ancient_sewage", () -> new ForgeFlowingFluid.Source(ancientSewageProperties()));
-    public static final RegistryObject<FlowingFluid> FLOWING_ANCIENT_SEWAGE = FLUIDS.register("flowing_ancient_sewage", () -> new ForgeFlowingFluid.Flowing(ancientSewageProperties()));
+    public static final RegistryObject<FlowingFluid> STILL_SEWAGE = FLUIDS.register("sewage", () -> new SewageFluid.Source(sewageProperties(), SewageFluid.SEWAGE_BUBBLE_COLOR));
+    public static final RegistryObject<FlowingFluid> FLOWING_SEWAGE = FLUIDS.register("flowing_sewage", () -> new SewageFluid.Flowing(sewageProperties(), SewageFluid.SEWAGE_BUBBLE_COLOR));
+    public static final RegistryObject<FlowingFluid> STILL_ANCIENT_SEWAGE = FLUIDS.register("ancient_sewage", () -> new SewageFluid.Source(ancientSewageProperties(), SewageFluid.ANCIENT_SEWAGE_BUBBLE_COLOR));
+    public static final RegistryObject<FlowingFluid> FLOWING_ANCIENT_SEWAGE = FLUIDS.register("flowing_ancient_sewage", () -> new SewageFluid.Flowing(ancientSewageProperties(), SewageFluid.ANCIENT_SEWAGE_BUBBLE_COLOR));
 
     private MineCellsFluids() {
     }
@@ -66,12 +64,14 @@ public final class MineCellsFluids {
             .explosionResistance(100.0F);
     }
 
-    private static class TintedFluidType extends FluidType {
-        private final int tintColor;
+    private static class SewageFluidType extends FluidType {
+        private final ResourceLocation stillTexture;
+        private final ResourceLocation flowingTexture;
 
-        private TintedFluidType(int tintColor, Properties properties) {
+        private SewageFluidType(ResourceLocation stillTexture, ResourceLocation flowingTexture, Properties properties) {
             super(properties);
-            this.tintColor = tintColor;
+            this.stillTexture = stillTexture;
+            this.flowingTexture = flowingTexture;
         }
 
         @Override
@@ -79,17 +79,17 @@ public final class MineCellsFluids {
             consumer.accept(new IClientFluidTypeExtensions() {
                 @Override
                 public ResourceLocation getStillTexture() {
-                    return WATER_STILL;
+                    return stillTexture;
                 }
 
                 @Override
                 public ResourceLocation getFlowingTexture() {
-                    return WATER_FLOW;
+                    return flowingTexture;
                 }
 
                 @Override
                 public int getTintColor() {
-                    return tintColor;
+                    return 0xFFFFFFFF;
                 }
             });
         }

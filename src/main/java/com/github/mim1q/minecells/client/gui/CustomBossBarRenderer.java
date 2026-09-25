@@ -51,16 +51,37 @@ public final class CustomBossBarRenderer {
         int u = 0;
         int v = verticalIndex * 64;
 
+        if (verticalIndex == 0) {
+            ConjunctiviusBossBarClientState.TentacleCounts tentacles = ConjunctiviusBossBarClientState.get(bossEvent.getId());
+            if (tentacles != null && tentacles.maxCount() > 0) {
+                renderConjunctiviusTentacles(guiGraphics, x, y, tentacles.count(), tentacles.maxCount());
+            }
+        }
+
         guiGraphics.blit(TEXTURE, x, y, u, v, 208, 32, TEXTURE_SIZE, TEXTURE_SIZE);
         int progressWidth = Mth.clamp(14 + (int) (180.0F * bossEvent.getProgress()), 14, 194);
         guiGraphics.blit(TEXTURE, x, y, u, v + 32, progressWidth, 32, TEXTURE_SIZE, TEXTURE_SIZE);
 
         Component title = styleTitle(bossEvent.getName());
-        int titleX = (guiGraphics.guiWidth() - minecraft.font.width(title)) / 2;
-        guiGraphics.drawString(minecraft.font, title, titleX, y + 11, 0xFFFFFF, false);
+        int titleX = guiGraphics.guiWidth() / 2 - minecraft.font.width(title) / 2;
+        guiGraphics.drawString(minecraft.font, title, titleX, event.getY() - 9, 0xFFFFFF);
 
         event.setCanceled(true);
-        event.setIncrement(0);
+    }
+
+    private static void renderConjunctiviusTentacles(GuiGraphics guiGraphics, int x, int y, int count, int maxCount) {
+        int uAlive = 208;
+        int uDead = 224;
+        int v = 0;
+        int currentX = (int) (x + 104 - (maxCount * 4.5F));
+        for (int i = 0; i < maxCount; ++i) {
+            if (i < count) {
+                guiGraphics.blit(TEXTURE, currentX, y + 24, uAlive, v, 8, 16, TEXTURE_SIZE, TEXTURE_SIZE);
+            } else {
+                guiGraphics.blit(TEXTURE, currentX, y + 24, uDead, v, 8, 16, TEXTURE_SIZE, TEXTURE_SIZE);
+            }
+            currentX += 9;
+        }
     }
 
     private static String getMineCellsBossKey(LerpingBossEvent bossEvent) {

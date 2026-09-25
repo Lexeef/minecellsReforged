@@ -1,0 +1,6 @@
+{
+  "parent": "minecells:block/template/colored_torch_standing",
+  "textures": {
+    "flame": "minecells:block/colored_torch/sewers"
+  }
+}

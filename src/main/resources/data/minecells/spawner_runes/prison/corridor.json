@@ -1,0 +1,22 @@
+{
+  "cooldown": 180.0,
+  "spawnDistance": 4.0,
+  "playerDistance": 24.0,
+  "pools": [
+    {
+      "rolls": {
+        "type": "uniform",
+        "value": {
+          "min_inclusive": 1,
+          "max_inclusive": 2
+        }
+      },
+      "entries": [
+        { "weight": 12, "entity": "minecells:leaping_zombie" },
+        { "weight": 4,  "entity": "minecells:shieldbearer" },
+        { "weight": 2,  "entity": "minecells:undead_archer" },
+        { "weight": 2,  "entity": "minecells:grenadier" }
+      ]
+    }
+  ]
+}

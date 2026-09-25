@@ -1,1 +1,8 @@
-{"variants":{"":{"model":"minecells:block/elevator_assembler"}}}
+{
+  "variants": {
+    "waiting=false,unbreakable=false": { "model": "minecells:block/elevator_assembler" },
+    "waiting=true,unbreakable=false": { "model": "minecells:block/elevator_assembler" },
+    "waiting=false,unbreakable=true": { "model": "minecells:block/elevator_assembler" },
+    "waiting=true,unbreakable=true": { "model": "minecells:block/elevator_assembler" }
+  }
+}

@@ -7,6 +7,7 @@ import com.github.mim1q.minecells.particle.ExplosionParticle;
 import com.github.mim1q.minecells.particle.FallingLeafParticle;
 import com.github.mim1q.minecells.particle.FlyParticle;
 import com.github.mim1q.minecells.particle.ProtectorParticle;
+import com.github.mim1q.minecells.particle.RisingBubbleParticle;
 import com.github.mim1q.minecells.particle.SmallDropParticle;
 import com.github.mim1q.minecells.particle.SpeckleParticle;
 import com.github.mim1q.minecells.particle.colored.ColoredParticle;
@@ -23,6 +24,7 @@ public final class MineCellsParticleProviders {
 
     @SubscribeEvent
     public static void register(RegisterParticleProvidersEvent event) {
+        event.registerSpriteSet(MineCellsParticles.AURA.get(), net.minecraft.client.particle.FlameParticle.Provider::new);
         event.registerSpriteSet(MineCellsParticles.EXPLOSION.get(), ExplosionParticle.Factory::new);
         event.registerSpriteSet(MineCellsParticles.PROTECTOR.get(), ProtectorParticle.Factory::new);
         event.registerSpriteSet(MineCellsParticles.CHARGE.get(), ChargeParticle.Factory::new);
@@ -32,5 +34,6 @@ public final class MineCellsParticleProviders {
         event.registerSpriteSet(MineCellsParticles.ELECTRICITY.get(), ElectricParticle.Factory::new);
         event.registerSpriteSet(MineCellsParticles.DROP.get(), spriteSet -> new ColoredParticle.Factory(spriteSet, DropParticle::new));
         event.registerSpriteSet(MineCellsParticles.SMALL_DROP.get(), spriteSet -> new ColoredParticle.Factory(spriteSet, SmallDropParticle::new));
+        event.registerSpriteSet(MineCellsParticles.RISING_BUBBLE.get(), spriteSet -> new ColoredParticle.Factory(spriteSet, RisingBubbleParticle::new));
     }
 }

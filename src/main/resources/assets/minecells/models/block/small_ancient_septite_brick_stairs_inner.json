@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "top": "minecells:block/small_ancient_septite_bricks",
+    "side": "minecells:block/small_ancient_septite_bricks",
+    "bottom": "minecells:block/small_ancient_septite_bricks"
+  }
+}

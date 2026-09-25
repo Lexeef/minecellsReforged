@@ -34,7 +34,7 @@ public class ChargeParticle extends TextureSheetParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+        return MineCellsParticleRenderTypes.translucent();
     }
 
     public static class Factory implements ParticleProvider<SimpleParticleType> {

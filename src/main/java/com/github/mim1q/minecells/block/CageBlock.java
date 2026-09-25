@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -45,6 +46,9 @@ public class CageBlock extends Block {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
+        if (context.getPlayer() == null) {
+            return defaultBlockState();
+        }
         boolean flipped = context.getClickedFace() == Direction.DOWN;
         BlockPos secondPos = flipped ? context.getClickedPos().below() : context.getClickedPos().above();
         BlockState secondState = context.getLevel().getBlockState(secondPos);
@@ -64,9 +68,9 @@ public class CageBlock extends Block {
     }
 
     @Override
-    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-        super.onRemove(state, level, pos, newState, movedByPiston);
-        if (broken || state.is(newState.getBlock())) {
+    public void destroy(LevelAccessor level, BlockPos pos, BlockState state) {
+        super.destroy(level, pos, state);
+        if (broken) {
             return;
         }
         BlockPos secondPos = state.getValue(FLIPPED) ? pos.below() : pos.above();
@@ -79,5 +83,10 @@ public class CageBlock extends Block {
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return state.getValue(FLIPPED) ? TOP_SHAPE : BOTTOM_SHAPE;
+    }
+
+    @Override
+    public boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
+        return true;
     }
 }

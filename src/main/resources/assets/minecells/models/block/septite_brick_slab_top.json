@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "top": "minecells:block/septite_bricks",
+    "side": "minecells:block/septite_bricks",
+    "bottom": "minecells:block/septite_bricks"
+  }
+}

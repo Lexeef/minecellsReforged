@@ -9,6 +9,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class SpawnerRuneBlockEntity extends MineCellsBlockEntity {
+    private static final String LAST_ACTIVATION_TIME = "last_activation_time";
+    private static final String LEGACY_LAST_ACTIVATION_TIME = "lastActivationTime";
+
     public final SpawnerRuneController controller = new SpawnerRuneController();
 
     public SpawnerRuneBlockEntity(BlockPos pos, BlockState state) {
@@ -16,8 +19,7 @@ public class SpawnerRuneBlockEntity extends MineCellsBlockEntity {
     }
 
     public void tick(Level level, BlockPos pos, BlockState state) {
-        if (level.getGameTime() % 10 == 0) {
-            controller.tick(pos, level);
+        if (level.getGameTime() % 10 == 0 && controller.tick(pos, level)) {
             setChanged();
         }
     }
@@ -28,16 +30,19 @@ public class SpawnerRuneBlockEntity extends MineCellsBlockEntity {
         if (controller.getDataId() != null) {
             tag.putString("dataId", controller.getDataId().toString());
         }
-        tag.putBoolean("visible", controller.isVisible());
-        tag.putLong("lastActivationTime", controller.getLastActivationTime());
+        tag.putLong(LAST_ACTIVATION_TIME, controller.getLastActivationTime());
     }
 
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
-        ResourceLocation id = ResourceLocation.tryParse(tag.getString("dataId"));
-        controller.setDataId(level, worldPosition, id);
-        controller.setVisible(tag.getBoolean("visible"));
-        controller.setLastActivationTime(tag.getLong("lastActivationTime"));
+        if (tag.contains("dataId")) {
+            controller.setDataId(level, worldPosition, ResourceLocation.tryParse(tag.getString("dataId")));
+        }
+        if (tag.contains(LAST_ACTIVATION_TIME)) {
+            controller.setLastActivationTime(tag.getLong(LAST_ACTIVATION_TIME));
+        } else if (tag.contains(LEGACY_LAST_ACTIVATION_TIME)) {
+            controller.setLastActivationTime(tag.getLong(LEGACY_LAST_ACTIVATION_TIME));
+        }
     }
 }

@@ -58,10 +58,10 @@ public class ColoredTorchBlock extends Block {
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (state.getValue(STANDING)) {
-            return direction == Direction.DOWN && !neighborState.isFaceSturdy(level, neighborPos, Direction.UP) ? Blocks.AIR.defaultBlockState() : state;
+            return direction == Direction.DOWN ? Blocks.AIR.defaultBlockState() : state;
         }
         Direction facing = state.getValue(FACING);
-        if (direction == facing.getOpposite() && !neighborState.isFaceSturdy(level, neighborPos, facing)) {
+        if (direction == facing.getOpposite() && !Block.isFaceFull(neighborState.getCollisionShape(level, pos), facing)) {
             return Blocks.AIR.defaultBlockState();
         }
         return state;

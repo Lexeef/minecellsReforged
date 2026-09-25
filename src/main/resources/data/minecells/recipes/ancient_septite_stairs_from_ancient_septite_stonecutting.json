@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "minecells:ancient_septite"
+  },
+  "result": "minecells:ancient_septite_stairs",
+  "count": 1
+}

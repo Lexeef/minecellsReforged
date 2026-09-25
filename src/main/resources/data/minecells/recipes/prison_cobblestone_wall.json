@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecells:prison_cobblestone"
+    }
+  },
+  "result": {
+    "item": "minecells:prison_cobblestone_wall",
+    "count": 6
+  },
+  "show_notification": true
+}

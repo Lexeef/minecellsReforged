@@ -52,9 +52,11 @@ public class CellHolderItem extends Item {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         int count = getCellCount(stack);
         if (count == 0) {
-            tooltip.add(Component.translatable(EMPTY_KEY).withStyle(ChatFormatting.GRAY));
+            for (String line : Component.translatable(EMPTY_KEY).getString().split("\n")) {
+                tooltip.add(Component.literal(line).withStyle(ChatFormatting.GRAY));
+            }
         } else {
-            tooltip.add(Component.translatable(CELL_COUNT_KEY, count));
+            tooltip.add(Component.translatable(CELL_COUNT_KEY, count).withStyle(style -> style.withColor(0x46D4FF)));
             tooltip.add(Component.translatable(FULL_KEY).withStyle(ChatFormatting.GRAY));
         }
     }

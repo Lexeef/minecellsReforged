@@ -1,13 +1,93 @@
 {
   "replace": false,
   "values": [
-    "minecells:alchemy_equipment_2",
-    "minecells:alchemy_equipment_1",
-    "minecells:alchemy_equipment_0",
-    "minecells:conjunctivius_box",
-    "minecells:doorway_frame",
-    "minecells:prison_doorway",
-    "minecells:promenade_doorway",
-    "minecells:insufferable_crypt_doorway"
+    {
+      "id": "minecells:alchemy_equipment_2",
+      "required": false
+    },
+    {
+      "id": "minecells:alchemy_equipment_1",
+      "required": false
+    },
+    {
+      "id": "minecells:alchemy_equipment_0",
+      "required": false
+    },
+    {
+      "id": "minecells:conjunctivius_box",
+      "required": false
+    },
+    {
+      "id": "minecells:doorway_frame",
+      "required": false
+    },
+    {
+      "id": "minecells:prison_doorway",
+      "required": false
+    },
+    {
+      "id": "minecells:promenade_doorway",
+      "required": false
+    },
+    {
+      "id": "minecells:insufferable_crypt_doorway",
+      "required": false
+    },
+    {
+      "id": "minecells:unbreakable_doorway_frame",
+      "required": false
+    },
+    {
+      "id": "minecells:overworld_doorway",
+      "required": false
+    },
+    {
+      "id": "minecells:ramparts_doorway",
+      "required": false
+    },
+    {
+      "id": "minecells:black_bridge_doorway",
+      "required": false
+    },
+    {
+      "id": "minecells:rift",
+      "required": false
+    },
+    {
+      "id": "minecells:teleporter_core",
+      "required": false
+    },
+    {
+      "id": "minecells:teleporter_frame",
+      "required": false
+    },
+    {
+      "id": "minecells:return_stone",
+      "required": false
+    },
+    {
+      "id": "minecells:spawner_rune",
+      "required": false
+    },
+    {
+      "id": "minecells:beam_placer",
+      "required": false
+    },
+    {
+      "id": "minecells:conditional_barrier",
+      "required": false
+    },
+    {
+      "id": "minecells:boss_barrier_controller",
+      "required": false
+    },
+    {
+      "id": "minecells:boss_entry_barrier_controller",
+      "required": false
+    },
+    {
+      "id": "minecells:player_barrier_controller",
+      "required": false
+    }
   ]
 }

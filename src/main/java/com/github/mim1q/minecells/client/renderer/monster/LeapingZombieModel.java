@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.client.renderer.monster;
 
+import com.github.mim1q.minecells.entity.LeapingZombieEntity;
 import com.github.mim1q.minecells.entity.MineCellsMonsterEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -62,15 +63,29 @@ public class LeapingZombieModel extends EntityModel<MineCellsMonsterEntity> {
 
     @Override
     public void setupAnim(MineCellsMonsterEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        MineCellsModelAnimationUtils.rotateHead(netHeadYaw, headPitch, head);
-        MineCellsModelAnimationUtils.bipedWalk(limbSwing, limbSwingAmount, root, rightLeg, leftLeg, rightArm, leftArm, lowerTorso, upperTorso);
-        upperTorso.xRot *= 10.0F;
-        lowerTorso.xRot *= 5.0F;
-        lowerTorso.xRot += 10.0F * Mth.DEG_TO_RAD;
-        upperTorso.xRot += 10.0F * Mth.DEG_TO_RAD;
-        leftArm.xRot -= 20.0F * Mth.DEG_TO_RAD;
-        rightArm.xRot -= 20.0F * Mth.DEG_TO_RAD;
-        neck.xRot = -20.0F * Mth.DEG_TO_RAD;
+        MineCellsModelAnimationUtils.rotateHead(netHeadYaw, headPitch, this.head);
+        MineCellsModelAnimationUtils.bipedWalk(limbSwing, limbSwingAmount, this.root, this.rightLeg, this.leftLeg, this.rightArm, this.leftArm, this.lowerTorso, this.upperTorso);
+
+        this.upperTorso.xRot *= 10.0F;
+        this.lowerTorso.xRot *= 5.0F;
+
+        this.lowerTorso.xRot += 10.0F * Mth.DEG_TO_RAD;
+        this.upperTorso.xRot += 10.0F * Mth.DEG_TO_RAD;
+
+        this.leftArm.xRot -= 20.0F * Mth.DEG_TO_RAD;
+        this.rightArm.xRot -= 20.0F * Mth.DEG_TO_RAD;
+
+        this.neck.xRot = -20.0F * Mth.DEG_TO_RAD;
+
+        if (entity instanceof LeapingZombieEntity leapingZombie) {
+            leapingZombie.additionalRotation.update(ageInTicks);
+            float rot = leapingZombie.additionalRotation.getValue() * Mth.DEG_TO_RAD;
+            this.leftArm.xRot -= rot * 2.5F;
+            this.rightArm.xRot -= rot * 2.5F;
+            this.upperTorso.xRot -= rot * 0.75F;
+            this.lowerTorso.xRot -= rot * 0.5F;
+            this.neck.xRot += rot * 0.5F;
+        }
     }
 
     @Override

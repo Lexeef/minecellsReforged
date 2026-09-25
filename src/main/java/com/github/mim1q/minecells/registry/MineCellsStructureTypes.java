@@ -27,6 +27,8 @@ public final class MineCellsStructureTypes {
         register("promenade_wall_z", GridBasedStructure.PROMENADE_WALL_Z_CODEC);
     public static final RegistryObject<StructureType<GridBasedStructure>> RAMPARTS =
         register("ramparts", GridBasedStructure.RAMPARTS_CODEC);
+    public static final RegistryObject<StructureType<GridBasedStructure>> BLACK_BRIDGE =
+        register("black_bridge", GridBasedStructure.BLACK_BRIDGE_CODEC);
 
     private MineCellsStructureTypes() {
     }

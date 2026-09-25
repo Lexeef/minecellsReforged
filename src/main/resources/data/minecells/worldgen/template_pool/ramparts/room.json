@@ -1,51 +1,51 @@
 {
-    "name":  "minecells:ramparts/room",
-    "fallback":  "minecraft:empty",
-    "elements":  [
-                     {
-                         "weight":  10,
-                         "element":  {
-                                         "element_type":  "minecraft:single_pool_element",
-                                         "location":  "minecells:ramparts/room/stacked_corridor",
-                                         "processors":  "minecells:promenade",
-                                         "projection":  "rigid"
-                                     }
-                     },
-                     {
-                         "weight":  7,
-                         "element":  {
-                                         "element_type":  "minecraft:single_pool_element",
-                                         "location":  "minecells:ramparts/room/corridor",
-                                         "processors":  "minecells:promenade",
-                                         "projection":  "rigid"
-                                     }
-                     },
-                     {
-                         "weight":  5,
-                         "element":  {
-                                         "element_type":  "minecraft:single_pool_element",
-                                         "location":  "minecells:ramparts/room/corridor_with_alcove",
-                                         "processors":  "minecells:promenade",
-                                         "projection":  "rigid"
-                                     }
-                     },
-                     {
-                         "weight":  3,
-                         "element":  {
-                                         "element_type":  "minecraft:single_pool_element",
-                                         "location":  "minecells:ramparts/room/gated_corridor",
-                                         "processors":  "minecells:promenade",
-                                         "projection":  "rigid"
-                                     }
-                     },
-                     {
-                         "weight":  2,
-                         "element":  {
-                                         "element_type":  "minecraft:single_pool_element",
-                                         "location":  "minecells:ramparts/room/wooden_see_through",
-                                         "processors":  "minecells:promenade",
-                                         "projection":  "rigid"
-                                     }
-                     }
-                 ]
+  "name": "minecells:ramparts/room",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 10,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "minecells:ramparts/room/stacked_corridor",
+        "processors": "minecells:promenade",
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 7,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "minecells:ramparts/room/corridor",
+        "processors": "minecells:promenade",
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 5,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "minecells:ramparts/room/corridor_with_alcove",
+        "processors": "minecells:promenade",
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "minecells:ramparts/room/gated_corridor",
+        "processors": "minecells:promenade",
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "minecells:ramparts/room/wooden_see_through",
+        "processors": "minecells:promenade",
+        "projection": "rigid"
+      }
+    }
+  ]
 }

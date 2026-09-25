@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -15,7 +16,8 @@ import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -27,6 +29,8 @@ public class GrenadierEntity extends MineCellsMonsterEntity {
     private static final EntityDataAccessor<Integer> SHOOT_COOLDOWN = SynchedEntityData.defineId(GrenadierEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> SHOOT_CHARGING = SynchedEntityData.defineId(GrenadierEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> SHOOT_RELEASING = SynchedEntityData.defineId(GrenadierEntity.class, EntityDataSerializers.BOOLEAN);
+
+    public final AnimationProperty additionalRotation = new AnimationProperty(0.0F);
 
     private int jumpBackCooldown;
 
@@ -43,24 +47,58 @@ public class GrenadierEntity extends MineCellsMonsterEntity {
     }
 
     @Override
+    protected boolean canUseEliteAura() {
+        return false;
+    }
+
+    @Override
     protected void registerGoals() {
-        goalSelector.addGoal(0, new GrenadierShootGoal(this));
-        goalSelector.addGoal(1, new JumpBackGoal(this));
-        goalSelector.addGoal(2, new FloatGoal(this));
-        goalSelector.addGoal(3, new WalkTowardsTargetGoal(this, 1.0D, true, 6.0D));
-        goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 16.0F));
-        goalSelector.addGoal(7, new RandomLookAroundGoal(this));
-        targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        goalSelector.addGoal(0, new FloatGoal(this));
+        goalSelector.addGoal(1, new GrenadierShootGoal(this, 10, 20));
+        goalSelector.addGoal(1, new com.github.mim1q.minecells.entity.ai.goal.JumpBackGoal<>(this, s -> {
+            s.minDistance = 5.0D;
+            s.defaultCooldown = 20;
+            s.actionTick = 10;
+            s.length = 20;
+            s.chance = 0.3F;
+            s.cooldownGetter = () -> jumpBackCooldown;
+            s.cooldownSetter = ticks -> jumpBackCooldown = ticks;
+        }, null));
+        goalSelector.addGoal(2, new WalkTowardsTargetGoal(this, 1.0D, true, 6.0D));
+        goalSelector.addGoal(3, new RandomStrollGoal(this, 1.0D));
+        goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 16.0F));
+        goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        addPlayerTargetGoal(1);
     }
 
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide && getShootCooldown() > 0) {
-            setShootCooldown(getShootCooldown() - 1);
+        if (level().isClientSide) {
+            if (isShootCharging()) {
+                additionalRotation.setupTransitionTo(240.0F, 15.0F);
+            } else if (isShootReleasing()) {
+                additionalRotation.setupTransitionTo(-30.0F, 10.0F);
+            } else {
+                additionalRotation.setupTransitionTo(0.0F, 20.0F);
+            }
+        } else {
+            if (getShootCooldown() > 0) {
+                setShootCooldown(getShootCooldown() - 1);
+            }
+            jumpBackCooldown--;
         }
-        jumpBackCooldown--;
+    }
+
+    @Override
+    public int getMaxFallDistance() {
+        return 3;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return MineCellsSounds.LEAPING_ZOMBIE_DEATH.get();
     }
 
     public boolean isShootCharging() {
@@ -99,14 +137,12 @@ public class GrenadierEntity extends MineCellsMonsterEntity {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("shootCooldown", getShootCooldown());
-        tag.putInt("jumpBackCooldown", jumpBackCooldown);
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         setShootCooldown(tag.getInt("shootCooldown"));
-        jumpBackCooldown = tag.getInt("jumpBackCooldown");
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -143,27 +179,30 @@ public class GrenadierEntity extends MineCellsMonsterEntity {
 
     private static final class GrenadierShootGoal extends Goal {
         private final GrenadierEntity entity;
+        private final int actionTick;
+        private final int lengthTicks;
         private LivingEntity target;
         private int ticks;
 
-        private GrenadierShootGoal(GrenadierEntity entity) {
+        private GrenadierShootGoal(GrenadierEntity entity, int actionTick, int lengthTicks) {
             this.entity = entity;
+            this.actionTick = actionTick;
+            this.lengthTicks = lengthTicks;
             setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
 
         @Override
         public boolean canUse() {
-            target = entity.getTarget();
-            return target != null
-                && target.isAlive()
-                && entity.getShootCooldown() <= 0
-                && entity.distanceTo(target) <= 16.0D
-                && entity.getSensing().hasLineOfSight(target)
+            LivingEntity candidate = entity.getTarget();
+            return candidate != null
+                && entity.getShootCooldown() == 0
+                && entity.getSensing().hasLineOfSight(candidate)
                 && entity.getRandom().nextFloat() < 0.3F;
         }
 
         @Override
         public void start() {
+            target = entity.getTarget();
             ticks = 0;
             entity.setShootCharging(true);
             entity.setShootReleasing(false);
@@ -172,7 +211,7 @@ public class GrenadierEntity extends MineCellsMonsterEntity {
 
         @Override
         public boolean canContinueToUse() {
-            return target != null && target.isAlive() && ticks < 20;
+            return ticks < lengthTicks && target != null && target.isAlive();
         }
 
         @Override
@@ -185,79 +224,28 @@ public class GrenadierEntity extends MineCellsMonsterEntity {
 
         @Override
         public void tick() {
-            if (target == null) {
-                return;
-            }
-            entity.getLookControl().setLookAt(target, 360.0F, 360.0F);
-            entity.getNavigation().stop();
-            if (ticks == 10 && !entity.level().isClientSide) {
-                entity.setShootCharging(false);
-                entity.setShootReleasing(true);
-                Vec3 targetPos = target.position().add(entity.random.nextDouble() * 2.0D - 1.0D, 0.0D, entity.random.nextDouble() * 2.0D - 1.0D);
-                Vec3 entityPos = entity.position();
-                Vec3 delta = targetPos.subtract(entityPos).scale(0.035D).add(0.0D, 0.5D, 0.0D);
-                GrenadeProjectileEntity grenade = new GrenadeProjectileEntity(MineCellsEntities.GRENADE.get(), entity.level());
-                grenade.setPos(entityPos.add(0.0D, 1.5D, 0.0D));
-                grenade.setOwner(entity);
-                grenade.shoot(delta);
-                entity.level().addFreshEntity(grenade);
-            }
-            ticks++;
-        }
-    }
-
-    private static final class JumpBackGoal extends Goal {
-        private final GrenadierEntity entity;
-        private LivingEntity target;
-        private int ticks;
-
-        private JumpBackGoal(GrenadierEntity entity) {
-            this.entity = entity;
-            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
-        }
-
-        @Override
-        public boolean canUse() {
-            target = entity.getTarget();
-            return target != null
-                && target.isAlive()
-                && entity.jumpBackCooldown <= 0
-                && entity.distanceTo(target) < 5.0D
-                && entity.getRandom().nextFloat() < 0.3F;
-        }
-
-        @Override
-        public void start() {
-            ticks = 0;
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return target != null && target.isAlive() && ticks < 20;
-        }
-
-        @Override
-        public void stop() {
-            entity.jumpBackCooldown = 20;
-            target = null;
-        }
-
-        @Override
-        public void tick() {
-            if (target == null) {
-                return;
-            }
-            entity.getLookControl().setLookAt(target, 360.0F, 360.0F);
-            entity.getNavigation().stop();
-            if (ticks == 10) {
-                Vec3 away = entity.position().subtract(target.position());
-                if (away.lengthSqr() < 1.0E-4D) {
-                    away = new Vec3(entity.getRandom().nextDouble() - 0.5D, 0.0D, entity.getRandom().nextDouble() - 0.5D);
+            if (target != null) {
+                entity.getLookControl().setLookAt(target);
+                entity.getMoveControl().setWantedPosition(target.getX(), target.getY(), target.getZ(), 0.01D);
+                if (ticks == actionTick) {
+                    shoot(target);
                 }
-                entity.setDeltaMovement(away.normalize().scale(0.45D).add(0.0D, 0.3D, 0.0D));
-                entity.hasImpulse = true;
             }
             ticks++;
         }
+
+        private void shoot(LivingEntity target) {
+            entity.setShootCharging(false);
+            entity.setShootReleasing(true);
+            Vec3 targetPos = target.position().add(entity.random.nextDouble() * 2.0D - 1.0D, 0.0D, entity.random.nextDouble() * 2.0D - 1.0D);
+            Vec3 entityPos = entity.position();
+            Vec3 delta = targetPos.subtract(entityPos).scale(0.035D).add(0.0D, 0.5D, 0.0D);
+            GrenadeProjectileEntity grenade = new GrenadeProjectileEntity(MineCellsEntities.GRENADE.get(), entity.level());
+            grenade.setPos(entityPos.add(0.0D, 1.5D, 0.0D));
+            grenade.setOwner(entity);
+            grenade.shoot(delta);
+            entity.level().addFreshEntity(grenade);
+        }
     }
+
 }

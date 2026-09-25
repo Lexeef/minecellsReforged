@@ -1,16 +1,19 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.block.blockentity.SetupBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.ArrowSignBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.BarrierControllerBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.CellCrafterBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.DecorativeStatueBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.DoorwayPortalBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.FlagBlockEntity;
+import com.github.mim1q.minecells.block.blockentity.MineCellsSignBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.ReturnStoneBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.RiftBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.RunicVinePlantBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.SpawnerRuneBlockEntity;
+import com.github.mim1q.minecells.block.portal.TeleporterBlockEntity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -71,6 +74,11 @@ public final class MineCellsBlockEntities {
         SpawnerRuneBlockEntity::new,
         MineCellsBlocks.SPAWNER_RUNE
     );
+    public static final RegistryObject<BlockEntityType<TeleporterBlockEntity>> TELEPORTER = register(
+        "teleporter",
+        TeleporterBlockEntity::new,
+        MineCellsBlocks.TELEPORTER_CORE
+    );
     public static final RegistryObject<BlockEntityType<DoorwayPortalBlockEntity>> DOORWAY = BLOCK_ENTITIES.register(
         "doorway",
         () -> BlockEntityType.Builder.of(
@@ -81,6 +89,25 @@ public final class MineCellsBlockEntities {
             MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY.get(),
             MineCellsBlocks.RAMPARTS_DOORWAY.get(),
             MineCellsBlocks.BLACK_BRIDGE_DOORWAY.get()
+        ).build(null)
+    );
+    public static final RegistryObject<BlockEntityType<SetupBlockEntity>> SETUP_BLOCK_ENTITY = BLOCK_ENTITIES.register(
+        "setup_block_entity",
+        () -> BlockEntityType.Builder.of(
+            SetupBlockEntity::new,
+            MineCellsBlocks.ELEVATOR_ASSEMBLER.get(),
+            MineCellsBlocks.CONJUNCTIVIUS_BOX.get(),
+            MineCellsBlocks.CONCIERGE_BOX.get(),
+            MineCellsBlocks.BEAM_PLACER.get()
+        ).build(null)
+    );
+
+    public static final RegistryObject<BlockEntityType<MineCellsSignBlockEntity>> SIGN = BLOCK_ENTITIES.register(
+        "sign",
+        () -> BlockEntityType.Builder.of(
+            MineCellsSignBlockEntity::new,
+            MineCellsBlocks.PUTRID_SIGN.get(),
+            MineCellsBlocks.PUTRID_WALL_SIGN.get()
         ).build(null)
     );
 

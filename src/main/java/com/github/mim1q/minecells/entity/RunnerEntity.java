@@ -1,33 +1,35 @@
 package com.github.mim1q.minecells.entity;
 
+import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
+import com.github.mim1q.minecells.entity.ai.goal.TimedTeleportGoal;
+import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.util.ParticleUtils;
+import com.github.mim1q.minecells.util.animation.AnimationProperty;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.EnumSet;
+import java.util.function.Consumer;
 
 public class RunnerEntity extends MineCellsMonsterEntity {
     private static final EntityDataAccessor<Boolean> ATTACK_CHARGING = SynchedEntityData.defineId(RunnerEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> ATTACK_RELEASING = SynchedEntityData.defineId(RunnerEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> TELEPORT_CHARGING = SynchedEntityData.defineId(RunnerEntity.class, EntityDataSerializers.BOOLEAN);
+
+    public final AnimationProperty bendAngle = new AnimationProperty(0.0F);
+    public final AnimationProperty swingChargeProgress = new AnimationProperty(0.0F);
+    public final AnimationProperty swingReleaseProgress = new AnimationProperty(0.0F);
 
     private int attackCooldown;
     private int teleportCooldown;
@@ -46,25 +48,59 @@ public class RunnerEntity extends MineCellsMonsterEntity {
 
     @Override
     protected void registerGoals() {
-        goalSelector.addGoal(0, new RunnerSlashGoal(this));
-        goalSelector.addGoal(1, new RunnerTeleportGoal(this));
-        goalSelector.addGoal(2, new FloatGoal(this));
-        goalSelector.addGoal(3, new WalkTowardsTargetGoal(this, 1.2D, false));
-        goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 10.0F));
-        goalSelector.addGoal(7, new RandomLookAroundGoal(this));
-        targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        goalSelector.addGoal(0, new RunnerTimedAttackGoal(this, s -> {
+            s.cooldownSetter = cooldown -> attackCooldown = cooldown;
+            s.cooldownGetter = () -> attackCooldown;
+            s.stateSetter = this::switchAttackState;
+            s.chargeSound = MineCellsSounds.GRENADIER_CHARGE.get();
+            s.releaseSound = MineCellsSounds.SWIPE.get();
+            s.defaultCooldown = 35;
+            s.actionTick = 12;
+            s.length = 20;
+        }));
+        goalSelector.addGoal(1, new WalkTowardsTargetGoal(this, 1.2D, false));
+        goalSelector.addGoal(2, new TimedTeleportGoal<>(this, s -> {
+            s.cooldownSetter = cooldown -> {
+                teleportCooldown = cooldown;
+                attackCooldown = 40;
+            };
+            s.cooldownGetter = () -> teleportCooldown;
+            s.stateSetter = this::switchTeleportState;
+            s.defaultCooldown = 100;
+            s.actionTick = 20;
+            s.length = 40;
+        }, null));
+        goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        goalSelector.addGoal(10, new RandomLookAroundGoal(this));
+        addDefaultTargetGoals();
     }
 
     @Override
     public void tick() {
         super.tick();
-        attackCooldown = Math.max(0, attackCooldown - 1);
-        teleportCooldown = Math.max(0, teleportCooldown - 1);
         if (level().isClientSide && isTeleportCharging()) {
             for (int i = 0; i < 5; i++) {
-                level().addParticle(MineCellsParticles.CHARGE.get(), getX(), getY() + getBbHeight() * 0.5D, getZ(), 0.0D, 0.0D, 0.0D);
+                ParticleUtils.addParticle(level(), MineCellsParticles.CHARGE.get(), position().add(0.0D, getBbHeight() * 0.5D, 0.0D), Vec3.ZERO);
             }
+        }
+        if (!level().isClientSide) {
+            attackCooldown = Math.max(0, attackCooldown - 1);
+            teleportCooldown = Math.max(0, teleportCooldown - 1);
+        }
+    }
+
+    public void switchAttackState(TimedActionGoal.State state, boolean value) {
+        switch (state) {
+            case CHARGE -> setAttackCharging(value);
+            case RELEASE -> setAttackReleasing(value);
+            default -> {
+            }
+        }
+    }
+
+    public void switchTeleportState(TimedActionGoal.State state, boolean value) {
+        if (state == TimedActionGoal.State.CHARGE) {
+            setTeleportCharging(value);
         }
     }
 
@@ -114,97 +150,11 @@ public class RunnerEntity extends MineCellsMonsterEntity {
             .add(Attributes.FOLLOW_RANGE, 14.0D);
     }
 
-    private static final class WalkTowardsTargetGoal extends MeleeAttackGoal {
-        private WalkTowardsTargetGoal(RunnerEntity mob, double speedModifier, boolean followingTargetEvenIfNotSeen) {
-            super(mob, speedModifier, followingTargetEvenIfNotSeen);
-        }
-
-        @Override
-        public boolean canUse() {
-            return mob.getTarget() != null && mob.distanceTo(mob.getTarget()) >= 1.5D && super.canUse();
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return mob.getTarget() != null && mob.distanceTo(mob.getTarget()) >= 1.5D && super.canContinueToUse();
-        }
-
-        @Override
-        protected void checkAndPerformAttack(LivingEntity target, double distToEnemySqr) {
-        }
-    }
-
-    private static final class RunnerSlashGoal extends Goal {
-        private final RunnerEntity entity;
+    private static final class RunnerTimedAttackGoal extends TimedActionGoal<RunnerEntity> {
         private LivingEntity target;
-        private int ticks;
 
-        private RunnerSlashGoal(RunnerEntity entity) {
-            this.entity = entity;
-            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
-        }
-
-        @Override
-        public boolean canUse() {
-            this.target = entity.getTarget();
-            return target != null
-                && target.isAlive()
-                && target.isAttackable()
-                && entity.attackCooldown <= 0
-                && entity.teleportCooldown < 80
-                && entity.distanceTo(target) < 1.5D;
-        }
-
-        @Override
-        public void start() {
-            ticks = 0;
-            entity.setAttackCharging(true);
-            entity.setAttackReleasing(false);
-            entity.playSound(MineCellsSounds.GRENADIER_CHARGE.get(), 0.8F, 1.1F);
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return target != null && target.isAlive() && ticks < 20;
-        }
-
-        @Override
-        public void stop() {
-            entity.setAttackCharging(false);
-            entity.setAttackReleasing(false);
-            entity.attackCooldown = 35;
-            target = null;
-        }
-
-        @Override
-        public void tick() {
-            if (target == null) {
-                return;
-            }
-            entity.getMoveControl().setWantedPosition(target.getX(), target.getY(), target.getZ(), 0.001D);
-            entity.getLookControl().setLookAt(target, 360.0F, 360.0F);
-            entity.getNavigation().stop();
-
-            if (ticks == 12) {
-                entity.setAttackCharging(false);
-                entity.setAttackReleasing(true);
-                entity.playSound(MineCellsSounds.SWIPE.get(), 1.0F, 1.0F);
-                if (target.isAlive() && entity.distanceTo(target) < 2.5D) {
-                    entity.doHurtTarget(target);
-                }
-            }
-            ticks++;
-        }
-    }
-
-    private static final class RunnerTeleportGoal extends Goal {
-        private final RunnerEntity entity;
-        private LivingEntity target;
-        private int ticks;
-
-        private RunnerTeleportGoal(RunnerEntity entity) {
-            this.entity = entity;
-            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        private RunnerTimedAttackGoal(RunnerEntity entity, Consumer<TimedActionSettings> settingsConsumer) {
+            super(entity, settingsConsumer, runner -> runner.teleportCooldown < 80);
         }
 
         @Override
@@ -212,56 +162,25 @@ public class RunnerEntity extends MineCellsMonsterEntity {
             target = entity.getTarget();
             return target != null
                 && target.isAlive()
-                && entity.teleportCooldown <= 0
-                && entity.distanceTo(target) > 4.0D
-                && entity.distanceTo(target) < 14.0D
-                && entity.getRandom().nextFloat() < 0.08F;
-        }
-
-        @Override
-        public void start() {
-            ticks = 0;
-            entity.setTeleportCharging(true);
-            entity.playSound(MineCellsSounds.TELEPORT_CHARGE.get(), 0.9F, 1.0F);
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return target != null && target.isAlive() && ticks < 40;
-        }
-
-        @Override
-        public void stop() {
-            entity.setTeleportCharging(false);
-            target = null;
+                && target.isAttackable()
+                && entity.distanceTo(target) < 1.5D
+                && super.canUse();
         }
 
         @Override
         public void tick() {
-            if (target == null) {
-                return;
+            if (target != null) {
+                entity.getMoveControl().setWantedPosition(target.getX(), target.getY(), target.getZ(), 0.001D);
+                entity.getLookControl().setLookAt(target);
             }
-            entity.getNavigation().stop();
-            entity.getLookControl().setLookAt(target, 360.0F, 360.0F);
-            if (ticks == 20 && !entity.level().isClientSide) {
-                Vec3 away = entity.position().subtract(target.position());
-                if (away.lengthSqr() < 1.0E-4D) {
-                    away = new Vec3(entity.getRandom().nextDouble() - 0.5D, 0.0D, entity.getRandom().nextDouble() - 0.5D);
-                }
-                Vec3 dir = away.normalize();
-                Vec3 destination = target.position().add(dir.scale(2.5D + entity.getRandom().nextDouble() * 2.0D));
-                boolean teleported = entity.randomTeleport(destination.x, target.getY(), destination.z, true);
-                if (!teleported && entity.level() instanceof ServerLevel serverLevel) {
-                    teleported = entity.randomTeleport(destination.x, serverLevel.getHeightmapPos(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, net.minecraft.core.BlockPos.containing(destination)).getY(), destination.z, true);
-                }
-                if (teleported) {
-                    entity.teleportCooldown = 100;
-                    entity.attackCooldown = 40;
-                    entity.playSound(MineCellsSounds.TELEPORT_RELEASE.get(), 1.0F, 1.0F);
-                }
-                entity.setTeleportCharging(false);
+            super.tick();
+        }
+
+        @Override
+        protected void runAction() {
+            if (target != null && target.isAlive() && entity.distanceTo(target) < 2.5D) {
+                entity.doHurtTarget(target);
             }
-            ticks++;
         }
     }
 }

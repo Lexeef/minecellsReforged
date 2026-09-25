@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecells:putrid_board_block"
+    }
+  },
+  "result": {
+    "item": "minecells:putrid_board_slab",
+    "count": 6
+  },
+  "show_notification": true
+}

@@ -57,7 +57,7 @@ public class SkeletonDecorationBlock extends Block {
             }
         } else {
             BlockPos supportPos = context.getClickedPos().below();
-            if (context.getLevel().getBlockState(supportPos).isFaceSturdy(context.getLevel(), supportPos, Direction.UP)) {
+            if (context.getLevel().getBlockState(supportPos).isRedstoneConductor(context.getLevel(), supportPos)) {
                 return defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
             }
         }

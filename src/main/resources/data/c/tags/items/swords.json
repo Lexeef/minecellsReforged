@@ -1,8 +1,17 @@
 {
   "replace": false,
   "values": [
-    "minecells:blood_sword",
-    "minecells:cursed_sword",
-    "minecells:hattoris_katana"
+    {
+      "id": "minecells:blood_sword",
+      "required": false
+    },
+    {
+      "id": "minecells:cursed_sword",
+      "required": false
+    },
+    {
+      "id": "minecells:hattoris_katana",
+      "required": false
+    }
   ]
 }

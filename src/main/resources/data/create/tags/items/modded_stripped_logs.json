@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "minecells:stripped_putrid_log"
+    {
+      "id": "minecells:stripped_putrid_log",
+      "required": false
+    }
   ]
 }

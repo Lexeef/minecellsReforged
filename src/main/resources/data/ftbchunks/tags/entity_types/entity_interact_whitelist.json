@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "minecells:elevator"
+    {
+      "id": "minecells:elevator",
+      "required": false
+    }
   ]
 }

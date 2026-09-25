@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    { "id": "minecells:multiple_nocks_bow", "required": false },
+    { "id": "minecells:marksmans_bow", "required": false },
+    { "id": "minecells:infantry_bow", "required": false },
+    { "id": "minecells:nerves_of_steel", "required": false }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "decorations",
+  "pattern": [
+    "PPP",
+    " S ",
+    "S  "
+  ],
+  "key": {
+    "P": {
+      "item": "minecells:putrid_planks"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "minecells:flag_pole",
+    "count": 1
+  },
+  "show_notification": true
+}

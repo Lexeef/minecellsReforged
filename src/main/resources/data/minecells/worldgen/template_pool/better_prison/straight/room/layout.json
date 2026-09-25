@@ -1,0 +1,33 @@
+{
+    "name": "minecells:better_prison/straight/room/layout",
+    "fallback": "minecraft:empty",
+    "elements": [
+        {
+            "weight": 1,
+            "element": {
+                "element_type": "minecraft:single_pool_element",
+                "location": "minecells:better_prison/straight/room/layout/storage",
+                "processors": "minecells:prison/main",
+                "projection": "rigid"
+            }
+        },
+        {
+            "weight": 1,
+            "element": {
+                "element_type": "minecraft:single_pool_element",
+                "location": "minecells:better_prison/straight/room/layout/cells",
+                "processors": "minecells:prison/main",
+                "projection": "rigid"
+            }
+        },
+        {
+            "weight": 1,
+            "element": {
+                "element_type": "minecraft:single_pool_element",
+                "location": "minecells:better_prison/straight/room/layout/towers",
+                "processors": "minecells:prison/main",
+                "projection": "rigid"
+            }
+        }
+    ]
+}

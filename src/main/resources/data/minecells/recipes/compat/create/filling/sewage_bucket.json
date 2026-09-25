@@ -1,10 +1,8 @@
 {
-  "fabric:load_conditions": [
+  "conditions": [
     {
-      "condition": "fabric:all_mods_loaded",
-      "values": [
-        "create"
-      ]
+      "type": "forge:mod_loaded",
+      "modid": "create"
     }
   ],
   "type": "create:filling",
@@ -13,7 +11,7 @@
       "item": "bucket"
     },
     {
-      "amount": 81000,
+      "amount": 1000,
       "fluid": "minecells:sewage"
     }
   ],

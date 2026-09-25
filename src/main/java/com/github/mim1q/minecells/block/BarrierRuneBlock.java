@@ -3,7 +3,8 @@ package com.github.mim1q.minecells.block;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -53,7 +54,7 @@ public class BarrierRuneBlock extends BarrierBlock {
         }
         if (context instanceof EntityCollisionContext entityContext && entityContext.getEntity() != null) {
             var entity = entityContext.getEntity();
-            if (entity instanceof Projectile || entity.getType().getCategory() == MobCategory.MONSTER) {
+            if (entity instanceof Projectile || entity instanceof Monster) {
                 return Shapes.block();
             }
         }
@@ -66,7 +67,7 @@ public class BarrierRuneBlock extends BarrierBlock {
         if (item == Blocks.AIR.asItem()) {
             return Shapes.empty();
         }
-        return context.isHoldingItem(item) ? Shapes.block() : Shapes.empty();
+        return context.isHoldingItem(item) || context.isHoldingItem(Items.DEBUG_STICK) ? Shapes.block() : Shapes.empty();
     }
 
     @Nullable

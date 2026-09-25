@@ -4,9 +4,11 @@ import com.github.mim1q.minecells.registry.MineCellsStructureTypes;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomData;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.BetterPromenadeGridGenerator;
+import com.github.mim1q.minecells.structure.grid.generator.BlackBridgeGridGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.PrisonGridGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.PromenadeWallGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.RampartsGridGenerator;
+import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.List;
@@ -18,28 +20,31 @@ import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
+import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import org.slf4j.Logger;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class GridBasedStructure extends Structure {
-    public static final Codec<GridBasedStructure> PRISON_CODEC = createGridBasedStructureCodec(
-        ctx -> new PrisonGridGenerator(), () -> MineCellsStructureTypes.PRISON.get()
+    private static final Logger LOGGER = LogUtils.getLogger();
+
+    public static final Codec<GridBasedStructure> PRISON_CODEC = createMultipartGridBasedStructureCodec(
+        PrisonGridGenerator::new,
+        () -> MineCellsStructureTypes.PRISON.get()
     );
 
     public static final Codec<GridBasedStructure> PROMENADE_CODEC = createMultipartGridBasedStructureCodec(
         BetterPromenadeGridGenerator::new,
-        () -> MineCellsStructureTypes.PROMENADE.get(),
-        -32, -32, 4, 4
+        () -> MineCellsStructureTypes.PROMENADE.get()
     );
 
     public static final Codec<GridBasedStructure> PROMENADE_WALL_X_CODEC = createGridBasedStructureCodec(
@@ -53,10 +58,21 @@ public class GridBasedStructure extends Structure {
         ctx -> Math.abs(Math.floorMod(ctx.chunkPos().x, 64)) == 32 && Math.floorMod(ctx.chunkPos().z, 16) == 0
     );
     public static final Codec<GridBasedStructure> RAMPARTS_CODEC = createMultipartGridBasedStructureCodec(
-        (x, z) -> new RampartsGridGenerator(z),
-        () -> MineCellsStructureTypes.RAMPARTS.get(),
-        -12, -18, 1, 2
+        RampartsGridGenerator::new,
+        () -> MineCellsStructureTypes.RAMPARTS.get()
     );
+
+    public static final Codec<GridBasedStructure> BLACK_BRIDGE_CODEC = createMultipartGridBasedStructureCodec(
+        BlackBridgeGridGenerator::new,
+        () -> MineCellsStructureTypes.BLACK_BRIDGE.get()
+    );
+
+    public static Codec<GridBasedStructure> createMultipartGridBasedStructureCodec(
+        BiFunction<Integer, Integer, RoomGridGenerator> generatorProvider,
+        Supplier<StructureType<?>> typeSupplier
+    ) {
+        return createMultipartGridBasedStructureCodec(generatorProvider, typeSupplier, -32, -32, 4, 4);
+    }
 
     private final Function<GenerationContext, RoomGridGenerator> generatorProvider;
     private final HeightProvider heightProvider;
@@ -137,11 +153,16 @@ public class GridBasedStructure extends Structure {
         int z = chunkPos.z * 16;
         int y = this.heightProvider.sample(context.random(), null);
         int heightmapY = this.projectStartToHeightmap.map(
-            type -> context.chunkGenerator().getFirstFreeHeight(x + 8, z + 8, type, context.heightAccessor(), context.randomState())
+            type -> y + context.chunkGenerator().getFirstFreeHeight(x + 8, z + 8, type, context.heightAccessor(), context.randomState())
         ).orElse(0);
         BlockPos startPos = new BlockPos(x, y + heightmapY, z);
-        List<RoomData> roomDataList = GridPiecesGenerator.generateRoomData(context, this.getGenerator(context));
 
+        // Multipart layouts regenerate the whole run and keep only rooms inside this part's 16x16 cell slice,
+        // so most parts of a compact layout (e.g. Prison) are legitimately empty: no start for them.
+        List<RoomData> roomDataList = List.copyOf(GridPiecesGenerator.generateRoomData(context, this.getGenerator(context)));
+        if (roomDataList.isEmpty()) {
+            return Optional.empty();
+        }
         return Optional.of(new GenerationStub(startPos, builder -> this.addPieces(builder, roomDataList, startPos, context)));
     }
 
@@ -152,9 +173,18 @@ public class GridBasedStructure extends Structure {
         GenerationContext context
     ) {
         Registry<StructureTemplatePool> poolRegistry = context.registryAccess().registryOrThrow(Registries.TEMPLATE_POOL);
+        int totalPieces = 0;
+        int filledRooms = 0;
         for (RoomData data : roomDataList) {
-            Holder<StructureTemplatePool> pool = poolRegistry.getHolder(ResourceKey.create(Registries.TEMPLATE_POOL, data.poolId)).orElse(null);
+            if (Pools.EMPTY.location().equals(data.poolId)) {
+                continue;
+            }
+            filledRooms++;
+            Holder.Reference<StructureTemplatePool> pool = poolRegistry
+                .getHolder(ResourceKey.create(Registries.TEMPLATE_POOL, data.poolId))
+                .orElse(null);
             if (pool == null) {
+                LOGGER.warn("Mine Cells grid structure missing template pool: {}", data.poolId);
                 continue;
             }
 
@@ -162,13 +192,26 @@ public class GridBasedStructure extends Structure {
                 ? GridPiecesGenerator.getTerrainFitStart(data, startPos, this.projectStartToHeightmap, context, 16)
                 : startPos.offset(data.pos.multiply(16)).offset(data.offset);
 
-            MineCellsStructurePoolBasedGenerator.generate(
+            List<PoolElementStructurePiece> pieces = MineCellsStructurePoolBasedGenerator.collectPieces(
                 context,
                 pool,
                 8,
-                piecePos,
+                GridPiece.getStartingPos(piecePos, data.rotation, 16),
                 data.rotation
-            ).ifPresent(stub -> stub.getPiecesBuilder().build().pieces().forEach(builder::addPiece));
+            );
+            if (pieces.isEmpty()) {
+                LOGGER.warn("Mine Cells room pool expanded to 0 pieces: {} at {}", data.poolId, piecePos);
+                continue;
+            }
+            for (PoolElementStructurePiece piece : pieces) {
+                builder.addPiece(piece);
+                totalPieces++;
+            }
+        }
+        if (totalPieces == 0 && filledRooms > 0) {
+            // Vanilla turns an empty builder into StructureStart.INVALID_START for this chunk (not retried).
+            LOGGER.warn("Mine Cells grid structure had {} room(s) but no pool produced pieces (start={}, first pool={})",
+                roomDataList.size(), startPos, roomDataList.get(0).poolId);
         }
     }
 

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "minecells:putrid_log"
+    }
+  },
+  "result": {
+    "item": "minecells:putrid_wood",
+    "count": 1
+  },
+  "show_notification": true
+}

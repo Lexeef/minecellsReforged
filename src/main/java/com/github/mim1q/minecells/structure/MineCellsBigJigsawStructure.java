@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.structure;
 
 import com.github.mim1q.minecells.registry.MineCellsStructureTypes;
+import com.github.mim1q.minecells.structure.grid.MineCellsStructurePoolBasedGenerator;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.Optional;
@@ -11,7 +12,6 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
@@ -52,15 +52,13 @@ public class MineCellsBigJigsawStructure extends Structure {
     @Override
     protected Optional<GenerationStub> findGenerationPoint(GenerationContext context) {
         BlockPos pos = context.chunkPos().getWorldPosition().atY(this.startHeight.sample(context.random(), null));
-        return JigsawPlacement.addPieces(
+        // Match Fabric: custom generator (vanilla JigsawPlacement diverged and contributed to cut rooms).
+        return MineCellsStructurePoolBasedGenerator.generate(
             context,
             this.startPool,
-            Optional.empty(),
             this.size,
             pos,
-            false,
-            this.projectStartToHeightmap,
-            this.maxDistanceFromCenter
+            Rotation.NONE
         );
     }
 

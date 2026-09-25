@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecells:cracked_prison_bricks"
+    }
+  },
+  "result": {
+    "item": "minecells:cracked_prison_brick_wall",
+    "count": 6
+  },
+  "show_notification": true
+}

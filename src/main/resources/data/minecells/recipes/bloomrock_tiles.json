@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "minecells:bloomrock_bricks"
+    }
+  },
+  "result": {
+    "item": "minecells:bloomrock_tiles",
+    "count": 4
+  },
+  "show_notification": true
+}

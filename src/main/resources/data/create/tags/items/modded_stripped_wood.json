@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "minecells:stripped_putrid_wood"
+    {
+      "id": "minecells:stripped_putrid_wood",
+      "required": false
+    }
   ]
 }

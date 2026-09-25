@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "##",
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "minecells:putrid_planks"
+    }
+  },
+  "result": {
+    "item": "minecells:putrid_door",
+    "count": 3
+  },
+  "show_notification": true
+}

@@ -20,11 +20,17 @@ public class MineCellsMobEffect extends MobEffect {
         return this.appliesEveryTick;
     }
 
+    @org.jetbrains.annotations.Nullable
     public MineCellsEffectFlags flag() {
         return this.flag;
     }
 
     public boolean isIncurable() {
         return !curable;
+    }
+
+    @Override
+    public java.util.List<net.minecraft.world.item.ItemStack> getCurativeItems() {
+        return curable ? super.getCurativeItems() : new java.util.ArrayList<>();
     }
 }

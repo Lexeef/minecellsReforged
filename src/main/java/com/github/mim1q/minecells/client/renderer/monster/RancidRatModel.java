@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.client.renderer.monster;
 
 import com.github.mim1q.minecells.entity.MineCellsMonsterEntity;
+import com.github.mim1q.minecells.entity.RancidRatEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;
@@ -46,8 +47,8 @@ public class RancidRatModel extends EntityModel<MineCellsMonsterEntity> {
                 .texOffs(0, 0).addBox(-3.0F, -5.0F, -5.0F, 6.0F, 5.0F, 10.0F)
                 .texOffs(0, 15).addBox(-4.0F, -9.0F, 0.5F, 5.0F, 5.0F, 5.0F)
                 .texOffs(28, 15).addBox(1.0F, -6.0F, 1.5F, 3.0F, 3.0F, 3.0F)
-                .texOffs(22, 0).addBox(0.0F, -7.5F, -4.0F, 4.0F, 4.0F, 4.0F)
-                .texOffs(22, 0).mirror().addBox(-4.0F, -7.5F, -4.0F, 4.0F, 4.0F, 4.0F),
+                .addBox(-4.5F, -6.0F, -3.0F, 3.0F, 3.0F, 3.0F)
+                .texOffs(22, 0).addBox(0.0F, -7.5F, -4.0F, 4.0F, 4.0F, 4.0F),
             PartPose.offset(0.0F, -3.0F, 3.0F)
         );
         dBody.addOrReplaceChild(
@@ -70,18 +71,29 @@ public class RancidRatModel extends EntityModel<MineCellsMonsterEntity> {
     @Override
     public void setupAnim(MineCellsMonsterEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         MineCellsModelAnimationUtils.rotateHead(netHeadYaw, headPitch, this.head);
-        float walk = Mth.sin(limbSwing) * limbSwingAmount;
-        this.rightFrontLeg.xRot = walk * 0.8F;
+        this.rightFrontLeg.xRot = Mth.sin(limbSwing) * limbSwingAmount * 45.0F * Mth.DEG_TO_RAD;
         this.leftFrontLeg.xRot = -this.rightFrontLeg.xRot;
         this.rightHindLeg.xRot = -this.rightFrontLeg.xRot;
         this.leftHindLeg.xRot = this.rightFrontLeg.xRot;
-        this.body.xRot = walk * 0.18F;
+        this.body.xRot = Mth.sin(limbSwing) * limbSwingAmount * 10.0F * Mth.DEG_TO_RAD;
         this.root.y = 24.0F - Mth.abs(Mth.sin(limbSwing * 0.5F)) * limbSwingAmount;
 
-        float idleTail = 25.0F * Mth.DEG_TO_RAD;
-        this.tail[0].xRot = -idleTail + Mth.sin(ageInTicks * 0.2F) * 0.15F + walk * 0.2F;
-        this.tail[1].xRot = Mth.sin(ageInTicks * 0.2F - 1.0F) * 0.18F + idleTail * 0.6F;
-        this.tail[2].xRot = Mth.sin(ageInTicks * 0.2F - 2.0F) * 0.2F + idleTail * 0.6F;
+        float multiplier = 1.0F - limbSwingAmount;
+        for (int i = 0; i < 3; i++) {
+            this.tail[i].xRot = (float) Math.sin(ageInTicks * 0.5F - i) * 10.0F * Mth.DEG_TO_RAD * limbSwingAmount;
+            this.tail[i].xRot += (float) Math.sin(ageInTicks * 0.25F - i) * 5.0F * Mth.DEG_TO_RAD * multiplier;
+        }
+        this.tail[0].xRot -= 25.0F * Mth.DEG_TO_RAD * multiplier;
+        this.tail[1].xRot += 15.0F * Mth.DEG_TO_RAD * multiplier;
+        this.tail[2].xRot += 15.0F * Mth.DEG_TO_RAD * multiplier;
+
+        if (entity instanceof RancidRatEntity rat) {
+            rat.torsoRotation.update(ageInTicks);
+            float torso = rat.torsoRotation.getValue() * Mth.DEG_TO_RAD;
+            this.body.xRot += torso;
+            this.head.xRot -= torso;
+            this.tail[0].xRot -= torso;
+        }
     }
 
     @Override

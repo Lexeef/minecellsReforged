@@ -57,19 +57,15 @@ public final class MineCellsStructurePoolBasedGenerator {
         RandomSource random = context.random();
         Registry<StructureTemplatePool> registry = registryAccess.registryOrThrow(Registries.TEMPLATE_POOL);
         StructureTemplatePool startPool = structurePool.value();
+        if (startPool.size() == 0) {
+            return Optional.empty();
+        }
         StructurePoolElement element = startPool.getRandomTemplate(random);
         if (element == EmptyPoolElement.INSTANCE) {
             return Optional.empty();
         }
 
-        PoolElementStructurePiece firstPiece = new PoolElementStructurePiece(
-            structureTemplateManager,
-            element,
-            pos,
-            element.getGroundLevelDelta(),
-            rotation,
-            element.getBoundingBox(structureTemplateManager, pos, rotation)
-        );
+        PoolElementStructurePiece firstPiece = createStartPiece(structureTemplateManager, element, pos, rotation);
         BoundingBox box = firstPiece.getBoundingBox();
         int centerX = (box.maxX() + box.minX()) / 2;
         int centerZ = (box.maxZ() + box.minZ()) / 2;
@@ -84,10 +80,199 @@ public final class MineCellsStructurePoolBasedGenerator {
                     centerX + 129, centerY + 129, centerZ + 129
                 );
                 VoxelShape pieceShape = Shapes.join(Shapes.create(aabb), Shapes.create(AABB.of(box)), BooleanOp.ONLY_FIRST);
-                generate(context.randomState(), size, context, registry, firstPiece, pieces, pieceShape);
+                generate(context.randomState(), size, context, registry, firstPiece, pieces, pieceShape, random);
             }
             pieces.forEach(builder::addPiece);
         }));
+    }
+
+    /**
+     * Expand a start pool into concrete pieces with real bounding boxes (anti chunk-border void).
+     * Uses a per-room {@link RandomSource} so shared {@code context.random()} is not drained mid-dungeon.
+     */
+    public static List<PoolElementStructurePiece> collectPieces(
+        Structure.GenerationContext context,
+        Holder<StructureTemplatePool> structurePool,
+        int size,
+        BlockPos pos,
+        Rotation rotation
+    ) {
+        List<PoolElementStructurePiece> pieces = Lists.newArrayList();
+        Registry<StructureTemplatePool> registry = context.registryAccess().registryOrThrow(Registries.TEMPLATE_POOL);
+        StructureTemplatePool startPool = structurePool.value();
+        long roomSeed = context.seed()
+            ^ BlockPos.asLong(pos.getX(), pos.getY(), pos.getZ())
+            ^ structurePool.unwrapKey().map(key -> (long) key.location().hashCode()).orElse(0L);
+        RandomSource random = RandomSource.create(roomSeed);
+
+        if (startPool.size() == 0) {
+            return pieces;
+        }
+        StructurePoolElement element = startPool.getRandomTemplate(random);
+        if (element == EmptyPoolElement.INSTANCE) {
+            return pieces;
+        }
+
+        PoolElementStructurePiece firstPiece = createStartPiece(context.structureTemplateManager(), element, pos, rotation);
+        pieces.add(firstPiece);
+        if (size > 0) {
+            BoundingBox box = firstPiece.getBoundingBox();
+            int centerX = (box.maxX() + box.minX()) / 2;
+            int centerZ = (box.maxZ() + box.minZ()) / 2;
+            int centerY = pos.getY();
+            // Wider than one room cell so jigsaw children across the 16-block cell are not clipped.
+            AABB aabb = new AABB(
+                centerX - 160, centerY - 160, centerZ - 160,
+                centerX + 161, centerY + 161, centerZ + 161
+            );
+            VoxelShape pieceShape = Shapes.join(Shapes.create(aabb), Shapes.create(AABB.of(box)), BooleanOp.ONLY_FIRST);
+            generate(context.randomState(), size, context, registry, firstPiece, pieces, pieceShape, random);
+        }
+        return pieces;
+    }
+
+    /**
+     * @deprecated Live gen must use {@link #collectPieces} at structure-start. Do not place with
+     * {@link BoundingBox#infinite()} — that wrote across chunk borders and left voids.
+     * Legacy {@link GridPiece} now places with the chunk box only.
+     */
+    @Deprecated
+    public static void generateInWorld(
+        net.minecraft.world.level.WorldGenLevel level,
+        net.minecraft.world.level.chunk.ChunkGenerator chunkGenerator,
+        RegistryAccess registryAccess,
+        StructureTemplateManager structureTemplateManager,
+        net.minecraft.world.level.StructureManager structureManager,
+        RandomState randomState,
+        RandomSource random,
+        int seed,
+        Holder<StructureTemplatePool> structurePool,
+        int size,
+        BlockPos pos,
+        Rotation rotation,
+        BoundingBox placeBox
+    ) {
+        RandomState resolvedState = randomState != null ? randomState : level.getLevel().getChunkSource().randomState();
+        Structure.GenerationContext context = new Structure.GenerationContext(
+            registryAccess,
+            chunkGenerator,
+            chunkGenerator.getBiomeSource(),
+            resolvedState,
+            structureTemplateManager,
+            seed,
+            new net.minecraft.world.level.ChunkPos(pos),
+            level,
+            holder -> true
+        );
+        BoundingBox box = placeBox != null ? placeBox : new BoundingBox(pos);
+        for (PoolElementStructurePiece poolPiece : collectPieces(context, structurePool, size, pos, rotation)) {
+            poolPiece.place(level, structureManager, chunkGenerator, random, box, pos, false);
+        }
+    }
+
+    public static boolean placeFeature(
+        net.minecraft.world.level.WorldGenLevel level,
+        net.minecraft.world.level.chunk.ChunkGenerator chunkGenerator,
+        RandomSource random,
+        Holder<StructureTemplatePool> structurePool,
+        int size,
+        BlockPos pos,
+        Rotation rotation
+    ) {
+        net.minecraft.server.level.ServerLevel serverLevel = level.getLevel();
+        Structure.GenerationContext context = new Structure.GenerationContext(
+            level.registryAccess(),
+            chunkGenerator,
+            chunkGenerator.getBiomeSource(),
+            serverLevel.getChunkSource().randomState(),
+            serverLevel.getStructureManager(),
+            (int) level.getSeed(),
+            new net.minecraft.world.level.ChunkPos(pos),
+            level,
+            holder -> true
+        );
+        Optional<Structure.GenerationStub> stub = generate(context, structurePool, size, pos, rotation);
+        if (stub.isEmpty()) {
+            return false;
+        }
+        net.minecraft.world.level.ChunkPos center = level instanceof net.minecraft.server.level.WorldGenRegion region
+            ? region.getCenter()
+            : new net.minecraft.world.level.ChunkPos(pos);
+        BoundingBox writableBox = new BoundingBox(
+            center.getMinBlockX() - 16, level.getMinBuildHeight(), center.getMinBlockZ() - 16,
+            center.getMaxBlockX() + 16, level.getMaxBuildHeight() - 1, center.getMaxBlockZ() + 16
+        );
+        for (var piece : stub.get().getPiecesBuilder().build().pieces()) {
+            if (piece instanceof PoolElementStructurePiece poolPiece) {
+                poolPiece.place(level, serverLevel.structureManager(), chunkGenerator, random, writableBox, pos, false);
+            }
+        }
+        return true;
+    }
+
+    /** @deprecated Prefer overload with an explicit chunk {@link BoundingBox}. */
+    @Deprecated
+    public static void generateInWorld(
+        net.minecraft.world.level.WorldGenLevel level,
+        net.minecraft.world.level.chunk.ChunkGenerator chunkGenerator,
+        RegistryAccess registryAccess,
+        StructureTemplateManager structureTemplateManager,
+        net.minecraft.world.level.StructureManager structureManager,
+        RandomState randomState,
+        RandomSource random,
+        int seed,
+        Holder<StructureTemplatePool> structurePool,
+        int size,
+        BlockPos pos,
+        Rotation rotation
+    ) {
+        generateInWorld(
+            level, chunkGenerator, registryAccess, structureTemplateManager, structureManager,
+            randomState, random, seed, structurePool, size, pos, rotation, new BoundingBox(pos)
+        );
+    }
+
+    private static PoolElementStructurePiece createStartPiece(
+        StructureTemplateManager structureTemplateManager,
+        StructurePoolElement element,
+        BlockPos pos,
+        Rotation rotation
+    ) {
+        PoolElementStructurePiece piece = new PoolElementStructurePiece(
+            structureTemplateManager,
+            element,
+            pos,
+            element.getGroundLevelDelta(),
+            rotation,
+            element.getBoundingBox(structureTemplateManager, pos, rotation)
+        );
+        piece.move(0, pos.getY() - (piece.getBoundingBox().minY() + piece.getGroundLevelDelta()), 0);
+        return piece;
+    }
+
+    private static void generate(
+        RandomState randomState,
+        int maxSize,
+        Structure.GenerationContext context,
+        Registry<StructureTemplatePool> structurePoolRegistry,
+        PoolElementStructurePiece firstPiece,
+        List<PoolElementStructurePiece> pieces,
+        VoxelShape pieceShape,
+        RandomSource random
+    ) {
+        StructurePoolGenerator generator = new StructurePoolGenerator(
+            structurePoolRegistry,
+            maxSize,
+            context,
+            pieces,
+            random
+        );
+        generator.structurePieces.addLast(new ShapedPoolStructurePiece(firstPiece, new MutableObject<>(pieceShape), 0));
+
+        while (!generator.structurePieces.isEmpty()) {
+            ShapedPoolStructurePiece shapedPiece = generator.structurePieces.removeFirst();
+            generator.generatePiece(shapedPiece.piece, shapedPiece.pieceShape, shapedPiece.currentSize, context.heightAccessor(), randomState);
+        }
     }
 
     private static void generate(
@@ -99,19 +284,7 @@ public final class MineCellsStructurePoolBasedGenerator {
         List<PoolElementStructurePiece> pieces,
         VoxelShape pieceShape
     ) {
-        StructurePoolGenerator generator = new StructurePoolGenerator(
-            structurePoolRegistry,
-            maxSize,
-            context,
-            pieces,
-            context.random()
-        );
-        generator.structurePieces.addLast(new ShapedPoolStructurePiece(firstPiece, new MutableObject<>(pieceShape), 0));
-
-        while (!generator.structurePieces.isEmpty()) {
-            ShapedPoolStructurePiece shapedPiece = generator.structurePieces.removeFirst();
-            generator.generatePiece(shapedPiece.piece, shapedPiece.pieceShape, shapedPiece.currentSize, context.heightAccessor(), randomState);
-        }
+        generate(randomState, maxSize, context, structurePoolRegistry, firstPiece, pieces, pieceShape, context.random());
     }
 
     private static final class StructurePoolGenerator {

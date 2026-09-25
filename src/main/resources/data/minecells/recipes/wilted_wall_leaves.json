@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "decorations",
+  "pattern": [
+    " # ",
+    "# #",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "item": "minecells:wilted_leaves"
+    }
+  },
+  "result": {
+    "item": "minecells:wilted_wall_leaves",
+    "count": 8
+  },
+  "show_notification": true
+}

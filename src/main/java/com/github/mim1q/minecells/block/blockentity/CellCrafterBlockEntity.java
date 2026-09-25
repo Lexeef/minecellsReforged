@@ -69,7 +69,7 @@ public class CellCrafterBlockEntity extends MineCellsBlockEntity implements Menu
                 level.playSound(null, pos, MineCellsSounds.BUZZ.get(), SoundSource.BLOCKS, 0.2f, 0.8f + level.random.nextFloat() * 0.4f);
             }
             ((ServerLevel) level).sendParticles(
-                MineCellsParticles.ELECTRICITY.get().get(Vec3.ZERO.add(level.random.nextGaussian(), level.random.nextGaussian(), level.random.nextGaussian()), 1, 0xFFFFFF, 0.5f),
+                MineCellsParticles.ELECTRICITY.get().get(Vec3.ZERO.offsetRandom(level.random, 1.0f), 1, 0xFFFFFF, 0.5f),
                 pos.getX() + 0.5, pos.getY() + 0.9, pos.getZ() + 0.5, 1,
                 0, 0, 0, 0
             );
@@ -79,11 +79,7 @@ public class CellCrafterBlockEntity extends MineCellsBlockEntity implements Menu
                 0.5, 0, 0.5, 0.01
             );
             setCooldown(cooldown - 1);
-            updateStatus(level, pos, state, CellCrafterBlock.Status.CRAFTING);
-            return;
-        }
-
-        if (!craftedItems.isEmpty()) {
+        } else if (!craftedItems.isEmpty()) {
             ItemStack next = craftedItems.poll();
             Block.popResource(level, pos.above(), next);
             setCooldown(10);
@@ -94,16 +90,8 @@ public class CellCrafterBlockEntity extends MineCellsBlockEntity implements Menu
                 0.2, 0.2, 0.2, 0.02
             );
             setChanged();
-            updateStatus(level, pos, state, CellCrafterBlock.Status.CRAFTING);
-            return;
-        }
-
-        updateStatus(level, pos, state, CellCrafterBlock.Status.IDLE);
-    }
-
-    private void updateStatus(Level level, BlockPos pos, BlockState state, CellCrafterBlock.Status status) {
-        if (state.getValue(CellCrafterBlock.STATUS) != status) {
-            level.setBlock(pos, state.setValue(CellCrafterBlock.STATUS, status), Block.UPDATE_CLIENTS);
+        } else if (state.getValue(CellCrafterBlock.STATUS) == CellCrafterBlock.Status.CRAFTING) {
+            level.setBlockAndUpdate(pos, state.setValue(CellCrafterBlock.STATUS, CellCrafterBlock.Status.IDLE));
         }
     }
 

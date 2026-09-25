@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=north,standing=false": {
+      "model": "minecells:block/ancient_sewers_torch"
+    },
+    "facing=east,standing=false": {
+      "model": "minecells:block/ancient_sewers_torch",
+      "y": 90
+    },
+    "facing=south,standing=false": {
+      "model": "minecells:block/ancient_sewers_torch",
+      "y": 180
+    },
+    "facing=west,standing=false": {
+      "model": "minecells:block/ancient_sewers_torch",
+      "y": 270
+    },
+    "standing=true": {
+      "model": "minecells:block/ancient_sewers_torch_standing"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "minecells:septite"
+  },
+  "result": "minecells:septite_wall",
+  "count": 1
+}

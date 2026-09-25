@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "minecells:cracked_bloomrock_bricks"
+  },
+  "result": "minecells:cracked_bloomrock_brick_slab",
+  "count": 2
+}

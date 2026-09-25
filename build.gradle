@@ -9,7 +9,7 @@ version = mod_version
 group = mod_group_id
 
 base {
-    archivesName = mod_id
+    archivesName = archives_name
 }
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
@@ -74,6 +74,10 @@ minecraft {
             // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
             property 'forge.logging.console.level', 'debug'
 
+            // Needed for mixin-based runtime mods (e.g. Better Combat via -PwithBetterCombat) in the dev environment.
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+
             mods {
                 "${mod_id}" {
                     source sourceSets.main
@@ -120,6 +124,44 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
+    maven {
+        name = 'TerraformersMC'
+        url = 'https://maven.terraformersmc.com/'
+        content {
+            includeGroup 'dev.emi'
+        }
+    }
+    maven {
+        name = 'BlameJared'
+        url = 'https://maven.blamejared.com/'
+        content {
+            includeGroup 'vazkii.patchouli'
+            includeGroup 'mezz.jei'
+        }
+    }
+    maven {
+        name = 'Shedaniel'
+        url = 'https://maven.shedaniel.me/'
+        content {
+            includeGroup 'me.shedaniel'
+            includeGroup 'me.shedaniel.cloth'
+            includeGroup 'dev.architectury'
+        }
+    }
+    maven {
+        name = 'Modrinth'
+        url = 'https://api.modrinth.com/maven'
+        content {
+            includeGroup 'maven.modrinth'
+        }
+    }
+    maven {
+        name = 'Architectury'
+        url = 'https://maven.architectury.dev/'
+        content {
+            includeGroup 'dev.architectury'
+        }
+    }
 }
 
 dependencies {
@@ -141,6 +183,23 @@ dependencies {
     // The group id is ignored when searching -- in this case, it is "blank"
     // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
 
+    // Optional EMI integration (cell crafter recipe category); compile-time API only.
+    compileOnly fg.deobf("dev.emi:emi-forge:${emi_version}:api")
+    // Optional JEI / REI integration (cell crafter, doorway crafting, blood bottle); compile-time API only.
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+    compileOnly fg.deobf("me.shedaniel:RoughlyEnoughItems-api-forge:${rei_version}") { transitive = false }
+    compileOnly fg.deobf("me.shedaniel:RoughlyEnoughItems-default-plugin-forge:${rei_version}") { transitive = false }
+    compileOnly fg.deobf("dev.architectury:architectury-forge:${architectury_version}") { transitive = false }
+    compileOnly "me.shedaniel.cloth:basic-math:0.6.1"
+    // Better Combat compatibility is data-only (data/minecells/weapon_attributes); pass -PwithBetterCombat to test it in dev runs.
+    if (project.hasProperty('withBetterCombat')) {
+        runtimeOnly fg.deobf("maven.modrinth:better-combat:1.9.0+1.20.1-forge")
+        runtimeOnly fg.deobf("maven.modrinth:playeranimator:1.0.2-rc1+1.20-forge")
+        runtimeOnly fg.deobf("me.shedaniel.cloth:cloth-config-forge:11.1.136")
+    }
+    // Optional Patchouli guidebook components; only loaded by Patchouli itself.
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.20.1-85-FORGE")
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
@@ -164,21 +223,13 @@ tasks.named('processResources', ProcessResources).configure {
         expand replaceProperties + [project: project]
     }
 
-    exclude 'data/minecells/advancements/**'
-    exclude 'data/minecells/loot_tables/advancements/**'
-    exclude 'data/minecells/patchouli_books/**'
-    exclude 'data/minecells/recipes/compat/**'
-    exclude 'data/minecells/recipes/minecells_guidebook.json'
-    exclude 'data/minecells/value_calculators/**'
-    exclude 'data/minecells/weapon_attributes/**'
+    // Loot tables can't carry Forge conditions; the guidebook reward is given in PatchouliCompat instead.
+    exclude 'data/minecells/loot_tables/advancements/book.json'
+    // Fabric-only mods; the Forge builds of Create, FTB Chunks and Supplementaries read the same tags as on Fabric.
     exclude 'data/bewitchment/**'
-    exclude 'data/c/**'
-    exclude 'data/create/**'
-    exclude 'data/ftbchunks/**'
-    exclude 'data/minecraft/tags/blocks/**'
-    exclude 'data/minecraft/tags/fluids/**'
     exclude 'data/rpgdifficulty/**'
-    exclude 'data/supplementaries/**'
+    // Forge fluids get swimming/drowning from FluidType; adding sewage to #minecraft:water would make it behave like water everywhere.
+    exclude 'data/minecraft/tags/fluids/**'
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

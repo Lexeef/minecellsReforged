@@ -1,21 +1,16 @@
 package com.github.mim1q.minecells.entity;
 
-import com.github.mim1q.minecells.registry.MineCellsParticles;
-import com.github.mim1q.minecells.registry.MineCellsSounds;
-import net.minecraft.core.particles.ParticleTypes;
+import com.github.mim1q.minecells.util.MineCellsExplosion;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class GrenadeProjectileEntity extends Projectile {
@@ -23,16 +18,21 @@ public class GrenadeProjectileEntity extends Projectile {
 
     private Vec3 shootVector = Vec3.ZERO;
     private boolean shouldResetVelocity;
-    private float damage = 10.0F;
-    private float radius = 6.0F;
+    protected float damage = 10.0F;
+    protected float radius = 6.0F;
 
     public GrenadeProjectileEntity(EntityType<? extends GrenadeProjectileEntity> type, Level level) {
         super(type, level);
     }
 
+    /** Called from {@link #defineSynchedData()} during construction, so it must not rely on subclass fields. */
+    public int getMaxFuse() {
+        return 10 + random.nextInt(5);
+    }
+
     @Override
     protected void defineSynchedData() {
-        entityData.define(FUSE, 10 + random.nextInt(5));
+        entityData.define(FUSE, getMaxFuse());
     }
 
     public void shoot(Vec3 velocity) {
@@ -61,32 +61,17 @@ public class GrenadeProjectileEntity extends Projectile {
                 return;
             }
             setDeltaMovement(getDeltaMovement().add(0.0D, -0.04D, 0.0D));
-        } else {
-            level().addParticle(MineCellsParticles.CHARGE.get(), getX(), getY(), getZ(), 0.0D, 0.0D, 0.0D);
         }
 
         move(MoverType.SELF, getDeltaMovement());
     }
 
-    private void explode() {
+    public void explode() {
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        Vec3 center = position();
-        AABB range = AABB.ofSize(center, radius * 2.0D, radius * 2.0D, radius * 2.0D);
-        Entity owner = getOwner();
-        for (LivingEntity living : level().getEntitiesOfClass(LivingEntity.class, range, target -> target.isAlive() && target != owner && !(target instanceof MineCellsMonsterEntity))) {
-            double distance = Math.sqrt(living.distanceToSqr(center));
-            if (distance > radius) {
-                continue;
-            }
-            float scaledDamage = (float) (damage * (1.0D - distance / radius));
-            if (scaledDamage > 0.0F) {
-                living.hurt(damageSources().mobProjectile(this, owner instanceof LivingEntity livingOwner ? livingOwner : null), scaledDamage);
-            }
-        }
-        serverLevel.sendParticles(ParticleTypes.EXPLOSION, getX(), getY(), getZ(), 4, 0.25D, 0.25D, 0.25D, 0.02D);
-        serverLevel.playSound(null, blockPosition(), MineCellsSounds.EXPLOSION.get(), SoundSource.HOSTILE, 0.8F, 1.0F);
+        LivingEntity attacker = getOwner() instanceof LivingEntity living ? living : null;
+        MineCellsExplosion.explode(serverLevel, this, attacker, position(), damage, radius);
     }
 
     public int getFuse() {
@@ -99,11 +84,13 @@ public class GrenadeProjectileEntity extends Projectile {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
         setFuse(tag.getInt("fuse"));
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
         tag.putInt("fuse", getFuse());
     }
 }

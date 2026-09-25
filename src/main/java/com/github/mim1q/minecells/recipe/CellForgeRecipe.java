@@ -154,7 +154,7 @@ public record CellForgeRecipe(
             return switch (this) {
                 case GEAR -> new ItemStack(MineCellsItems.BLOOD_SWORD.get());
                 case DECORATION -> new ItemStack(MineCellsBlocks.KINGS_CREST_FLAG.get().asItem());
-                case OTHER -> new ItemStack(MineCellsItems.RESET_RUNE.get());
+                case OTHER -> new ItemStack(MineCellsItems.CONCIERGE_RESPAWN_RUNE.get());
             };
         }
 

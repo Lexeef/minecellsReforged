@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "top": "minecells:block/cobbled_ancient_septite",
+    "side": "minecells:block/cobbled_ancient_septite",
+    "bottom": "minecells:block/cobbled_ancient_septite"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecells:cobbled_septite"
+    }
+  },
+  "result": {
+    "item": "minecells:cobbled_septite_stairs",
+    "count": 4
+  },
+  "show_notification": true
+}

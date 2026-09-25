@@ -5,34 +5,109 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Supplier;
+
 public final class MineCellsCreativeTabs {
-    private static final ResourceLocation GROUP_BACKGROUND = MineCells.id("textures/gui/group.png");
-    private static final ResourceLocation TABS_TEXTURE = MineCells.id("textures/gui/tabs.png");
-    private static final int TAB_LABEL_COLOR = 0x46D4FF;
+    public static final ResourceLocation BACKGROUND = MineCells.id("textures/gui/group.png");
+    public static final ResourceLocation TABS_IMAGE = MineCells.id("textures/gui/creative_tabs.png");
+    public static final ResourceLocation BUTTONS = MineCells.id("textures/gui/tabs.png");
+    public static final int TAB_TITLE_COLOR = 0x46D4FF;
 
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MineCells.MOD_ID);
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS =
+        DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MineCells.MOD_ID);
 
-    public static final RegistryObject<CreativeModeTab> GENERAL = CREATIVE_TABS.register("minecells_general", () -> baseBuilder("general")
-        .icon(() -> new ItemStack(MineCellsBlocks.WILTED_LEAVES.get()))
-        .withSearchBar(89)
-        .displayItems((parameters, output) -> addGeneralItems(output))
+    public static final RegistryObject<CreativeModeTab> MINECELLS = CREATIVE_TABS.register("minecells", () -> CreativeModeTab.builder()
+        .title(Component.translatable("itemGroup.minecells.minecells").withStyle(style -> style.withColor(TAB_TITLE_COLOR)))
+        .icon(() -> new ItemStack(MineCellsItems.MONSTER_CELL.get()))
+        .withBackgroundLocation(BACKGROUND)
+        .withTabsImage(TABS_IMAGE)
+        .hideTitle()
+        .displayItems(MineCellsCreativeTabs::displayItems)
         .build());
 
-    public static final RegistryObject<CreativeModeTab> COMBAT = CREATIVE_TABS.register("minecells_combat", () -> baseBuilder("combat")
-        .icon(() -> new ItemStack(MineCellsItems.BLOOD_SWORD.get()))
-        .displayItems((parameters, output) -> addCombatItems(output))
-        .build());
+    public static final List<SubTab> SUB_TABS = List.of(
+        new SubTab("general", () -> new ItemStack(MineCellsBlocks.WILTED_WALL_LEAVES.get())),
+        new SubTab("combat", () -> new ItemStack(MineCellsItems.BLOOD_SWORD.get())),
+        new SubTab("spawn_eggs", () -> new ItemStack(MineCellsItems.GRENADIER_SPAWN_EGG.get()))
+    );
 
-    public static final RegistryObject<CreativeModeTab> SPAWN_EGGS = CREATIVE_TABS.register("minecells_spawn_eggs", () -> baseBuilder("spawn_eggs")
-        .icon(() -> new ItemStack(MineCellsItems.GRENADIER_SPAWN_EGG.get()))
-        .displayItems((parameters, output) -> addSpawnEggItems(output))
-        .build());
+    private static final boolean[] ACTIVE_SUB_TABS = {true, true, true};
+
+    private static final List<String> GENERAL_ORDER = List.of(
+        "prison_doorway", "promenade_doorway", "ramparts_doorway", "insufferable_crypt_doorway", "black_bridge_doorway",
+        "prison_stone", "prison_stone_stairs", "prison_stone_slab", "prison_stone_wall", "prison_stone_pressure_plate", "prison_stone_button",
+        "prison_cobblestone", "prison_cobblestone_stairs", "prison_cobblestone_slab", "prison_cobblestone_wall",
+        "prison_bricks", "prison_brick_stairs", "prison_brick_slab", "prison_brick_wall",
+        "cracked_prison_bricks", "cracked_prison_brick_stairs", "cracked_prison_brick_slab", "cracked_prison_brick_wall",
+        "small_prison_bricks", "small_prison_brick_stairs", "small_prison_brick_slab", "small_prison_brick_wall",
+        "wilted_grass_block",
+        "bloomrock", "bloomrock_stairs", "bloomrock_slab", "bloomrock_wall",
+        "bloomrock_bricks", "bloomrock_brick_stairs", "bloomrock_brick_slab", "bloomrock_brick_wall",
+        "cracked_bloomrock_bricks", "cracked_bloomrock_brick_stairs", "cracked_bloomrock_brick_slab", "cracked_bloomrock_brick_wall",
+        "bloomrock_tiles", "bloomrock_tile_stairs", "bloomrock_tile_slab", "bloomrock_tile_wall",
+        "bloomrock_wilted_grass_block",
+        "septite", "septite_stairs", "septite_slab", "septite_wall",
+        "cobbled_septite", "cobbled_septite_stairs", "cobbled_septite_slab", "cobbled_septite_wall",
+        "polished_septite", "polished_septite_stairs", "polished_septite_slab", "polished_septite_wall",
+        "septite_bricks", "septite_brick_stairs", "septite_brick_slab", "septite_brick_wall",
+        "small_septite_bricks", "small_septite_brick_stairs", "small_septite_brick_slab", "small_septite_brick_wall",
+        "ancient_septite", "ancient_septite_stairs", "ancient_septite_slab", "ancient_septite_wall",
+        "cobbled_ancient_septite", "cobbled_ancient_septite_stairs", "cobbled_ancient_septite_slab", "cobbled_ancient_septite_wall",
+        "polished_ancient_septite", "polished_ancient_septite_stairs", "polished_ancient_septite_slab", "polished_ancient_septite_wall",
+        "ancient_septite_bricks", "ancient_septite_brick_stairs", "ancient_septite_brick_slab", "ancient_septite_brick_wall",
+        "small_ancient_septite_bricks", "small_ancient_septite_brick_stairs", "small_ancient_septite_brick_slab", "small_ancient_septite_brick_wall",
+        "putrid_planks", "putrid_log", "stripped_putrid_log", "putrid_wood", "stripped_putrid_wood", "putrid_stairs", "putrid_slab",
+        "putrid_door", "putrid_trapdoor", "putrid_fence", "putrid_fence_gate", "putrid_button", "putrid_pressure_plate", "putrid_sign",
+        "arrow_sign",
+        "putrid_boards",
+        "putrid_board_block", "putrid_board_stairs", "putrid_board_slab",
+        "wilted_leaves", "wilted_wall_leaves", "wilted_hanging_leaves", "putrid_sapling",
+        "orange_wilted_leaves", "orange_wilted_wall_leaves", "orange_wilted_hanging_leaves", "orange_putrid_sapling",
+        "red_wilted_leaves", "red_wilted_wall_leaves", "red_wilted_hanging_leaves", "red_putrid_sapling",
+        "crate", "small_crate", "brittle_barrel", "king_statue", "skeleton", "rotting_corpse", "corpse",
+        "elevator_assembler", "cell_crafter", "hardstone", "chain_pile_block", "chain_pile", "big_chain",
+        "cage", "broken_cage", "spikes", "flag_pole"
+    );
+
+    private static final List<String> GENERAL_ORDER_AFTER_FLAGS = List.of(
+        "alchemy_equipment_0", "alchemy_equipment_1", "alchemy_equipment_2",
+        "prison_torch", "promenade_torch", "ramparts_torch",
+        "sewage_bucket", "ancient_sewage_bucket", "elevator_mechanism", "health_flask",
+        "conjunctivius_respawn_rune", "concierge_respawn_rune", "vine_rune",
+        "monster_cell", "boss_stem_cell", "cell_holder", "guts", "monsters_eye", "explosive_bulb", "infected_flesh",
+        "cell_infused_steel", "metal_shards", "buzzcutter_fang", "molten_chunk", "sewer_calamari", "cooked_sewer_calamari",
+        "transposition_core", "blood_bottle", "arcane_goo"
+    );
+
+    private static final List<String> COMBAT_ORDER = List.of(
+        "assassins_dagger", "blood_sword", "broadsword", "balanced_blade", "crowbar", "nutcracker", "cursed_sword",
+        "hattoris_katana", "tentacle", "frost_blast", "spite_sword", "flint", "phaser",
+        "multiple_nocks_bow", "bow_and_endless_quiver", "marksmans_bow", "infantry_bow", "quick_bow", "ice_bow", "nerves_of_steel",
+        "ice_arrow",
+        "heavy_crossbow", "explosive_crossbow",
+        "explosive_bolt",
+        "electric_whip", "lightning_bolt", "throwing_knife", "firebrands",
+        "cudgel", "rampart", "assault_shield", "bloodthirsty_shield", "greed_shield", "ice_shield"
+    );
+
+    private static final List<String> SPAWN_EGG_ORDER = List.of(
+        "leaping_zombie_spawn_egg", "shocker_spawn_egg", "grenadier_spawn_egg", "disgusting_worm_spawn_egg",
+        "inquisitor_spawn_egg", "kamikaze_spawn_egg", "protector_spawn_egg", "undead_archer_spawn_egg",
+        "shieldbearer_spawn_egg", "mutated_bat_spawn_egg", "sewers_tentacle_spawn_egg", "rancid_rat_spawn_egg",
+        "runner_spawn_egg", "scorpion_spawn_egg", "buzzcutter_spawn_egg", "sweeper_spawn_egg"
+    );
 
     private MineCellsCreativeTabs() {
     }
@@ -41,212 +116,93 @@ public final class MineCellsCreativeTabs {
         CREATIVE_TABS.register(eventBus);
     }
 
-    private static CreativeModeTab.Builder baseBuilder(String titleKeySuffix) {
-        return CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.minecells.minecells.tab." + titleKeySuffix))
-            .withBackgroundLocation(GROUP_BACKGROUND)
-            .withTabsImage(TABS_TEXTURE)
-            .withLabelColor(TAB_LABEL_COLOR);
+    public static boolean isSubTabActive(int index) {
+        return ACTIVE_SUB_TABS[index];
     }
 
-    private static void addGeneralItems(CreativeModeTab.Output output) {
-        add(output,
-            MineCellsBlocks.PRISON_DOORWAY.get(),
-            MineCellsBlocks.PROMENADE_DOORWAY.get(),
-            MineCellsBlocks.RAMPARTS_DOORWAY.get(),
-            MineCellsBlocks.INSUFFERABLE_CRYPT_DOORWAY.get(),
-            MineCellsBlocks.BLACK_BRIDGE_DOORWAY.get(),
-            MineCellsItems.PRISON_DIMENSIONAL_RUNE.get(),
-            MineCellsItems.PROMENADE_DIMENSIONAL_RUNE.get(),
-            MineCellsItems.RAMPARTS_DIMENSIONAL_RUNE.get(),
-            MineCellsItems.INSUFFERABLE_CRYPT_DIMENSIONAL_RUNE.get(),
-            MineCellsItems.BLACK_BRIDGE_DIMENSIONAL_RUNE.get(),
-            MineCellsBlocks.PRISON_STONE.get(),
-            MineCellsBlocks.PRISON_STONE_STAIRS.get(),
-            MineCellsBlocks.PRISON_STONE_SLAB.get(),
-            MineCellsBlocks.PRISON_STONE_WALL.get(),
-            MineCellsBlocks.PRISON_STONE_PRESSURE_PLATE.get(),
-            MineCellsBlocks.PRISON_STONE_BUTTON.get(),
-            MineCellsBlocks.PRISON_COBBLESTONE.get(),
-            MineCellsBlocks.PRISON_COBBLESTONE_STAIRS.get(),
-            MineCellsBlocks.PRISON_COBBLESTONE_SLAB.get(),
-            MineCellsBlocks.PRISON_COBBLESTONE_WALL.get(),
-            MineCellsBlocks.PRISON_BRICKS.get(),
-            MineCellsBlocks.PRISON_BRICK_STAIRS.get(),
-            MineCellsBlocks.PRISON_BRICK_SLAB.get(),
-            MineCellsBlocks.PRISON_BRICK_WALL.get(),
-            MineCellsBlocks.CRACKED_PRISON_BRICKS.get(),
-            MineCellsBlocks.CRACKED_PRISON_BRICK_STAIRS.get(),
-            MineCellsBlocks.CRACKED_PRISON_BRICK_SLAB.get(),
-            MineCellsBlocks.CRACKED_PRISON_BRICK_WALL.get(),
-            MineCellsBlocks.SMALL_PRISON_BRICKS.get(),
-            MineCellsBlocks.SMALL_PRISON_BRICK_STAIRS.get(),
-            MineCellsBlocks.SMALL_PRISON_BRICK_SLAB.get(),
-            MineCellsBlocks.SMALL_PRISON_BRICK_WALL.get(),
-            MineCellsBlocks.WILTED_GRASS_BLOCK.get(),
-            MineCellsBlocks.BLOOMROCK.get(),
-            MineCellsBlocks.BLOOMROCK_STAIRS.get(),
-            MineCellsBlocks.BLOOMROCK_SLAB.get(),
-            MineCellsBlocks.BLOOMROCK_WALL.get(),
-            MineCellsBlocks.BLOOMROCK_BRICKS.get(),
-            MineCellsBlocks.BLOOMROCK_BRICK_STAIRS.get(),
-            MineCellsBlocks.BLOOMROCK_BRICK_SLAB.get(),
-            MineCellsBlocks.BLOOMROCK_BRICK_WALL.get(),
-            MineCellsBlocks.CRACKED_BLOOMROCK_BRICKS.get(),
-            MineCellsBlocks.CRACKED_BLOOMROCK_BRICK_STAIRS.get(),
-            MineCellsBlocks.CRACKED_BLOOMROCK_BRICK_SLAB.get(),
-            MineCellsBlocks.CRACKED_BLOOMROCK_BRICK_WALL.get(),
-            MineCellsBlocks.BLOOMROCK_TILES.get(),
-            MineCellsBlocks.BLOOMROCK_TILE_STAIRS.get(),
-            MineCellsBlocks.BLOOMROCK_TILE_SLAB.get(),
-            MineCellsBlocks.BLOOMROCK_TILE_WALL.get(),
-            MineCellsBlocks.BLOOMROCK_WILTED_GRASS_BLOCK.get(),
-            MineCellsBlocks.PUTRID_PLANKS.get(),
-            MineCellsBlocks.PUTRID_LOG.get(),
-            MineCellsBlocks.STRIPPED_PUTRID_LOG.get(),
-            MineCellsBlocks.PUTRID_WOOD.get(),
-            MineCellsBlocks.STRIPPED_PUTRID_WOOD.get(),
-            MineCellsBlocks.PUTRID_STAIRS.get(),
-            MineCellsBlocks.PUTRID_SLAB.get(),
-            MineCellsBlocks.PUTRID_FENCE.get(),
-            MineCellsBlocks.PUTRID_FENCE_GATE.get(),
-            MineCellsBlocks.PUTRID_DOOR.get(),
-            MineCellsBlocks.PUTRID_TRAPDOOR.get(),
-            MineCellsBlocks.PUTRID_BUTTON.get(),
-            MineCellsBlocks.PUTRID_PRESSURE_PLATE.get(),
-            MineCellsBlocks.ARROW_SIGN.get(),
-            MineCellsBlocks.PUTRID_BOARDS.get(),
-            MineCellsBlocks.PUTRID_BOARD_BLOCK.get(),
-            MineCellsBlocks.PUTRID_BOARD_STAIRS.get(),
-            MineCellsBlocks.PUTRID_BOARD_SLAB.get(),
-            MineCellsBlocks.WILTED_LEAVES.get(),
-            MineCellsBlocks.WILTED_WALL_LEAVES.get(),
-            MineCellsBlocks.WILTED_HANGING_LEAVES.get(),
-            MineCellsBlocks.PUTRID_SAPLING.get(),
-            MineCellsBlocks.ORANGE_WILTED_LEAVES.get(),
-            MineCellsBlocks.ORANGE_WILTED_WALL_LEAVES.get(),
-            MineCellsBlocks.ORANGE_WILTED_HANGING_LEAVES.get(),
-            MineCellsBlocks.ORANGE_PUTRID_SAPLING.get(),
-            MineCellsBlocks.RED_WILTED_LEAVES.get(),
-            MineCellsBlocks.RED_WILTED_WALL_LEAVES.get(),
-            MineCellsBlocks.RED_WILTED_HANGING_LEAVES.get(),
-            MineCellsBlocks.RED_PUTRID_SAPLING.get(),
-            MineCellsBlocks.CRATE.get(),
-            MineCellsBlocks.SMALL_CRATE.get(),
-            MineCellsBlocks.BRITTLE_BARREL.get(),
-            MineCellsBlocks.KING_STATUE.get(),
-            MineCellsBlocks.SKELETON.get(),
-            MineCellsBlocks.ROTTING_CORPSE.get(),
-            MineCellsBlocks.CORPSE.get(),
-            MineCellsBlocks.ELEVATOR_ASSEMBLER.get(),
-            MineCellsBlocks.CELL_CRAFTER.get(),
-            MineCellsBlocks.HARDSTONE.get(),
-            MineCellsBlocks.CHAIN_PILE_BLOCK.get(),
-            MineCellsBlocks.CHAIN_PILE.get(),
-            MineCellsBlocks.BIG_CHAIN.get(),
-            MineCellsBlocks.CAGE.get(),
-            MineCellsBlocks.BROKEN_CAGE.get(),
-            MineCellsBlocks.SPIKES.get(),
-            MineCellsBlocks.FLAG_POLE.get()
-        );
-        MineCellsBlocks.FLAG_BLOCKS.forEach(flag -> output.accept(flag.get()));
-        add(output,
-            MineCellsBlocks.ALCHEMY_EQUIPMENT_0.get(),
-            MineCellsBlocks.ALCHEMY_EQUIPMENT_1.get(),
-            MineCellsBlocks.ALCHEMY_EQUIPMENT_2.get(),
-            MineCellsBlocks.PRISON_TORCH.get(),
-            MineCellsBlocks.PROMENADE_TORCH.get(),
-            MineCellsBlocks.RAMPARTS_TORCH.get(),
-            MineCellsItems.SEWAGE_BUCKET.get(),
-            MineCellsItems.ANCIENT_SEWAGE_BUCKET.get(),
-            MineCellsItems.ELEVATOR_MECHANISM.get(),
-            MineCellsItems.HEALTH_FLASK.get(),
-            MineCellsItems.RESET_RUNE.get(),
-            MineCellsItems.CONJUNCTIVIUS_RESPAWN_RUNE.get(),
-            MineCellsItems.CONCIERGE_RESPAWN_RUNE.get(),
-            MineCellsItems.VINE_RUNE.get(),
-            MineCellsItems.MONSTER_CELL.get(),
-            MineCellsItems.BOSS_STEM_CELL.get(),
-            MineCellsItems.CELL_HOLDER.get(),
-            MineCellsItems.GUTS.get(),
-            MineCellsItems.MONSTERS_EYE.get(),
-            MineCellsItems.EXPLOSIVE_BULB.get(),
-            MineCellsItems.INFECTED_FLESH.get(),
-            MineCellsItems.CELL_INFUSED_STEEL.get(),
-            MineCellsItems.METAL_SHARDS.get(),
-            MineCellsItems.BUZZCUTTER_FANG.get(),
-            MineCellsItems.MOLTEN_CHUNK.get(),
-            MineCellsItems.SEWER_CALAMARI.get(),
-            MineCellsItems.COOKED_SEWER_CALAMARI.get(),
-            MineCellsItems.TRANSPOSITION_CORE.get(),
-            MineCellsItems.BLOOD_BOTTLE.get(),
-            MineCellsItems.ARCANE_GOO.get()
-        );
+    public static void selectSingleSubTab(int index) {
+        for (int i = 0; i < ACTIVE_SUB_TABS.length; i++) {
+            ACTIVE_SUB_TABS[i] = i == index;
+        }
     }
 
-    private static void addCombatItems(CreativeModeTab.Output output) {
-        add(output,
-            MineCellsItems.ASSASSINS_DAGGER.get(),
-            MineCellsItems.BLOOD_SWORD.get(),
-            MineCellsItems.BROADSWORD.get(),
-            MineCellsItems.BALANCED_BLADE.get(),
-            MineCellsItems.CROWBAR.get(),
-            MineCellsItems.NUTCRACKER.get(),
-            MineCellsItems.CURSED_SWORD.get(),
-            MineCellsItems.HATTORIS_KATANA.get(),
-            MineCellsItems.TENTACLE.get(),
-            MineCellsItems.FROST_BLAST.get(),
-            MineCellsItems.SPITE_SWORD.get(),
-            MineCellsItems.FLINT.get(),
-            MineCellsItems.PHASER.get(),
-            MineCellsItems.MULTIPLE_NOCKS_BOW.get(),
-            MineCellsItems.BOW_AND_ENDLESS_QUIVER.get(),
-            MineCellsItems.MARKSMANS_BOW.get(),
-            MineCellsItems.INFANTRY_BOW.get(),
-            MineCellsItems.QUICK_BOW.get(),
-            MineCellsItems.ICE_BOW.get(),
-            MineCellsItems.NERVES_OF_STEEL.get(),
-            MineCellsItems.ICE_ARROW.get(),
-            MineCellsItems.HEAVY_CROSSBOW.get(),
-            MineCellsItems.EXPLOSIVE_CROSSBOW.get(),
-            MineCellsItems.EXPLOSIVE_BOLT.get(),
-            MineCellsItems.ELECTRIC_WHIP.get(),
-            MineCellsItems.LIGHTNING_BOLT.get(),
-            MineCellsItems.THROWING_KNIFE.get(),
-            MineCellsItems.FIREBRANDS.get(),
-            MineCellsItems.CUDGEL.get(),
-            MineCellsItems.RAMPART.get(),
-            MineCellsItems.ASSAULT_SHIELD.get(),
-            MineCellsItems.BLOODTHIRSTY_SHIELD.get(),
-            MineCellsItems.GREED_SHIELD.get(),
-            MineCellsItems.ICE_SHIELD.get()
-        );
+    public static void toggleSubTab(int index) {
+        if (!ACTIVE_SUB_TABS[index]) {
+            ACTIVE_SUB_TABS[index] = true;
+            return;
+        }
+        ACTIVE_SUB_TABS[index] = false;
+        for (boolean active : ACTIVE_SUB_TABS) {
+            if (active) {
+                return;
+            }
+        }
+        for (int i = 0; i < ACTIVE_SUB_TABS.length; i++) {
+            ACTIVE_SUB_TABS[i] = true;
+        }
     }
 
-    private static void addSpawnEggItems(CreativeModeTab.Output output) {
-        add(output,
-            MineCellsItems.LEAPING_ZOMBIE_SPAWN_EGG.get(),
-            MineCellsItems.SHOCKER_SPAWN_EGG.get(),
-            MineCellsItems.GRENADIER_SPAWN_EGG.get(),
-            MineCellsItems.DISGUSTING_WORM_SPAWN_EGG.get(),
-            MineCellsItems.INQUISITOR_SPAWN_EGG.get(),
-            MineCellsItems.KAMIKAZE_SPAWN_EGG.get(),
-            MineCellsItems.PROTECTOR_SPAWN_EGG.get(),
-            MineCellsItems.UNDEAD_ARCHER_SPAWN_EGG.get(),
-            MineCellsItems.SHIELDBEARER_SPAWN_EGG.get(),
-            MineCellsItems.MUTATED_BAT_SPAWN_EGG.get(),
-            MineCellsItems.SEWERS_TENTACLE_SPAWN_EGG.get(),
-            MineCellsItems.RANCID_RAT_SPAWN_EGG.get(),
-            MineCellsItems.RUNNER_SPAWN_EGG.get(),
-            MineCellsItems.SCORPION_SPAWN_EGG.get(),
-            MineCellsItems.BUZZCUTTER_SPAWN_EGG.get(),
-            MineCellsItems.SWEEPER_SPAWN_EGG.get()
-        );
+    public static Component currentTitle() {
+        int single = -1;
+        for (int i = 0; i < ACTIVE_SUB_TABS.length; i++) {
+            if (!ACTIVE_SUB_TABS[i]) {
+                continue;
+            }
+            if (single != -1) {
+                return MINECELLS.get().getDisplayName();
+            }
+            single = i;
+        }
+        return single == -1 ? MINECELLS.get().getDisplayName() : SUB_TABS.get(single).title();
     }
 
-    private static void add(CreativeModeTab.Output output, ItemLike... entries) {
-        for (ItemLike entry : entries) {
-            output.accept(entry);
+    private static void displayItems(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output) {
+        List<List<Item>> contents = subTabContents();
+        for (int i = 0; i < contents.size(); i++) {
+            CreativeModeTab.TabVisibility visibility = ACTIVE_SUB_TABS[i]
+                ? CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS
+                : CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY;
+            for (Item item : contents.get(i)) {
+                output.accept(new ItemStack(item), visibility);
+            }
+        }
+    }
+
+    private static List<List<Item>> subTabContents() {
+        Set<Item> used = new LinkedHashSet<>();
+        List<Item> general = new ArrayList<>();
+        List<Item> combat = new ArrayList<>();
+        List<Item> spawnEggs = new ArrayList<>();
+
+        addById(GENERAL_ORDER, general, used);
+        for (var flag : MineCellsBlocks.FLAG_BLOCKS) {
+            addItem(flag.get().asItem(), general, used);
+        }
+        addById(GENERAL_ORDER_AFTER_FLAGS, general, used);
+        addById(COMBAT_ORDER, combat, used);
+        addById(SPAWN_EGG_ORDER, spawnEggs, used);
+        return List.of(general, combat, spawnEggs);
+    }
+
+    private static void addById(List<String> ids, List<Item> target, Set<Item> used) {
+        for (String id : ids) {
+            Item item = ForgeRegistries.ITEMS.getValue(MineCells.id(id));
+            if (item != null && item != Items.AIR) {
+                addItem(item, target, used);
+            }
+        }
+    }
+
+    private static void addItem(Item item, List<Item> target, Set<Item> used) {
+        if (used.add(item)) {
+            target.add(item);
+        }
+    }
+
+    public record SubTab(String name, Supplier<ItemStack> icon) {
+        public Component title() {
+            return Component.translatable("itemGroup.minecells.minecells.tab." + name)
+                .withStyle(style -> style.withColor(TAB_TITLE_COLOR));
         }
     }
 }

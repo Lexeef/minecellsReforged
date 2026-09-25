@@ -1,8 +1,12 @@
 package com.github.mim1q.minecells.world.state;
 
 import com.github.mim1q.minecells.network.s2c.SyncMineCellsPlayerDataS2CPacket;
+import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,6 +23,7 @@ public class MineCellsData extends SavedData {
     private static final String DATA_NAME = "minecells_data";
 
     public final Map<Integer, RunData> runs = new HashMap<>();
+    private final List<OwnedRun> ownedRuns = new ArrayList<>();
 
     public static MineCellsData get(ServerLevel level) {
         return level.getServer().overworld().getDataStorage().computeIfAbsent(MineCellsData::load, MineCellsData::new, DATA_NAME);
@@ -26,11 +31,43 @@ public class MineCellsData extends SavedData {
 
     public static MineCellsData load(CompoundTag tag) {
         MineCellsData data = new MineCellsData();
+        if (tag == null || tag.isEmpty()) {
+            return data;
+        }
         CompoundTag runsTag = tag.getCompound("runs");
         for (String id : runsTag.getAllKeys()) {
-            data.runs.put(data.runs.size(), new RunData(runsTag.getCompound(id), data));
+            try {
+                int key = Integer.parseInt(id);
+                data.runs.put(key, new RunData(runsTag.getCompound(id), data));
+            } catch (NumberFormatException ignored) {
+                // Skip corrupt keys; SavedData root must remain a valid compound.
+            }
+        }
+        ListTag ownedRunsTag = tag.getList("OwnedRuns", Tag.TAG_COMPOUND);
+        for (int i = 0; i < ownedRunsTag.size(); i++) {
+            CompoundTag runTag = ownedRunsTag.getCompound(i);
+            if (runTag.hasUUID("Owner")) {
+                data.ownedRuns.add(new OwnedRun(runTag.getUUID("Owner"), BlockPos.of(runTag.getLong("RunCenter"))));
+            }
         }
         return data;
+    }
+
+    /**
+     * Personal run center of the player, allocated on a 1024-block spiral (Fabric {@code PortalsCC.getOrCreatePortal}).
+     */
+    public BlockPos getOrCreatePlayerRunCenter(ServerPlayer player) {
+        UUID owner = player.getUUID();
+        for (OwnedRun run : ownedRuns) {
+            if (run.owner().equals(owner)) {
+                return run.runCenter();
+            }
+        }
+        Vec3i spiral = MathUtils.getSpiralPosition(ownedRuns.size());
+        BlockPos center = new BlockPos(spiral.getX() * 1024, 0, spiral.getZ() * 1024);
+        ownedRuns.add(new OwnedRun(owner, center));
+        setDirty();
+        return center;
     }
 
     @Override
@@ -40,7 +77,18 @@ public class MineCellsData extends SavedData {
             runsTag.put(entry.getKey().toString(), entry.getValue().save(new CompoundTag()));
         }
         tag.put("runs", runsTag);
+        ListTag ownedRunsTag = new ListTag();
+        for (OwnedRun run : ownedRuns) {
+            CompoundTag runTag = new CompoundTag();
+            runTag.putUUID("Owner", run.owner());
+            runTag.putLong("RunCenter", run.runCenter().asLong());
+            ownedRunsTag.add(runTag);
+        }
+        tag.put("OwnedRuns", ownedRunsTag);
         return tag;
+    }
+
+    private record OwnedRun(UUID owner, BlockPos runCenter) {
     }
 
     public static PlayerData getPlayerData(ServerPlayer player, ServerLevel level, BlockPos posOverride) {

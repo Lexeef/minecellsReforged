@@ -1,5 +1,7 @@
 package com.github.mim1q.minecells.block;
 
+import com.github.mim1q.minecells.entity.MineCellsMonsterEntity;
+import com.github.mim1q.minecells.entity.boss.MineCellsBossEntity;
 import com.github.mim1q.minecells.network.MineCellsNetwork;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -45,14 +47,6 @@ public class ShockwaveFlameBlock extends Block {
     }
 
     @Override
-    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-        super.onPlace(state, level, pos, oldState, movedByPiston);
-        if (!level.isClientSide && !oldState.is(state.getBlock()) && level instanceof ServerLevel serverLevel) {
-            MineCellsNetwork.sendShockwaveClientEvent(serverLevel, state.getBlock(), pos, false);
-        }
-    }
-
-    @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return Shapes.empty();
     }
@@ -64,20 +58,20 @@ public class ShockwaveFlameBlock extends Block {
 
     @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        boolean canApply = playerPlaced || !(entity instanceof MineCellsMonsterEntity || entity instanceof MineCellsBossEntity);
         boolean fireImmune = entity.fireImmune()
             || entity instanceof LivingEntity living && living.hasEffect(MobEffects.FIRE_RESISTANCE);
-        if (!fireImmune && new AABB(pos).move(0.0D, -0.75D, 0.0D).intersects(entity.getBoundingBox())) {
-            entity.setSecondsOnFire(playerPlaced ? 4 : 2);
+        if (canApply && !fireImmune && new AABB(pos).move(0.0D, -0.75D, 0.0D).intersects(entity.getBoundingBox())) {
+            entity.setSecondsOnFire(4);
         }
     }
 
     @Override
     public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         MineCellsNetwork.sendShockwaveClientEvent(level, state.getBlock(), pos, true);
-        if (random.nextFloat() < 0.1F && level.getBlockState(pos.below()).isFlammable(level, pos.below(), net.minecraft.core.Direction.UP)) {
+        level.destroyBlock(pos, false);
+        if (random.nextFloat() < 0.1F && level.getBlockState(pos.below()).isFlammable(level, pos.below(), Direction.UP)) {
             level.setBlock(pos, Blocks.FIRE.defaultBlockState(), Block.UPDATE_ALL);
-            return;
         }
-        level.removeBlock(pos, false);
     }
 }

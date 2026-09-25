@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecells:septite_bricks"
+    }
+  },
+  "result": {
+    "item": "minecells:septite_brick_stairs",
+    "count": 4
+  },
+  "show_notification": true
+}

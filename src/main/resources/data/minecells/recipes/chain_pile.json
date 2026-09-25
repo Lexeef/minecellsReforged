@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "decorations",
+  "pattern": [
+    " C ",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "minecells:big_chain"
+    }
+  },
+  "result": {
+    "item": "minecells:chain_pile",
+    "count": 4
+  },
+  "show_notification": true
+}

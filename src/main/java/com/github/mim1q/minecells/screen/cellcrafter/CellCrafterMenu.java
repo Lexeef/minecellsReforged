@@ -25,16 +25,24 @@ public class CellCrafterMenu extends AbstractContainerMenu {
         this.level = inventory.player.level();
 
         int xOffset = 8;
-        int yOffset = 84;
+        int yOffset = 77;
 
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < 9; column++) {
-                addSlot(new Slot(inventory, column + row * 9 + 9, xOffset + column * 18, yOffset + row * 18));
+                addSlot(new ToggleableSlot(inventory, column + row * 9 + 9, xOffset + column * 18, yOffset + row * 18));
             }
         }
 
         for (int hotbarSlot = 0; hotbarSlot < 9; hotbarSlot++) {
-            addSlot(new Slot(inventory, hotbarSlot, xOffset + hotbarSlot * 18, yOffset + 58));
+            addSlot(new ToggleableSlot(inventory, hotbarSlot, xOffset + hotbarSlot * 18, yOffset + 58));
+        }
+    }
+
+    public void setSlotsActive(boolean active) {
+        for (Slot slot : slots) {
+            if (slot instanceof ToggleableSlot toggleable) {
+                toggleable.active = active;
+            }
         }
     }
 
@@ -59,5 +67,18 @@ public class CellCrafterMenu extends AbstractContainerMenu {
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
         return ItemStack.EMPTY;
+    }
+
+    private static final class ToggleableSlot extends Slot {
+        private boolean active = true;
+
+        private ToggleableSlot(Inventory inventory, int index, int x, int y) {
+            super(inventory, index, x, y);
+        }
+
+        @Override
+        public boolean isActive() {
+            return active;
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.github.mim1q.minecells.block.portal;
 
+import com.github.mim1q.minecells.block.FillerBlock;
+import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -19,13 +21,13 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class TeleporterFrameBlock extends Block {
+public class TeleporterFrameBlock extends FillerBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     private static final VoxelShape BASE_SHAPE = Block.box(0.0D, 0.0D, 6.0D, 16.0D, 16.0D, 10.0D);
     public static final EnumProperty<Type> TYPE = EnumProperty.create("type", Type.class);
 
     public TeleporterFrameBlock(Properties properties) {
-        super(properties);
+        super(properties, block -> block == MineCellsBlocks.TELEPORTER_CORE.get(), true);
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TYPE, Type.MIDDLE));
     }
 

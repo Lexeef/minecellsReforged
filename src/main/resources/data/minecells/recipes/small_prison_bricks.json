@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "minecells:prison_bricks"
+    }
+  },
+  "result": {
+    "item": "minecells:small_prison_bricks",
+    "count": 4
+  },
+  "show_notification": true
+}

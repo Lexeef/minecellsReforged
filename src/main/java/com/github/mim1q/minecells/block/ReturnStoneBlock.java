@@ -71,15 +71,8 @@ public class ReturnStoneBlock extends Block implements EntityBlock {
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, net.minecraft.util.RandomSource random) {
         Vec3 particlePos = Vec3.atCenterOf(pos).add(0.0D, 0.75D, 0.0D);
-        level.addParticle(
-            particle(),
-            particlePos.x,
-            particlePos.y,
-            particlePos.z,
-            (random.nextDouble() - 0.5D) * 0.06D,
-            random.nextDouble() * 0.06D,
-            (random.nextDouble() - 0.5D) * 0.06D
-        );
+        Vec3 velocity = Vec3.directionFromRotation(random.nextFloat() * 360.0F, random.nextFloat() * 360.0F).scale(0.03D);
+        level.addParticle(particle(), particlePos.x, particlePos.y, particlePos.z, velocity.x, velocity.y, velocity.z);
     }
 
     @Nullable

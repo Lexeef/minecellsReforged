@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.client.renderer.monster;
 
+import com.github.mim1q.minecells.entity.GrenadierEntity;
 import com.github.mim1q.minecells.entity.MineCellsMonsterEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -74,6 +75,15 @@ public class GrenadierModel extends EntityModel<MineCellsMonsterEntity> {
         lowerTorso.xRot += 10.0F * Mth.DEG_TO_RAD;
         leftArm.xRot -= 30.0F * Mth.DEG_TO_RAD;
         rightArm.xRot -= 30.0F * Mth.DEG_TO_RAD;
+
+        if (entity instanceof GrenadierEntity grenadier) {
+            grenadier.additionalRotation.update(ageInTicks);
+            float rot = grenadier.additionalRotation.getValue() * Mth.DEG_TO_RAD;
+            leftArm.xRot -= rot;
+            rightArm.xRot -= rot;
+            upperTorso.xRot -= rot * 0.1F;
+            lowerTorso.xRot -= rot * 0.1F;
+        }
 
         for (int i = 0; i < balls.length; i++) {
             balls[i].y = BALL_OFFSETS[i] + Mth.sin(ageInTicks * 0.25F + i * 0.2F) * 1.75F;

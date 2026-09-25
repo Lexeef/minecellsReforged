@@ -49,5 +49,6 @@ public final class MineCellsClientData {
     public static void resetSessionData() {
         playerData = new PlayerSpecificMineCellsData(new net.minecraft.nbt.CompoundTag());
         unlockedCellCrafterRecipes = Map.of();
+        com.github.mim1q.minecells.util.SyncedAdvancements.reset();
     }
 }

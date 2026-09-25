@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "minecells:cracked_prison_bricks"
+  },
+  "result": "minecells:cracked_prison_brick_stairs",
+  "count": 1
+}

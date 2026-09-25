@@ -2,10 +2,8 @@ package com.github.mim1q.minecells.structure.grid.generator;
 
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomData;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator;
-import java.util.List;
-import net.minecraft.core.BlockPos;
+import com.github.mim1q.minecells.util.MathUtils;
 import net.minecraft.core.Vec3i;
-import net.minecraft.world.level.levelgen.structure.Structure;
 
 public abstract class MultipartGridGenerator extends RoomGridGenerator {
     private final int xPart;
@@ -17,15 +15,6 @@ public abstract class MultipartGridGenerator extends RoomGridGenerator {
     }
 
     @Override
-    public List<RoomData> generate(Structure.GenerationContext context) {
-        BlockPos origin = context.chunkPos().getWorldPosition();
-        int x = Math.round(origin.getX() / 1024.0F) * 1024;
-        int z = Math.round(origin.getZ() / 1024.0F) * 1024;
-        context.random().setSeed(new Vec3i(x, 0, z).hashCode() + context.seed());
-        return super.generate(context);
-    }
-
-    @Override
     protected void addRoom(RoomData data) {
         this.usedPositions.add(data.pos);
 
@@ -33,17 +22,30 @@ public abstract class MultipartGridGenerator extends RoomGridGenerator {
         int z = data.pos.getZ() - 16 * this.zPart;
         int terrainSampleX = data.terrainSamplePos.getX() - 16 * this.xPart;
         int terrainSampleZ = data.terrainSamplePos.getZ() - 16 * this.zPart;
-        if (x < 0 || z < 0 || x >= 16 || z >= 16) {
-            return;
-        }
 
         RoomData newData = RoomData.create(x - 8, data.pos.getY(), z - 8, data.poolId)
             .rotation(data.rotation)
             .offset(data.offset);
 
+        boolean outOfBounds = x < 0 || z < 0 || x >= 16 || z >= 16;
+
+        if (data.specialPoint != null) {
+            newData.specialPoint(data.specialPoint.id(), data.specialPoint.offset(), data.specialPoint.facing());
+            this.specialPoints.add(new SpecialPoint(
+                newData.specialPoint.id(),
+                newData.pos.offset(-24, 0, -24).multiply(16)
+                    .offset(MathUtils.getRotatedOffsetWithinChunk(newData.specialPoint.offset(), newData.rotation)),
+                newData.specialPoint.facing().getRotated(newData.rotation)
+            ));
+        }
+
         if (data.terrainFit) {
             newData.terrainFit();
             newData.terrainSamplePos = new Vec3i(terrainSampleX - 8, data.terrainSamplePos.getY(), terrainSampleZ - 8);
+        }
+
+        if (outOfBounds) {
+            return;
         }
 
         this.rooms.add(newData);

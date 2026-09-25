@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecells:bloomrock"
+    }
+  },
+  "result": {
+    "item": "minecells:bloomrock_wall",
+    "count": 6
+  },
+  "show_notification": true
+}

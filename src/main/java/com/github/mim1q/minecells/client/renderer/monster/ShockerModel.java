@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.client.renderer.monster;
 
 import com.github.mim1q.minecells.entity.MineCellsMonsterEntity;
+import com.github.mim1q.minecells.entity.ShockerEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;
@@ -48,14 +49,15 @@ public class ShockerModel extends EntityModel<MineCellsMonsterEntity> {
 
     @Override
     public void setupAnim(MineCellsMonsterEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        float multiplier = entity instanceof ShockerEntity shocker && (shocker.isAuraCharging() || shocker.isAuraReleasing()) ? 15.0F : 1.0F;
         base.y = -5.0F + Mth.sin(ageInTicks * 0.1F) * 4.0F;
         bottomFloater.y = Mth.sin((ageInTicks + 2.0F) * 0.1F) * 4.0F;
         rightFloater.y = -20.0F + Mth.sin((ageInTicks + 5.0F) * 0.1F) * 10.0F;
         leftFloater.y = -32.0F + Mth.sin((ageInTicks + 8.0F) * 0.1F) * 8.0F;
-        rightFloater.x = -15.0F - Mth.sin(ageInTicks * 0.1F) * 0.25F;
-        leftFloater.x = 15.0F + Mth.sin((ageInTicks - 0.5F) * 0.1F) * 0.25F;
-        eye.y = Mth.sin(ageInTicks * 0.1F) * 1.5F;
-        eye.x = Mth.cos(ageInTicks * 0.1F) * 1.5F;
+        rightFloater.x = -15.0F - Mth.sin(ageInTicks * multiplier * 0.1F) * multiplier * 0.25F;
+        leftFloater.x = 15.0F + Mth.sin((ageInTicks - 0.5F) * multiplier * 0.1F) * multiplier * 0.25F;
+        eye.y = Mth.sin(ageInTicks * 0.1F * multiplier) * 1.5F;
+        eye.x = Mth.cos(ageInTicks * 0.1F * multiplier) * 1.5F;
     }
 
     @Override

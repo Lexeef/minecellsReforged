@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "minecells:septite_bricks"
+  },
+  "result": "minecells:septite_brick_slab",
+  "count": 2
+}

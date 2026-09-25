@@ -1,6 +1,8 @@
 package com.github.mim1q.minecells;
 
 import com.github.mim1q.minecells.command.MineCellsDataCommand;
+import com.github.mim1q.minecells.command.MineCellsTeleportCommand;
+import com.github.mim1q.minecells.command.SpawnerRuneCommand;
 import com.mojang.logging.LogUtils;
 import com.github.mim1q.minecells.config.MineCellsConfig;
 import com.github.mim1q.minecells.network.MineCellsNetwork;
@@ -23,6 +25,7 @@ import com.github.mim1q.minecells.registry.MineCellsRecipeTypes;
 import com.github.mim1q.minecells.registry.MineCellsReloadListeners;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+import com.github.mim1q.minecells.registry.MineCellsStructurePieceTypes;
 import com.github.mim1q.minecells.registry.MineCellsStructurePlacementTypes;
 import com.github.mim1q.minecells.registry.MineCellsStructureProcessorTypes;
 import com.github.mim1q.minecells.registry.MineCellsStructureTypes;
@@ -60,6 +63,7 @@ public class MineCells {
         MineCellsPlacementModifierTypes.register(modEventBus);
         MineCellsDensityFunctionTypes.register(modEventBus);
         MineCellsStructureTypes.register(modEventBus);
+        MineCellsStructurePieceTypes.register(modEventBus);
         MineCellsStructurePlacementTypes.register(modEventBus);
         MineCellsStructureProcessorTypes.register(modEventBus);
         MineCellsGameRules.init();
@@ -70,7 +74,14 @@ public class MineCells {
         context.registerConfig(ModConfig.Type.CLIENT, MineCellsConfig.CLIENT_SPEC);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.addListener(MineCellsDataCommand::register);
+        MinecraftForge.EVENT_BUS.addListener(SpawnerRuneCommand::register);
+        MinecraftForge.EVENT_BUS.addListener(MineCellsTeleportCommand::register);
+        MinecraftForge.EVENT_BUS.addListener(com.github.mim1q.minecells.command.CellsCommand::register);
+        MinecraftForge.EVENT_BUS.addListener(com.github.mim1q.minecells.command.MineCellsDumpCommand::register);
+        MinecraftForge.EVENT_BUS.addListener(com.github.mim1q.minecells.command.SpecialPointCommand::register);
         MinecraftForge.EVENT_BUS.addListener(MineCellsReloadListeners::onAddReloadListeners);
+        MinecraftForge.EVENT_BUS.addListener(com.github.mim1q.minecells.book.PatchouliCompat::onAdvancementEarned);
+        MinecraftForge.EVENT_BUS.addListener(com.github.mim1q.minecells.valuecalculators.ValueCalculators::onDatapackSync);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

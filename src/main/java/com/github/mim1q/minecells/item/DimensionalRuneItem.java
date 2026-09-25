@@ -4,10 +4,12 @@ import com.github.mim1q.minecells.block.blockentity.DoorwayPortalBlockEntity;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+import com.github.mim1q.minecells.util.MineCellsText;
 import com.github.mim1q.minecells.world.state.MineCellsData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -61,9 +63,13 @@ public class DimensionalRuneItem extends Item {
         }
 
         BlockEntity blockEntity = level.getBlockEntity(context.getClickedPos());
+        if (blockEntity instanceof DoorwayPortalBlockEntity doorwayEntity && !doorwayEntity.canEdit(player)) {
+            return InteractionResult.FAIL;
+        }
+        CompoundTag previousData = blockEntity != null ? blockEntity.saveWithoutMetadata() : null;
         BlockPos posOverride = blockEntity instanceof DoorwayPortalBlockEntity doorwayEntity && doorwayEntity.getPosOverride() != null
             ? doorwayEntity.getPosOverride()
-            : DoorwayPortalBlockEntity.toPortalAnchor(context.getClickedPos());
+            : MineCellsData.get(serverLevel).getOrCreatePlayerRunCenter(player);
 
         if (!portalBlock.getType().dimensionId().equals(DoorwayPortalBlock.DoorwayType.PRISON.dimensionId())
             && !MineCellsData.getPlayerData(player, serverLevel, posOverride).hasVisitedDimension(portalBlock.getType().dimensionId())) {
@@ -79,6 +85,9 @@ public class DimensionalRuneItem extends Item {
 
         BlockEntity newBlockEntity = level.getBlockEntity(context.getClickedPos());
         if (newBlockEntity instanceof DoorwayPortalBlockEntity newDoorwayEntity) {
+            if (previousData != null) {
+                newDoorwayEntity.load(previousData);
+            }
             newDoorwayEntity.setPosOverride(posOverride);
         }
 
@@ -87,6 +96,12 @@ public class DimensionalRuneItem extends Item {
         level.playSound(null, context.getClickedPos(), MineCellsSounds.TELEPORT_RELEASE.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         context.getItemInHand().shrink(1);
         return InteractionResult.CONSUME;
+    }
+
+    @Override
+    public Component getName(ItemStack stack) {
+        DoorwayPortalBlock.DoorwayType type = portalBlock.getType();
+        return MineCellsText.highlight(getDescriptionId(stack), "dimension.minecells." + type.getSerializedName(), type.getColor());
     }
 
     @Override

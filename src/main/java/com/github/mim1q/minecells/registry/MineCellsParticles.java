@@ -23,6 +23,7 @@ public final class MineCellsParticles {
     public static final RegistryObject<ElectricParticleType> ELECTRICITY = PARTICLES.register("electricity", ElectricParticleType::new);
     public static final RegistryObject<ColoredParticleType> DROP = PARTICLES.register("drop", ColoredParticleType::new);
     public static final RegistryObject<ColoredParticleType> SMALL_DROP = PARTICLES.register("small_drop", ColoredParticleType::new);
+    public static final RegistryObject<ColoredParticleType> RISING_BUBBLE = PARTICLES.register("rising_bubble", ColoredParticleType::new);
 
     private MineCellsParticles() {
     }

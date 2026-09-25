@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "minecells:bloomrock_tiles"
+  },
+  "result": "minecells:bloomrock_tile_wall",
+  "count": 1
+}

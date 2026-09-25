@@ -1,0 +1,15 @@
+{
+    "name": "minecells:better_prison/curve",
+    "fallback": "minecraft:empty",
+    "elements": [
+        {
+            "weight": 1,
+            "element": {
+                "element_type": "minecraft:single_pool_element",
+                "location": "minecells:better_prison/curve/simple",
+                "processors": "minecells:prison/main",
+                "projection": "rigid"
+            }
+        }
+    ]
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_wall_side",
+  "textures": {
+    "wall": "minecells:block/small_ancient_septite_bricks"
+  }
+}

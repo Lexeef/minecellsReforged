@@ -1,6 +1,13 @@
 {
   "replace": false,
   "values": [
-    "minecells:sewage"
+    {
+      "id": "minecells:ancient_sewage",
+      "required": false
+    },
+    {
+      "id": "minecells:flowing_ancient_sewage",
+      "required": false
+    }
   ]
 }

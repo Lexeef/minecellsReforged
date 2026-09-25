@@ -10,24 +10,6 @@
                                          "processors":  "minecells:brick_decay",
                                          "projection":  "rigid"
                                      }
-                     },
-                     {
-                         "weight":  2,
-                         "element":  {
-                                         "element_type":  "minecraft:single_pool_element",
-                                         "location":  "minecells:prison/corridor/1",
-                                         "processors":  "minecells:brick_decay",
-                                         "projection":  "rigid"
-                                     }
-                     },
-                     {
-                         "weight":  2,
-                         "element":  {
-                                         "element_type":  "minecraft:single_pool_element",
-                                         "location":  "minecells:prison/corridor/2",
-                                         "processors":  "minecells:brick_decay",
-                                         "projection":  "rigid"
-                                     }
                      }
                  ]
 }

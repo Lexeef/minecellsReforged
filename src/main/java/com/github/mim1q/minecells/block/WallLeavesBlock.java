@@ -72,4 +72,9 @@ public class WallLeavesBlock extends Block {
         }
         return ModelUtils.rotateShape(Direction.NORTH, direction, SHAPE);
     }
+
+    @Override
+    public float getMaxHorizontalOffset() {
+        return 0.125F;
+    }
 }

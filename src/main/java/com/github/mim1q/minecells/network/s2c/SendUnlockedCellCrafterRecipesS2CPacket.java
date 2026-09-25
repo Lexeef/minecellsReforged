@@ -6,7 +6,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.PacketDistributor;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -51,9 +50,7 @@ public class SendUnlockedCellCrafterRecipesS2CPacket {
     }
 
     public static void send(ServerPlayer player) {
-        com.github.mim1q.minecells.network.MineCellsNetwork.CHANNEL.send(
-            PacketDistributor.PLAYER.with(() -> player),
-            new SendUnlockedCellCrafterRecipesS2CPacket(player)
+        com.github.mim1q.minecells.network.MineCellsNetwork.sendToPlayer(player, new SendUnlockedCellCrafterRecipesS2CPacket(player)
         );
     }
 }

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    {
+      "item": "minecells:prison_stone"
+    }
+  ],
+  "result": {
+    "item": "minecells:prison_stone_button",
+    "count": 1
+  }
+}

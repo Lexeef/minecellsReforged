@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": {
+    "item": "minecells:prison_cobblestone"
+  },
+  "result": "minecells:prison_stone",
+  "cookingtime": 200
+}

@@ -1,1 +1,1 @@
-{"parent":"minecells:item/shield_3d/bloodthirsty_shield"}
+{"parent":"minecraft:item/generated","textures":{"layer0":"minecells:item/shield/bloodthirsty_shield"}}

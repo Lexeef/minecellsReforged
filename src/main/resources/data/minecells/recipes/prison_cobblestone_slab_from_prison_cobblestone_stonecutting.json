@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "minecells:prison_cobblestone"
+  },
+  "result": "minecells:prison_cobblestone_slab",
+  "count": 2
+}

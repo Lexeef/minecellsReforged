@@ -1,6 +1,8 @@
 package com.github.mim1q.minecells.client.renderer.monster;
 
 import com.github.mim1q.minecells.entity.MineCellsMonsterEntity;
+import com.github.mim1q.minecells.entity.ScorpionEntity;
+import com.github.mim1q.minecells.util.MathUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;
@@ -22,6 +24,7 @@ public class ScorpionModel extends EntityModel<MineCellsMonsterEntity> {
     private final ModelPart rightFrontLeg;
     private final ModelPart leftFrontLeg;
     private final ModelPart[] tail = new ModelPart[5];
+    private boolean shouldRender = true;
 
     public ScorpionModel(ModelPart root) {
         this.root = root.getChild("root");
@@ -74,14 +77,16 @@ public class ScorpionModel extends EntityModel<MineCellsMonsterEntity> {
     @Override
     public void setupAnim(MineCellsMonsterEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         MineCellsModelAnimationUtils.rotateHead(netHeadYaw, headPitch, this.head);
-        float walkBody = Mth.sin(limbSwing * 0.5F) * limbSwingAmount;
         this.body.xRot = 0.0F;
         this.root.y = 24.0F;
+        this.shouldRender = true;
 
         float[] baseTailAngles = {55.0F, 30.0F, 30.0F, 45.0F, 35.0F};
         for (int i = 0; i < this.tail.length; i++) {
-            this.tail[i].xRot = baseTailAngles[i] * Mth.DEG_TO_RAD + walkBody * 0.08F + Mth.sin(ageInTicks * 0.12F - i * 0.5F) * 0.05F;
-            this.tail[i].zRot = Mth.sin(limbSwing * 0.25F + i * 0.4F) * limbSwingAmount * 0.08F;
+            float deltaPitch = Mth.sin(limbSwing * 0.5F) * limbSwingAmount;
+            this.tail[i].xRot = baseTailAngles[i] * Mth.DEG_TO_RAD + deltaPitch * MathUtils.radians(5.0F);
+            float deltaRoll = Mth.sin(limbSwing * 0.25F) * limbSwingAmount;
+            this.tail[i].zRot = deltaRoll * MathUtils.radians(5.0F);
             this.tail[i].yRot = this.tail[i].zRot;
         }
 
@@ -95,10 +100,28 @@ public class ScorpionModel extends EntityModel<MineCellsMonsterEntity> {
         this.rightHindLeg.z = 5.5F + deltaPivotZ;
         this.leftFrontLeg.z = -5.5F + deltaPivotZ;
         this.rightFrontLeg.z = -5.5F - deltaPivotZ;
+
+        if (entity instanceof ScorpionEntity scorpion) {
+            this.shouldRender = !scorpion.isSleeping();
+            scorpion.buriedProgress.update(ageInTicks);
+            scorpion.swingProgress.update(ageInTicks);
+            this.root.y = 24.0F + scorpion.buriedProgress.getValue() * 32.0F;
+
+            float swing = scorpion.swingProgress.getValue();
+            float shake = Mth.sin(ageInTicks * 10.0F);
+            this.body.xRot = MathUtils.lerp(0.0F, MathUtils.radians(-30.0F), swing);
+            this.head.xRot -= MathUtils.lerp(0.0F, MathUtils.radians(-30.0F + shake * 5.0F), swing);
+            for (int i = 0; i < this.tail.length; i++) {
+                float target = i == 0 ? MathUtils.radians(30.0F) : MathUtils.radians(5.0F);
+                this.tail[i].xRot = MathUtils.lerp(this.tail[i].xRot, target, swing);
+            }
+        }
     }
 
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        this.root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+        if (this.shouldRender) {
+            this.root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+        }
     }
 }

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "ingredient": {
+    "item": "minecells:prison_bricks"
+  },
+  "result": "minecells:cracked_prison_bricks",
+  "cookingtime": 200
+}

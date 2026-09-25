@@ -3,10 +3,18 @@ package com.github.mim1q.minecells.block.portal;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.DoorwayPortalBlockEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
+import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.world.DoorwayPortalService;
+import com.github.mim1q.minecells.world.state.MineCellsData;
+import com.github.mim1q.minecells.network.MineCellsNetwork;
+import com.github.mim1q.minecells.network.s2c.OpenDoorwayScreenS2CPacket;
+import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import java.util.List;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
@@ -43,6 +51,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class DoorwayPortalBlock extends BaseEntityBlock implements EntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final BooleanProperty CLOSED = BooleanProperty.create("closed");
     private static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 8.0D, 16.0D, 16.0D, 16.0D);
     private static final VoxelShape COLLISION_SHAPE = Block.box(0.0D, 0.0D, 15.0D, 16.0D, 16.0D, 16.0D);
 
@@ -51,7 +60,7 @@ public class DoorwayPortalBlock extends BaseEntityBlock implements EntityBlock {
     public DoorwayPortalBlock(Properties properties, DoorwayType type) {
         super(properties);
         this.type = type;
-        registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
+        registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(CLOSED, false));
     }
 
     public DoorwayType getType() {
@@ -74,16 +83,14 @@ public class DoorwayPortalBlock extends BaseEntityBlock implements EntityBlock {
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (level.isClientSide) {
-            return InteractionResult.SUCCESS;
+        if (!level.isClientSide
+            && player instanceof ServerPlayer serverPlayer
+            && level.getBlockEntity(pos) instanceof DoorwayPortalBlockEntity doorway
+            && doorway.canEdit(serverPlayer)) {
+            BlockPos anchor = MineCellsData.get(serverPlayer.serverLevel()).getOrCreatePlayerRunCenter(serverPlayer);
+            MineCellsNetwork.sendToPlayer(serverPlayer, new OpenDoorwayScreenS2CPacket(pos, anchor));
         }
-        if (!(player instanceof net.minecraft.server.level.ServerPlayer serverPlayer)) {
-            return InteractionResult.PASS;
-        }
-        if (level.getBlockEntity(pos) instanceof DoorwayPortalBlockEntity doorway) {
-            return DoorwayPortalService.useDoorway(serverPlayer, serverPlayer.serverLevel(), pos, this, doorway);
-        }
-        return InteractionResult.PASS;
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
     @Nullable
@@ -106,7 +113,9 @@ public class DoorwayPortalBlock extends BaseEntityBlock implements EntityBlock {
     public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         if (context instanceof EntityCollisionContext entityContext) {
             Entity entity = entityContext.getEntity();
-            if (entity instanceof Player player && level.getBlockEntity(pos) instanceof DoorwayPortalBlockEntity doorway && !doorway.canPlayerEnter(player)) {
+            if (entity instanceof Player player
+                && level.getBlockEntity(pos) instanceof DoorwayPortalBlockEntity doorway
+                && (!doorway.canPlayerEnter(player) || state.getValue(CLOSED))) {
                 return getShape(state, level, pos, context);
             }
         }
@@ -116,7 +125,7 @@ public class DoorwayPortalBlock extends BaseEntityBlock implements EntityBlock {
     @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         super.entityInside(state, level, pos, entity);
-        if (level.isClientSide || !(entity instanceof net.minecraft.server.level.ServerPlayer serverPlayer)) {
+        if (level.isClientSide || state.getValue(CLOSED) || !(entity instanceof ServerPlayer serverPlayer)) {
             return;
         }
         if (!(level.getBlockEntity(pos) instanceof DoorwayPortalBlockEntity doorway)) {
@@ -125,6 +134,28 @@ public class DoorwayPortalBlock extends BaseEntityBlock implements EntityBlock {
         AABB box = ModelUtils.rotateShape(Direction.NORTH, state.getValue(FACING), COLLISION_SHAPE).bounds().move(pos).inflate(0.01D);
         if (entity.getBoundingBox().intersects(box)) {
             DoorwayPortalService.useDoorway(serverPlayer, serverPlayer.serverLevel(), pos, this, doorway);
+        }
+    }
+
+    @Override
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+        MineCellsBlocks.DOORWAY_FRAME.get().neighborChanged(state, level, pos, block, fromPos, isMoving);
+    }
+
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+        super.onRemove(state, level, pos, newState, isMoving);
+        if (level.isClientSide || newState.getBlock() instanceof DoorwayPortalBlock) {
+            return;
+        }
+        Direction side = state.getValue(FACING).getClockWise();
+        for (int xz = -1; xz <= 1; xz++) {
+            for (int y = -1; y <= 1; y++) {
+                BlockPos framePos = pos.offset(side.getStepX() * xz, y, side.getStepZ() * xz);
+                if (level.getBlockState(framePos).getBlock() instanceof DoorwayFrameBlock) {
+                    level.destroyBlock(framePos, true);
+                }
+            }
         }
     }
 
@@ -155,8 +186,31 @@ public class DoorwayPortalBlock extends BaseEntityBlock implements EntityBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
         return blockEntityType == MineCellsBlockEntities.DOORWAY.get() ? (entityLevel, entityPos, entityState, blockEntity) -> {
-            if (entityLevel.isClientSide && entityLevel.getGameTime() % 40L == 0L && blockEntity instanceof DoorwayPortalBlockEntity doorway) {
+            if (!(blockEntity instanceof DoorwayPortalBlockEntity doorway)) {
+                return;
+            }
+            long time = entityLevel.getGameTime();
+            if (entityLevel.isClientSide && time % 40L == 0L) {
                 doorway.updateClientVisited();
+            }
+            if (time % 5L != 0L) {
+                return;
+            }
+            boolean closed = entityState.getValue(CLOSED);
+            if (entityLevel.isClientSide) {
+                doorway.closedBarsAnimation.setupTransitionTo(
+                    closed ? 1.0F : 0.0F,
+                    10.0F,
+                    closed ? MathUtils::easeOutBounce : MathUtils::easeOutCubic
+                );
+                return;
+            }
+            Vec3 offset = Vec3.atLowerCornerOf(entityState.getValue(FACING).getNormal());
+            AABB box = AABB.ofSize(Vec3.atCenterOf(entityPos), 3.0D, 2.0D, 3.0D).move(offset);
+            List<Player> players = entityLevel.getEntitiesOfClass(Player.class, box);
+            boolean shouldClose = players.isEmpty() || players.stream().anyMatch(player -> !doorway.canPlayerEnter(player));
+            if (shouldClose != closed) {
+                entityLevel.setBlock(entityPos, entityState.setValue(CLOSED, shouldClose), Block.UPDATE_ALL);
             }
         } : null;
     }
@@ -174,7 +228,7 @@ public class DoorwayPortalBlock extends BaseEntityBlock implements EntityBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(FACING);
+        builder.add(FACING, CLOSED);
     }
 
     public enum DoorwayType implements StringRepresentable {

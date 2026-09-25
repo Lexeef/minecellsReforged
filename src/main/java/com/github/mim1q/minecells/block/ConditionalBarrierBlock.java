@@ -1,5 +1,6 @@
 package com.github.mim1q.minecells.block;
 
+import com.github.mim1q.minecells.entity.SewersTentacleEntity;
 import com.github.mim1q.minecells.util.ModelUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,6 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -37,7 +39,11 @@ public class ConditionalBarrierBlock extends HorizontalDirectionalBlock {
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return state.getValue(OPEN) ? Shapes.empty() : getShape(state, level, pos, context);
+        if (state.getValue(OPEN)
+            || (context instanceof EntityCollisionContext entityContext && entityContext.getEntity() instanceof SewersTentacleEntity)) {
+            return Shapes.empty();
+        }
+        return Shapes.block();
     }
 
     @Override

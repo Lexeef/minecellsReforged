@@ -1,9 +1,21 @@
 {
   "replace": false,
   "values": [
-    "minecells:broken_cage",
-    "minecells:cage",
-    "minecells:hanged_skeleton",
-    "minecells:skeleton"
+    {
+      "id": "minecells:broken_cage",
+      "required": false
+    },
+    {
+      "id": "minecells:cage",
+      "required": false
+    },
+    {
+      "id": "minecells:hanged_skeleton",
+      "required": false
+    },
+    {
+      "id": "minecells:skeleton",
+      "required": false
+    }
   ]
 }

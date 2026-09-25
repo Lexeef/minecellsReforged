@@ -6,6 +6,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.goal.WrappedGoal;
 
 public class FrozenMobEffect extends MineCellsMobEffect {
     private final boolean slow;
@@ -29,6 +30,9 @@ public class FrozenMobEffect extends MineCellsMobEffect {
         super.removeAttributeModifiers(entity, attributes, amplifier);
         if (slow) {
             entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100 * (amplifier + 1), amplifier, false, false, true));
+        }
+        if (entity instanceof Mob mob) {
+            mob.goalSelector.getRunningGoals().toList().forEach(WrappedGoal::stop);
         }
     }
 }

@@ -1,33 +1,30 @@
 {
-    "name":  "minecells:promenade/gallows",
-    "fallback":  "minecraft:empty",
-    "elements":  [
-                     {
-                         "weight":  1,
-                         "element":  {
-                                         "element_type":  "minecraft:single_pool_element",
-                                         "location":  "minecells:promenade/gallows/0",
-                                         "processors":  "minecells:promenade",
-                                         "projection":  "rigid"
-                                     }
-                     },
-                     {
-                         "weight":  2,
-                         "element":  {
-                                         "element_type":  "minecraft:single_pool_element",
-                                         "location":  "minecells:promenade/gallows/1",
-                                         "processors":  "minecells:promenade",
-                                         "projection":  "rigid"
-                                     }
-                     },
-                     {
-                         "weight":  2,
-                         "element":  {
-                                         "element_type":  "minecraft:single_pool_element",
-                                         "location":  "minecells:promenade/gallows/1",
-                                         "processors":  "minecells:promenade",
-                                         "projection":  "rigid"
-                                     }
-                     }
-                 ]
+  "name": "minecells:promenade/gallows",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "minecells:promenade/gallows/0",
+        "processors": "minecells:promenade",
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "minecells:promenade/gallows/1",
+        "processors": "minecells:promenade",
+        "projection": "rigid"
+      }
+    },
+    {
+      "weight": 4,
+      "element": {
+        "element_type": "minecraft:empty_pool_element"
+      }
+    }
+  ]
 }
