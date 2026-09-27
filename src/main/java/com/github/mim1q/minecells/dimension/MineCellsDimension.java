@@ -104,11 +104,9 @@ public enum MineCellsDimension {
         if (destination == null) {
             return Vec3.atBottomCenterOf(pos);
         }
-        Optional<SpecialPoint> point = findSpecialPoint(originLevel.dimension().location(), pos, destination, specialPointId);
-        if (point.isPresent()) {
-            Vec3 tpPos = Vec3.atBottomCenterOf(getRunCenter(pos).offset(point.get().offset()));
-            Vec3i facing = point.get().facing().rotate(Direction.NORTH).getNormal();
-            return tpPos.add(facing.getX() * -0.5D, 0.0D, facing.getZ() * -0.5D);
+        Optional<Vec3> specialPointPos = getSpecialPointTeleportPosition(pos, originLevel, specialPointId);
+        if (specialPointPos.isPresent()) {
+            return specialPointPos.get();
         }
         BlockPos tpPos = getPreferredSpawnPos(originLevel.dimension().location(), pos, originLevel, specialPointId);
         if (DIMENSIONS_WITH_SURFACE.contains(this)) {
@@ -121,6 +119,18 @@ public enum MineCellsDimension {
             originLevel.dimension().location(),
             getDoorwaySearchRadius(originLevel.dimension().location())
         ));
+    }
+
+    public Optional<Vec3> getSpecialPointTeleportPosition(BlockPos pos, ServerLevel originLevel, ResourceLocation specialPointId) {
+        ServerLevel destination = getLevel(originLevel);
+        if (destination == null) {
+            return Optional.empty();
+        }
+        return findSpecialPoint(originLevel.dimension().location(), pos, destination, specialPointId).map(point -> {
+            Vec3 tpPos = Vec3.atBottomCenterOf(getRunCenter(pos).offset(point.offset()));
+            Vec3i facing = point.facing().rotate(Direction.NORTH).getNormal();
+            return tpPos.add(facing.getX() * -0.5D, 0.0D, facing.getZ() * -0.5D);
+        });
     }
 
     public boolean isValidStoredTeleportTarget(BlockPos sourcePos, ServerLevel originLevel, BlockPos candidatePos) {

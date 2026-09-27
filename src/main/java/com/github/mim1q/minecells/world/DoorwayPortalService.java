@@ -53,13 +53,13 @@ public final class DoorwayPortalService {
         }
 
         BlockPos runSourcePos = currentDimension.equals(OVERWORLD_ID) ? anchor.atY(pos.getY()) : pos;
-        BlockPos targetPos = resolveTargetPos(level, runSourcePos, currentDimension, targetDimension, player, playerData, targetLevel, doorway.getSpecialPointTarget());
+        Vec3 target = resolveTarget(level, runSourcePos, currentDimension, targetDimension, player, playerData, targetLevel, doorway.getSpecialPointTarget());
+        BlockPos targetPos = BlockPos.containing(target);
         BlockPos sourcePos = pos.relative(level.getBlockState(pos).getValue(DoorwayPortalBlock.FACING));
 
         playerData.addPortalData(currentDimension, targetDimension, sourcePos, targetPos);
         MineCellsData.syncCurrentPlayerData(player, level);
 
-        Vec3 target = Vec3.atBottomCenterOf(targetPos);
         float targetYaw = targetMineCellsDimension != null
             ? targetMineCellsDimension.getTeleportYaw(runSourcePos, level, doorway.getSpecialPointTarget())
             : player.getYRot();
@@ -92,7 +92,7 @@ public final class DoorwayPortalService {
             && DoorwayRequirements.hasVineRune(player);
     }
 
-    private static BlockPos resolveTargetPos(
+    private static Vec3 resolveTarget(
         ServerLevel sourceLevel,
         BlockPos sourcePos,
         ResourceLocation currentDimension,
@@ -103,20 +103,27 @@ public final class DoorwayPortalService {
         ResourceLocation specialPointTarget
     ) {
         if (targetDimension.equals(OVERWORLD_ID)) {
-            return findOverworldEntrance(player, playerData, targetLevel);
+            return Vec3.atBottomCenterOf(findOverworldEntrance(player, playerData, targetLevel));
+        }
+        MineCellsDimension target = MineCellsDimension.of(targetDimension);
+        if (target != null) {
+            // Like Fabric: the exact special point position (with the half-block offset), not rounded to a block.
+            Optional<Vec3> specialPoint = target.getSpecialPointTeleportPosition(sourcePos, sourceLevel, specialPointTarget);
+            if (specialPoint.isPresent()) {
+                return specialPoint.get();
+            }
         }
         Optional<MineCellsData.PortalData> existing = playerData.getPortalData(currentDimension, targetDimension);
-        MineCellsDimension target = MineCellsDimension.of(targetDimension);
         if (existing.isPresent()) {
             BlockPos existingTargetPos = existing.get().toPos();
             if (target == null || target.isValidStoredTeleportTarget(currentDimension, sourcePos, sourceLevel, existingTargetPos)) {
-                return existingTargetPos;
+                return Vec3.atBottomCenterOf(existingTargetPos);
             }
         }
         if (target != null) {
-            return BlockPos.containing(target.getTeleportPosition(sourcePos, sourceLevel, specialPointTarget));
+            return target.getTeleportPosition(sourcePos, sourceLevel, specialPointTarget);
         }
-        return targetLevel.getSharedSpawnPos();
+        return Vec3.atBottomCenterOf(targetLevel.getSharedSpawnPos());
     }
 
     /**

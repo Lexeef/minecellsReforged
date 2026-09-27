@@ -86,6 +86,9 @@ minecraft {
         }
 
         client {
+            if (project.hasProperty('quickPlay')) {
+                args '--quickPlaySingleplayer', project.property('quickPlay')
+            }
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             property 'forge.enabledGameTestNamespaces', mod_id
         }
@@ -200,6 +203,9 @@ dependencies {
     }
     // Optional Patchouli guidebook components; only loaded by Patchouli itself.
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.20.1-85-FORGE")
+    if (project.hasProperty('withPatchouli')) {
+        runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.20.1-85-FORGE")
+    }
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html

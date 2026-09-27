@@ -1,39 +1,50 @@
 # Mine Cells Reforged
 
-This is a Forge 1.20.1 porting project for Mine Cells.
+An unofficial Forge 1.20.1 port of [Mine Cells](https://github.com/Mim1q/MineCells) by Mim1q, a Fabric mod that brings
+content from Dead Cells into Minecraft. The port follows Mine Cells 2.0.0 for Minecraft 1.20.1 and aims to behave the
+same as the original. The mod id stays `minecells`, so datapacks, tags and resource packs made for Mine Cells keep working.
 
-## Build
+This is a pre-release. It is not affiliated with or endorsed by Mim1q.
+
+## What works
+
+- All blocks, items, weapons, shields, bows/crossbows, spells and the Cell Crafter, with the original recipes, loot tables,
+  tags and advancements.
+- All mobs and both bosses (Conjunctivius and Concierge) with their models, animations, AI, elite variants and spawner runes.
+- The five dimensions (Prisoners' Quarters, Promenade of the Condemned, Insufferable Crypt, Ramparts, Black Bridge) with
+  the grid-based structure generation, doorways, per-player runs, the run border and fall protection.
+- Status effects, particles, sounds, screen shake, custom boss bars and the creative menu layout of the original.
+- Common and client config (`minecells-common.toml`, `minecells-client.toml`), with the synced values sent to clients.
+- Works on dedicated servers.
+- Optional integrations: Patchouli guidebook, EMI, JEI, REI (Cell Crafter recipes) and Better Combat weapon attributes.
+  None of them are required.
+
+In-game testing is still ongoing, so expect some bugs. Please report them in this repository.
+
+## Requirements
+
+- Minecraft 1.20.1
+- Forge 47.x
+
+## Building
 
 ```bash
 ./gradlew build
 ```
 
-On Windows, `gradlew.bat build` can also be used.
-The wrapper now supplies a default `JAVA_TOOL_OPTIONS=-Xmx2048m` when unset, which avoids local `reobfJar` failures on machines with a small paging file.
+On Windows use `gradlew.bat build`. The jar is written to `build/libs/minecells-reforged-<version>.jar`.
+JDK 17 is required. The wrapper sets `JAVA_TOOL_OPTIONS=-Xmx2048m` when it is not set, which is enough for the build.
 
-## Status
+Development runs: `./gradlew runClient` and `./gradlew runServer`. Add `-PwithBetterCombat` or `-PwithPatchouli` to load
+those mods in the dev environment.
 
-This project is currently a work in progress. The Forge project skeleton and metadata have been converted from the Forge MDK example to the `minecells` mod id, but the original Fabric systems are not fully ported yet.
+## License
 
-## Known missing features
+- Code: MIT, like the original Mine Cells source.
+- Assets (textures, models, sounds, structures and other resources from Mine Cells): All Rights Reserved by Mim1q.
 
-- Fabric registries are not fully replaced with Forge deferred registries.
-- Fabric/owo networking is not yet replaced with Forge SimpleChannel.
-- owo-lib config/UI systems are not yet replaced.
-- Worldgen, dimensions, structures, and portals still need full Forge validation.
-- Client renderers, screens, particles, and overlays still need Forge client-event registration.
-- Mixins still need review/remapping/replacement for Forge and Mojang official mappings.
+Because of the asset license, this port is not publicly redistributed until Mim1q grants permission.
 
-## Known issues
+## Credits
 
-- The original source uses Yarn mappings, while this Forge workspace uses Mojang official mappings.
-- Dedicated server safety still needs verification after client code is ported.
-- Assets are copied for local porting/testing only until redistribution permissions are confirmed.
-
-## Required dependencies
-
-Dependencies are still being evaluated. The original Fabric project uses Fabric API, owo-lib, Patchouli, EMI/REI integrations, and `gimm1q`; Forge equivalents or optional integrations still need to be implemented.
-
-## License notes
-
-The upstream source repository contains an MIT license for code. The upstream asset license file marks assets as All Rights Reserved by Mim1q. Do not prepare public redistribution until asset redistribution permission is confirmed.
+Original mod, assets and design by Mim1q. Forge port by Lexeef.
