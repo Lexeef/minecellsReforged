@@ -1,27 +1,30 @@
 package com.github.mim1q.minecells.client;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
+import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.RenderUtils;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RenderHighlightEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraft.world.entity.player.Player;
-import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
 import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
-import com.github.mim1q.minecells.util.ParticleUtils;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 

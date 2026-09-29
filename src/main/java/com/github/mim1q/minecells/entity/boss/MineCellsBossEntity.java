@@ -1,20 +1,21 @@
 package com.github.mim1q.minecells.entity.boss;
 
-import com.github.mim1q.minecells.network.MineCellsNetwork;
 import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal.State;
+import com.github.mim1q.minecells.network.MineCellsNetwork;
 import com.github.mim1q.minecells.registry.MineCellsItems;
+
 import net.minecraft.core.Holder;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.BossEvent;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 

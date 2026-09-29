@@ -1,9 +1,10 @@
 package com.github.mim1q.minecells.world;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock.DoorwayType;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.util.SyncedAdvancements;
 import com.github.mim1q.minecells.world.state.MineCellsData;
+
 import net.minecraft.advancements.Advancement;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

@@ -3,8 +3,10 @@ package com.github.mim1q.minecells.registry;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.particle.colored.ColoredParticleType;
 import com.github.mim1q.minecells.particle.electric.ElectricParticleType;
+
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
+
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

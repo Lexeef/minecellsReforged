@@ -1,11 +1,13 @@
 package com.github.mim1q.minecells.client.renderer.monster;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.MineCellsMonsterEntity;
 import com.github.mim1q.minecells.entity.SewersTentacleEntity;
+import com.github.mim1q.minecells.MineCells;
+
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.MultiBufferSource;
+
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 
 public class SewersTentacleRenderer extends ModelBackedMineCellsMonsterRenderer<SewersTentacleModel> {

@@ -2,9 +2,10 @@ package com.github.mim1q.minecells.block.blockentity;
 
 import com.github.mim1q.minecells.block.setupblocks.SetupBlock;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
+
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.Level;
 
 public class SetupBlockEntity extends MineCellsBlockEntity {
     private boolean done = false;

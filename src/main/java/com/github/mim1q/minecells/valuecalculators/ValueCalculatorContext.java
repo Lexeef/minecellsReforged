@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.valuecalculators;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;

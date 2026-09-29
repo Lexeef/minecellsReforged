@@ -2,8 +2,10 @@ package com.github.mim1q.minecells.item;
 
 import com.github.mim1q.minecells.block.FlagBlock;
 import com.github.mim1q.minecells.client.renderer.item.FlagBlockItemRenderer;
+
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.BlockItem;
+
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 import java.util.function.Consumer;

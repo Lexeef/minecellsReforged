@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.client.renderer.monster;
 
 import com.github.mim1q.minecells.MineCells;
+
 import net.minecraft.client.model.geom.ModelLayerLocation;
 
 public final class MineCellsMonsterModelLayers {

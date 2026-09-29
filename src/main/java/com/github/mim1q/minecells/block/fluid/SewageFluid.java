@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.block.fluid;
 
 import com.github.mim1q.minecells.registry.MineCellsParticles;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -8,6 +9,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
+
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 
 public final class SewageFluid {

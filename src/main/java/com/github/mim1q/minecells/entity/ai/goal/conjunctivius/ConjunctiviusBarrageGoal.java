@@ -1,10 +1,11 @@
 package com.github.mim1q.minecells.entity.ai.goal.conjunctivius;
 
-import com.github.mim1q.minecells.network.MineCellsNetwork;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.entity.nonliving.projectile.ConjunctiviusProjectileEntity;
+import com.github.mim1q.minecells.network.MineCellsNetwork;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.util.MathUtils;
+
 import net.minecraft.core.Holder;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.level.ServerLevel;

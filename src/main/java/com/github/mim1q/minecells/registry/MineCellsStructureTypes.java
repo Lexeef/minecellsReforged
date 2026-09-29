@@ -1,11 +1,13 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.structure.MineCellsBigJigsawStructure;
 import com.github.mim1q.minecells.structure.grid.GridBasedStructure;
+import com.github.mim1q.minecells.structure.MineCellsBigJigsawStructure;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
+
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;

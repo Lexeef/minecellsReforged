@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.util;
 
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;

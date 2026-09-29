@@ -1,28 +1,31 @@
 package com.github.mim1q.minecells.client.screen;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.MineCellsClientData;
-import com.github.mim1q.minecells.network.MineCellsNetwork;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.network.c2s.CellCrafterCraftRequestC2SPacket;
 import com.github.mim1q.minecells.network.c2s.RequestUnlockedCellCrafterRecipesC2SPacket;
+import com.github.mim1q.minecells.network.MineCellsNetwork;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.registry.MineCellsRecipeTypes;
 import com.github.mim1q.minecells.screen.cellcrafter.CellCrafterMenu;
+
 import com.mojang.blaze3d.platform.InputConstants;
+
 import net.minecraft.ChatFormatting;
-import net.minecraft.SharedConstants;
-import net.minecraft.Util;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.SharedConstants;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.Util;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeManager;
+
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;

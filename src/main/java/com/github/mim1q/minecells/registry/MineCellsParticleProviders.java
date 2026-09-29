@@ -2,7 +2,9 @@ package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.particle.ChargeParticle;
+import com.github.mim1q.minecells.particle.colored.ColoredParticle;
 import com.github.mim1q.minecells.particle.DropParticle;
+import com.github.mim1q.minecells.particle.electric.ElectricParticle;
 import com.github.mim1q.minecells.particle.ExplosionParticle;
 import com.github.mim1q.minecells.particle.FallingLeafParticle;
 import com.github.mim1q.minecells.particle.FlyParticle;
@@ -10,8 +12,7 @@ import com.github.mim1q.minecells.particle.ProtectorParticle;
 import com.github.mim1q.minecells.particle.RisingBubbleParticle;
 import com.github.mim1q.minecells.particle.SmallDropParticle;
 import com.github.mim1q.minecells.particle.SpeckleParticle;
-import com.github.mim1q.minecells.particle.colored.ColoredParticle;
-import com.github.mim1q.minecells.particle.electric.ElectricParticle;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

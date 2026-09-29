@@ -2,11 +2,12 @@ package com.github.mim1q.minecells.client.toast;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+
 import net.minecraft.client.gui.components.toasts.Toast;
 import net.minecraft.client.gui.components.toasts.ToastComponent;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

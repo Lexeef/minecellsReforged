@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.particle.electric;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -10,6 +11,7 @@ import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
+
 import org.joml.Math;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;

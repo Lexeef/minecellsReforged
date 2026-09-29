@@ -1,12 +1,13 @@
 package com.github.mim1q.minecells.compat.rei;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.compat.BlockStateIcon;
 import com.github.mim1q.minecells.compat.DoorwayRecipeExamples;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsRecipeTypes;
+
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.entry.renderer.EntryRenderer;
@@ -27,13 +28,14 @@ import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import me.shedaniel.rei.forge.REIPluginClient;
 import me.shedaniel.rei.plugin.common.displays.crafting.DefaultCustomShapelessDisplay;
+
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.Util;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Comparator;

@@ -1,22 +1,25 @@
 package com.github.mim1q.minecells.entity.boss;
 
-import com.github.mim1q.minecells.MineCells;
+import static java.lang.Math.min;
+
+import com.github.mim1q.minecells.entity.ai.goal.concierge.ConciergePunchGoal;
 import com.github.mim1q.minecells.entity.ai.goal.ShockwaveGoal;
 import com.github.mim1q.minecells.entity.ai.goal.ShockwaveGoal.ShockwaveType;
 import com.github.mim1q.minecells.entity.ai.goal.TargetRandomPlayerGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedAuraGoal;
 import com.github.mim1q.minecells.entity.ai.goal.TimedDashGoal;
 import com.github.mim1q.minecells.entity.ai.goal.WalkTowardsTargetGoal;
-import com.github.mim1q.minecells.entity.ai.goal.concierge.ConciergePunchGoal;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+import com.github.mim1q.minecells.util.animation.AnimationProperty;
+import com.github.mim1q.minecells.util.animation.AnimationProperty.EasingFunction;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.ScreenShakeUtils;
-import com.github.mim1q.minecells.util.animation.AnimationProperty;
-import com.github.mim1q.minecells.util.animation.AnimationProperty.EasingFunction;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -26,31 +29,30 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.WrappedGoal;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.WrappedGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Set;
-
-import static java.lang.Math.min;
 
 public class ConciergeEntity extends MineCellsBossEntity {
     private static final EntityDataAccessor<Boolean> LEAP_CHARGING = SynchedEntityData.defineId(ConciergeEntity.class, EntityDataSerializers.BOOLEAN);

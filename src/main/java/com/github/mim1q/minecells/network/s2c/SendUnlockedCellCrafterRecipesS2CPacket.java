@@ -1,15 +1,17 @@
 package com.github.mim1q.minecells.network.s2c;
 
-import com.github.mim1q.minecells.registry.MineCellsRecipeTypes;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
+import com.github.mim1q.minecells.registry.MineCellsRecipeTypes;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+
 import net.minecraftforge.network.NetworkEvent;
 
+import java.util.function.Supplier;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class SendUnlockedCellCrafterRecipesS2CPacket {
     private final Map<ResourceLocation, Boolean> unlockedRecipes;

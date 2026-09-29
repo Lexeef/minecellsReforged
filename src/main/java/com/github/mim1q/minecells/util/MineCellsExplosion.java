@@ -3,20 +3,22 @@ package com.github.mim1q.minecells.util;
 import com.github.mim1q.minecells.network.MineCellsNetwork;
 import com.github.mim1q.minecells.network.s2c.ExplosionS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+
 import net.minecraftforge.network.PacketDistributor;
 
-import java.util.List;
 import java.util.function.Predicate;
+import java.util.List;
 
 /**
  * Forge port of Fabric MineCells explosion (entity damage only, no block destruction).

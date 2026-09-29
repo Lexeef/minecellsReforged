@@ -4,6 +4,7 @@ import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
+
 import net.minecraftforge.fml.util.thread.EffectiveSide;
 
 import java.util.ArrayList;

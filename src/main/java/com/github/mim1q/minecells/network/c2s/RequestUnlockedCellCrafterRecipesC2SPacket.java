@@ -1,7 +1,9 @@
 package com.github.mim1q.minecells.network.c2s;
 
 import com.github.mim1q.minecells.network.s2c.SendUnlockedCellCrafterRecipesS2CPacket;
+
 import net.minecraft.server.level.ServerPlayer;
+
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;

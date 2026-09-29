@@ -1,8 +1,8 @@
 package com.github.mim1q.minecells.dimension;
 
+import java.util.function.BiPredicate;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiPredicate;
 
 public final class MineCellsDimensionGraph {
     private final Map<MineCellsDimension, Node> graph = new HashMap<>();

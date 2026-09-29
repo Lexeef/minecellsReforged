@@ -1,8 +1,10 @@
 package com.github.mim1q.minecells.client.renderer.item;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.config.MineCellsConfig;
+import com.github.mim1q.minecells.MineCells;
+
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.resources.model.BakedModel;
@@ -11,11 +13,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.model.BakedModelWrapper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;

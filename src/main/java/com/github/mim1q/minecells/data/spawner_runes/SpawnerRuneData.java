@@ -1,13 +1,16 @@
 package com.github.mim1q.minecells.data.spawner_runes;
 
 import com.github.mim1q.minecells.MineCells;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.EntityType;
+
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;

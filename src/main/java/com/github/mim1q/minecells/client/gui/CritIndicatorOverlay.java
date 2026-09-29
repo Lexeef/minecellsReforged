@@ -1,15 +1,18 @@
 package com.github.mim1q.minecells.client.gui;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.config.MineCellsConfig;
 import com.github.mim1q.minecells.item.weapon.interfaces.CritIndicator;
+import com.github.mim1q.minecells.MineCells;
+
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Minecraft;
+
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.gui.overlay.ForgeGui;

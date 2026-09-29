@@ -1,13 +1,16 @@
 package com.github.mim1q.minecells.book;
 
-import com.github.mim1q.minecells.entity.MineCellsMonsterEntity;
 import com.github.mim1q.minecells.entity.boss.MineCellsBossEntity;
+import com.github.mim1q.minecells.entity.MineCellsMonsterEntity;
+
+import vazkii.patchouli.client.book.gui.GuiBook;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.LivingEntity;
+
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
-import vazkii.patchouli.client.book.gui.GuiBook;
 
 /**
  * Must only be class-loaded when Patchouli is present.

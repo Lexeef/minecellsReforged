@@ -4,6 +4,7 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.phys.Vec3;
+
 import org.joml.Vector3f;
 
 public final class MathUtils {

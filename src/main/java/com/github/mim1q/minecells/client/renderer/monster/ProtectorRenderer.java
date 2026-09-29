@@ -1,20 +1,23 @@
 package com.github.mim1q.minecells.client.renderer.monster;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.config.MineCellsConfig;
 import com.github.mim1q.minecells.entity.MineCellsMonsterEntity;
 import com.github.mim1q.minecells.entity.ProtectorEntity;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.util.RenderUtils;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
+
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 

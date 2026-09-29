@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.entity.damage;
 
 import com.github.mim1q.minecells.MineCells;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageSource;

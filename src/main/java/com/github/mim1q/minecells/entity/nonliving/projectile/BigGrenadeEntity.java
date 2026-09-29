@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.entity.nonliving.projectile;
 
 import com.github.mim1q.minecells.entity.GrenadeProjectileEntity;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
+
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;

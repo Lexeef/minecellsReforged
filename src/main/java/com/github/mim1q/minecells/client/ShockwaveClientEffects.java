@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.client;
 
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
+
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;

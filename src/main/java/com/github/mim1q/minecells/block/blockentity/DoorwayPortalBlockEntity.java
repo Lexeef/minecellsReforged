@@ -4,23 +4,25 @@ import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
 import com.github.mim1q.minecells.client.MineCellsClientData;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
 import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
-import com.github.mim1q.minecells.util.MineCellsText;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
-import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
+import com.github.mim1q.minecells.util.MineCellsText;
 import com.github.mim1q.minecells.world.state.MineCellsData;
+
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
+import net.minecraft.Util;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.Level;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;

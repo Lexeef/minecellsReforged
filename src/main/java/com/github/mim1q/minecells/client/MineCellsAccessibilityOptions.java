@@ -1,11 +1,13 @@
 package com.github.mim1q.minecells.client;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.config.MineCellsConfig;
-import net.minecraft.client.OptionInstance;
+import com.github.mim1q.minecells.MineCells;
+
 import net.minecraft.client.gui.components.OptionsList;
 import net.minecraft.client.gui.screens.AccessibilityOptionsScreen;
+import net.minecraft.client.OptionInstance;
 import net.minecraft.network.chat.Component;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

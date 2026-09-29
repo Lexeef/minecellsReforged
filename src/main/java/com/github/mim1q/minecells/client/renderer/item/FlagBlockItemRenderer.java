@@ -3,8 +3,10 @@ package com.github.mim1q.minecells.client.renderer.item;
 import com.github.mim1q.minecells.block.FlagBlock;
 import com.github.mim1q.minecells.client.renderer.blockentity.FlagBlockEntityRenderer;
 import com.github.mim1q.minecells.client.renderer.blockentity.FlagBlockEntityRenderer.BiomeBannerBlockEntityModel;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;

@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.structure.grid;
 
 import com.github.mim1q.minecells.MineCells;
+
 import net.minecraft.resources.ResourceLocation;
 
 public final class SpecialPointIds {

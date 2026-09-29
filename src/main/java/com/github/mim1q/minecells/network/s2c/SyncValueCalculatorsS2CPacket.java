@@ -1,13 +1,15 @@
 package com.github.mim1q.minecells.network.s2c;
 
 import com.github.mim1q.minecells.valuecalculators.ValueCalculators;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
-import java.util.Map;
 import java.util.function.Supplier;
+import java.util.Map;
 
 public class SyncValueCalculatorsS2CPacket {
     private static final int MAX_JSON_LENGTH = 262144;

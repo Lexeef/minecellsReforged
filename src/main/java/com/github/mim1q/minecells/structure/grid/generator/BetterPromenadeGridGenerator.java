@@ -2,7 +2,9 @@ package com.github.mim1q.minecells.structure.grid.generator;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
+
 import com.mojang.datafixers.util.Pair;
+
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;

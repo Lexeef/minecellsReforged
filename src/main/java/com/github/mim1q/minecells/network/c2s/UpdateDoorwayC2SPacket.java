@@ -1,11 +1,12 @@
 package com.github.mim1q.minecells.network.c2s;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.DoorwayPortalBlockEntity;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.world.DoorwayRequirements;
 import com.github.mim1q.minecells.world.state.MineCellsData;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -13,6 +14,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;

@@ -3,10 +3,13 @@ package com.github.mim1q.minecells.registry;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.world.processor.RandomizePropertyStructureProcessor;
 import com.github.mim1q.minecells.world.processor.SwitchBlockStructureProcessor;
+
 import com.mojang.serialization.Codec;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;

@@ -1,14 +1,17 @@
 package com.github.mim1q.minecells.command;
 
 import com.github.mim1q.minecells.util.PlayerCells;
+
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
+
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+
 import net.minecraftforge.event.RegisterCommandsEvent;
 
 public final class CellsCommand {

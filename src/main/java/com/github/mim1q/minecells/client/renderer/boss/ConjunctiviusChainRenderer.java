@@ -1,22 +1,25 @@
 package com.github.mim1q.minecells.client.renderer.boss;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.RenderUtils;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.RenderLayerParent;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
+
 import org.joml.Vector3f;
 
 public class ConjunctiviusChainRenderer extends RenderLayer<ConjunctiviusEntity, ConjunctiviusEntityModel> {

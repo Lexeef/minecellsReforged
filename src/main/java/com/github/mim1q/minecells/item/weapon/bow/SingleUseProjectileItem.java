@@ -2,11 +2,12 @@ package com.github.mim1q.minecells.item.weapon.bow;
 
 import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;

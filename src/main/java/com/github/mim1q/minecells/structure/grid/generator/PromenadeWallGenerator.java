@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.structure.grid.generator;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator;
+
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;

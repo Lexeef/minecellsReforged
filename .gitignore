@@ -31,12 +31,7 @@ banned-players.json
 ops.json
 whitelist.json
 
-# Local work dirs
-.tmp_forge_src/
-tmp/
-temp/
-
-# Generated/exported artifacts
+# Generated and local artifacts
 *.jar
 !gradle/wrapper/gradle-wrapper.jar
 *.log
@@ -49,15 +44,6 @@ temp/
 Thumbs.db
 desktop.ini
 
-# Local publishing/secrets
+# Local publishing
 publishing.properties
 mcmodsrepo/
-
-# Forge MDK leftovers
-forge*changelog.txt
-changelog.txt
-
-# Local-only notes
-LOCAL_PORTING_GUIDE.md
-TODO
-TODO.md

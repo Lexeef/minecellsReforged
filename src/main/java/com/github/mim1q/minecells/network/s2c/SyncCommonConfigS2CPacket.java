@@ -1,7 +1,9 @@
 package com.github.mim1q.minecells.network.s2c;
 
 import com.github.mim1q.minecells.config.MineCellsSyncedConfig;
+
 import net.minecraft.network.FriendlyByteBuf;
+
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.server.ServerLifecycleHooks;
 

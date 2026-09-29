@@ -2,6 +2,8 @@ package com.github.mim1q.minecells.entity.nonliving.obelisk;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.registry.MineCellsItems;
+
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -11,7 +13,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.resources.ResourceLocation;
 
 public class ConciergeObeliskEntity extends BossObeliskEntity {
     private static final ResourceLocation SPAWNER_RUNE = MineCells.id("boss/concierge");

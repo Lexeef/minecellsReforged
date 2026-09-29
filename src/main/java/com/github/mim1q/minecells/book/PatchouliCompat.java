@@ -1,12 +1,14 @@
 package com.github.mim1q.minecells.book;
 
 import com.github.mim1q.minecells.MineCells;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ItemStack;
+
 import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 

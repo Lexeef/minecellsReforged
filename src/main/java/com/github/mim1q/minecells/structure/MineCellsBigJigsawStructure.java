@@ -2,17 +2,20 @@ package com.github.mim1q.minecells.structure;
 
 import com.github.mim1q.minecells.registry.MineCellsStructureTypes;
 import com.github.mim1q.minecells.structure.grid.MineCellsStructurePoolBasedGenerator;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import java.util.Optional;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+
+import java.util.Optional;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class MineCellsBigJigsawStructure extends Structure {

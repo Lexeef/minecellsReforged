@@ -1,9 +1,11 @@
 package com.github.mim1q.minecells.registry;
 
 import com.github.mim1q.minecells.MineCells;
+
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;
+
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

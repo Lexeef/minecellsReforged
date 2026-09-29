@@ -4,17 +4,19 @@ import com.github.mim1q.minecells.block.blockentity.BarrierControllerBlockEntity
 import com.github.mim1q.minecells.config.MineCellsConfig;
 import com.github.mim1q.minecells.entity.boss.MineCellsBossEntity;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+
 import org.jetbrains.annotations.Nullable;
 
 public class BarrierControllerBlock extends ConditionalBarrierBlock implements EntityBlock {

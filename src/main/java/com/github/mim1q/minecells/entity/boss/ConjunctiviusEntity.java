@@ -1,25 +1,28 @@
 package com.github.mim1q.minecells.entity.boss;
 
-import com.github.mim1q.minecells.MineCells;
+import static com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity.EyeState.SHAKING;
+
 import com.github.mim1q.minecells.block.MineCellsBlockTags;
-import com.github.mim1q.minecells.entity.SewersTentacleEntity;
-import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
-import com.github.mim1q.minecells.entity.ai.goal.TimedAuraGoal;
 import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusBarrageGoal;
 import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusMoveAroundGoal;
 import com.github.mim1q.minecells.entity.ai.goal.conjunctivius.ConjunctiviusTargetGoal;
+import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
+import com.github.mim1q.minecells.entity.ai.goal.TimedAuraGoal;
+import com.github.mim1q.minecells.entity.SewersTentacleEntity;
+import com.github.mim1q.minecells.MineCells;
+import com.github.mim1q.minecells.network.MineCellsNetwork;
+import com.github.mim1q.minecells.network.s2c.UpdateConjunctiviusBossBarS2CPacket;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
-import com.github.mim1q.minecells.network.MineCellsNetwork;
-import com.github.mim1q.minecells.network.s2c.UpdateConjunctiviusBossBarS2CPacket;
+import com.github.mim1q.minecells.util.animation.AnimationProperty;
+import com.github.mim1q.minecells.util.client.ClientUtil;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.ParticleUtils;
 import com.github.mim1q.minecells.util.ScreenShakeUtils;
-import com.github.mim1q.minecells.util.animation.AnimationProperty;
-import com.github.mim1q.minecells.util.client.ClientUtil;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -36,41 +39,40 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.WrappedGoal;
+import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
+import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.control.MoveControl;
-import net.minecraft.world.entity.ai.goal.WrappedGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
-import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
 import java.util.EnumSet;
+import java.util.function.Consumer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Consumer;
-
-import static com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity.EyeState.SHAKING;
 
 public class ConjunctiviusEntity extends MineCellsBossEntity {
 

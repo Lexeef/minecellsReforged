@@ -3,11 +3,12 @@ package com.github.mim1q.minecells.item.weapon.shield;
 import com.github.mim1q.minecells.config.MineCellsSyncedConfig;
 import com.github.mim1q.minecells.item.weapon.MineCellsWeaponTier;
 import com.github.mim1q.minecells.registry.MineCellsItems;
+
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;

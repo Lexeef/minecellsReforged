@@ -2,10 +2,12 @@ package com.github.mim1q.minecells.world.densityfunction;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import java.util.Optional;
+
 import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.levelgen.DensityFunction;
+
+import java.util.Optional;
 
 public record CliffDensityFunction(
     int gridSize,

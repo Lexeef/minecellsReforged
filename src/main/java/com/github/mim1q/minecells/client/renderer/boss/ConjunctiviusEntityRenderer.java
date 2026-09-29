@@ -1,13 +1,15 @@
 package com.github.mim1q.minecells.client.renderer.boss;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.renderer.monster.MineCellsMonsterModelLayers;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
+import com.github.mim1q.minecells.MineCells;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
+
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 
 public class ConjunctiviusEntityRenderer extends MobRenderer<ConjunctiviusEntity, ConjunctiviusEntityModel> {

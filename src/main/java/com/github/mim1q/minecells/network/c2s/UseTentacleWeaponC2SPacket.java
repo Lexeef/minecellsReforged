@@ -1,14 +1,16 @@
 package com.github.mim1q.minecells.network.c2s;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.config.MineCellsConfig;
 import com.github.mim1q.minecells.entity.nonliving.TentacleWeaponEntity;
 import com.github.mim1q.minecells.item.weapon.TentacleItem;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.registry.MineCellsItems;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
+
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;

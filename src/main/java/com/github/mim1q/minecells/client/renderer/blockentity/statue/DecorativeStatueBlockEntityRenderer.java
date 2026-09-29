@@ -1,16 +1,19 @@
 package com.github.mim1q.minecells.client.renderer.blockentity.statue;
 
-import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.block.DecorativeStatueBlock;
 import com.github.mim1q.minecells.block.blockentity.DecorativeStatueBlockEntity;
+import com.github.mim1q.minecells.block.DecorativeStatueBlock;
+import com.github.mim1q.minecells.MineCells;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+
 import org.joml.Quaternionf;
 
 public class DecorativeStatueBlockEntityRenderer implements BlockEntityRenderer<DecorativeStatueBlockEntity> {

@@ -3,22 +3,24 @@ package com.github.mim1q.minecells.registry;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.network.MineCellsNetwork;
 import com.github.mim1q.minecells.network.s2c.AdvancementHintsS2CPacket;
+
 import net.minecraft.advancements.Advancement;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.event.TickEvent;
+import net.minecraft.server.MinecraftServer;
+
 import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Replaces Fabric's {@code ClientAdvancementManagerMixin}: tells clients which hint-marker

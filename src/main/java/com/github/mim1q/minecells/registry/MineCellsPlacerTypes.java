@@ -4,9 +4,11 @@ import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.world.feature.tree.PromenadeFoliagePlacer;
 import com.github.mim1q.minecells.world.feature.tree.PromenadeShrubTrunkPlacer;
 import com.github.mim1q.minecells.world.feature.tree.PromenadeTreeTrunkPlacer;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
+
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;

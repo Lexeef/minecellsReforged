@@ -1,12 +1,13 @@
 package com.github.mim1q.minecells.compat.emi;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.compat.BlockStateIcon;
 import com.github.mim1q.minecells.compat.DoorwayRecipeExamples;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsRecipeTypes;
+
 import dev.emi.emi.api.EmiEntrypoint;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
@@ -15,9 +16,10 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.EmiWorldInteractionRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
+
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.Items;
 
 import java.util.Comparator;
 

@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.particle;
 
 import com.github.mim1q.minecells.particle.colored.ColoredParticle;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
+
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
 

@@ -1,9 +1,10 @@
 package com.github.mim1q.minecells.client.renderer.monster;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.renderer.layer.GlowEyesLayer;
 import com.github.mim1q.minecells.config.MineCellsConfig;
 import com.github.mim1q.minecells.entity.ShockerEntity;
+import com.github.mim1q.minecells.MineCells;
+
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 

@@ -3,33 +3,37 @@ package com.github.mim1q.minecells.entity.nonliving;
 import com.github.mim1q.minecells.network.MineCellsNetwork;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
+
 import com.mojang.datafixers.util.Pair;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+
 import net.minecraftforge.network.NetworkHooks;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.function.Predicate;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.UUID;
 
 public class ShockwavePlacer extends Entity {
     private static final double STEPS_PER_POS = 2.0D;

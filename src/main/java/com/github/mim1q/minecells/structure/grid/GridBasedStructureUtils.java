@@ -1,15 +1,17 @@
 package com.github.mim1q.minecells.structure.grid;
 
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
-import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator;
-import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator.SpecialPoint;
 import com.github.mim1q.minecells.structure.grid.generator.BetterPromenadeGridGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.BlackBridgeGridGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.InsufferableCryptGridGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.PrisonGridGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.RampartsGridGenerator;
+import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator;
+import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator.SpecialPoint;
 import com.github.mim1q.minecells.util.MathUtils;
+
 import com.mojang.datafixers.util.Pair;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
@@ -17,10 +19,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.Structure;
 
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import javax.annotation.Nullable;
 
 public final class GridBasedStructureUtils {
     private static long prevSeed = 0L;

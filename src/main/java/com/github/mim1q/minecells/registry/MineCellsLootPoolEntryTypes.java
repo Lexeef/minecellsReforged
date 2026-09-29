@@ -1,9 +1,11 @@
 package com.github.mim1q.minecells.registry;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.loot.SpecialWeaponLootEntry;
+import com.github.mim1q.minecells.MineCells;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryType;
+
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;

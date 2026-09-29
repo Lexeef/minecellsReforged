@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.structure.grid.generator;
 
 import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
+
 import net.minecraft.core.Vec3i;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.util.RandomSource;

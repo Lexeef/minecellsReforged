@@ -1,17 +1,19 @@
 package com.github.mim1q.minecells.client;
 
 import com.github.mim1q.minecells.MineCells;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.PathPackResources;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.ModList;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

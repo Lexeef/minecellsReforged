@@ -1,27 +1,29 @@
 package com.github.mim1q.minecells.compat.jei;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.compat.DoorwayRecipeExamples;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.recipe.CellForgeRecipe;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsRecipeTypes;
-import mezz.jei.api.IModPlugin;
-import mezz.jei.api.JeiPlugin;
+
 import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.IModPlugin;
+import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.Comparator;
 import java.util.List;

@@ -1,29 +1,28 @@
 package com.github.mim1q.minecells.block;
 
 import com.github.mim1q.minecells.registry.MineCellsParticles;
+
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.BarrierBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.phys.Vec3;
 
-import java.util.Random;
+import org.jetbrains.annotations.Nullable;
 
 public class BarrierRuneBlock extends BarrierBlock {
     public static final BooleanProperty BOTTOM = BooleanProperty.create("bottom");

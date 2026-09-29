@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.util;
 
 import com.github.mim1q.minecells.block.WallLeavesBlock;
+
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockBehaviour;

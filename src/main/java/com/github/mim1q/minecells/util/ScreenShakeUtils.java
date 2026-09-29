@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.util;
 
 import com.github.mim1q.minecells.network.MineCellsNetwork;
 import com.github.mim1q.minecells.network.s2c.ScreenShakeS2CPacket;
+
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.AABB;

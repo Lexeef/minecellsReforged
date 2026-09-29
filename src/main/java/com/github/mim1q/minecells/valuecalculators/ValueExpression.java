@@ -1,9 +1,9 @@
 package com.github.mim1q.minecells.valuecalculators;
 
 import java.util.ArrayList;
+import java.util.function.ToDoubleFunction;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.ToDoubleFunction;
 
 @FunctionalInterface
 public interface ValueExpression {

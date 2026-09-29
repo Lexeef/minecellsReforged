@@ -1,9 +1,10 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
 import com.github.mim1q.minecells.entity.damage.MineCellsDamageSource;
+
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 

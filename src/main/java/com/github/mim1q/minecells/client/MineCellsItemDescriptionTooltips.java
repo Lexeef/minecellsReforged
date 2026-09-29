@@ -1,14 +1,15 @@
 package com.github.mim1q.minecells.client;
 
-import com.github.mim1q.minecells.item.weapon.CustomMeleeWeaponItem;
 import com.github.mim1q.minecells.item.weapon.bow.CustomArrowShooter;
 import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType;
 import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
+import com.github.mim1q.minecells.item.weapon.CustomMeleeWeaponItem;
 import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
 import com.github.mim1q.minecells.item.weapon.interfaces.WeaponWithAbility;
 import com.github.mim1q.minecells.item.weapon.shield.CustomShieldItem;
 import com.github.mim1q.minecells.item.weapon.shield.CustomShieldType;
 import com.github.mim1q.minecells.registry.MineCellsItems;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 

@@ -6,20 +6,21 @@ import com.github.mim1q.minecells.block.FlagPoleBlock;
 import com.github.mim1q.minecells.block.MineCellsBlockTags;
 import com.github.mim1q.minecells.block.SkeletonDecorationBlock;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
-import java.util.List;
-import java.util.function.BiConsumer;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChainBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelSimulatedReader;
+
+import java.util.function.BiConsumer;
+import java.util.List;
 
 public interface PromenadeTreeHelper {
     BlockState TRUNK_BLOCK = MineCellsBlocks.PUTRID_WOOD.get().defaultBlockState().setValue(RotatedPillarBlock.AXIS, Direction.Axis.Y);

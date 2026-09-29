@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.client.renderer.monster;
 
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
+
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.Mth;
 

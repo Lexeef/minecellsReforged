@@ -1,14 +1,14 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.LivingEntity;
 
-import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.Objects;
 
 public abstract class TimedActionGoal<E extends LivingEntity> extends Goal {
     protected final E entity;

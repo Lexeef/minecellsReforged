@@ -3,15 +3,17 @@ package com.github.mim1q.minecells.command;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
 import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
 import com.github.mim1q.minecells.util.TeleportUtils;
-import com.mojang.brigadier.Command;
+
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
-import net.minecraft.commands.SharedSuggestionProvider;
-import net.minecraft.commands.arguments.EntityArgument;
+
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +21,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+
 import net.minecraftforge.event.RegisterCommandsEvent;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;

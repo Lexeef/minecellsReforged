@@ -1,12 +1,13 @@
 package com.github.mim1q.minecells.dimension;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.structure.grid.GridBasedStructureUtils;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator.SpecialPoint;
 import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
 import com.github.mim1q.minecells.util.MathUtils;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.SectionPos;
@@ -14,20 +15,20 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.function.Consumer;
+import java.util.function.LongSupplier;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Consumer;
-import java.util.function.LongSupplier;
+import javax.annotation.Nullable;
 
 public enum MineCellsDimension {
     OVERWORLD(new ResourceLocation("minecraft", "overworld"), new BlockPos(0, 0, 0), 0.0D, 0.0F),

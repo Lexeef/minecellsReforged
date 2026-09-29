@@ -1,34 +1,37 @@
 package com.github.mim1q.minecells.client.renderer.blockentity;
 
-import com.github.mim1q.minecells.MineCells;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static java.lang.Math.sin;
+import static org.joml.Math.clamp;
+
 import com.github.mim1q.minecells.block.blockentity.DoorwayPortalBlockEntity;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.RenderUtils;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
+
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
 import java.util.List;
-
-import static java.lang.Math.max;
-import static java.lang.Math.min;
-import static java.lang.Math.sin;
-import static org.joml.Math.clamp;
 
 public final class DoorwayPortalBlockEntityRenderer implements BlockEntityRenderer<DoorwayPortalBlockEntity> {
     private final Font font;

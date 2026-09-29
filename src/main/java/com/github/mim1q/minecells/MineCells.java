@@ -1,9 +1,12 @@
 package com.github.mim1q.minecells;
 
+import com.github.mim1q.minecells.book.PatchouliCompat;
+import com.github.mim1q.minecells.command.CellsCommand;
 import com.github.mim1q.minecells.command.MineCellsDataCommand;
+import com.github.mim1q.minecells.command.MineCellsDumpCommand;
 import com.github.mim1q.minecells.command.MineCellsTeleportCommand;
 import com.github.mim1q.minecells.command.SpawnerRuneCommand;
-import com.mojang.logging.LogUtils;
+import com.github.mim1q.minecells.command.SpecialPointCommand;
 import com.github.mim1q.minecells.config.MineCellsConfig;
 import com.github.mim1q.minecells.network.MineCellsNetwork;
 import com.github.mim1q.minecells.registry.MineCellsBlockEntities;
@@ -29,13 +32,18 @@ import com.github.mim1q.minecells.registry.MineCellsStructurePieceTypes;
 import com.github.mim1q.minecells.registry.MineCellsStructurePlacementTypes;
 import com.github.mim1q.minecells.registry.MineCellsStructureProcessorTypes;
 import com.github.mim1q.minecells.registry.MineCellsStructureTypes;
+import com.github.mim1q.minecells.valuecalculators.ValueCalculators;
+
+import com.mojang.logging.LogUtils;
+
 import net.minecraft.resources.ResourceLocation;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+
 import org.slf4j.Logger;
 
 @Mod(MineCells.MOD_ID)
@@ -68,7 +76,6 @@ public class MineCells {
         MineCellsStructureProcessorTypes.register(modEventBus);
         MineCellsGameRules.init();
         MineCellsNetwork.init();
-        modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(MineCellsEntities::registerAttributes);
         context.registerConfig(ModConfig.Type.COMMON, MineCellsConfig.COMMON_SPEC);
         context.registerConfig(ModConfig.Type.CLIENT, MineCellsConfig.CLIENT_SPEC);
@@ -76,16 +83,12 @@ public class MineCells {
         MinecraftForge.EVENT_BUS.addListener(MineCellsDataCommand::register);
         MinecraftForge.EVENT_BUS.addListener(SpawnerRuneCommand::register);
         MinecraftForge.EVENT_BUS.addListener(MineCellsTeleportCommand::register);
-        MinecraftForge.EVENT_BUS.addListener(com.github.mim1q.minecells.command.CellsCommand::register);
-        MinecraftForge.EVENT_BUS.addListener(com.github.mim1q.minecells.command.MineCellsDumpCommand::register);
-        MinecraftForge.EVENT_BUS.addListener(com.github.mim1q.minecells.command.SpecialPointCommand::register);
+        MinecraftForge.EVENT_BUS.addListener(CellsCommand::register);
+        MinecraftForge.EVENT_BUS.addListener(MineCellsDumpCommand::register);
+        MinecraftForge.EVENT_BUS.addListener(SpecialPointCommand::register);
         MinecraftForge.EVENT_BUS.addListener(MineCellsReloadListeners::onAddReloadListeners);
-        MinecraftForge.EVENT_BUS.addListener(com.github.mim1q.minecells.book.PatchouliCompat::onAdvancementEarned);
-        MinecraftForge.EVENT_BUS.addListener(com.github.mim1q.minecells.valuecalculators.ValueCalculators::onDatapackSync);
-    }
-
-    private void commonSetup(final FMLCommonSetupEvent event) {
-        LOGGER.info("Initializing Mine Cells Forge port");
+        MinecraftForge.EVENT_BUS.addListener(PatchouliCompat::onAdvancementEarned);
+        MinecraftForge.EVENT_BUS.addListener(ValueCalculators::onDatapackSync);
     }
 
     public static ResourceLocation id(String path) {

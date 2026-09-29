@@ -1,8 +1,10 @@
 package com.github.mim1q.minecells.client;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
+import com.github.mim1q.minecells.MineCells;
+
 import net.minecraft.world.item.ItemStack;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ComputeFovModifierEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

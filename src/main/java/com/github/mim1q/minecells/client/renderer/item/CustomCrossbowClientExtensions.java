@@ -1,16 +1,19 @@
 package com.github.mim1q.minecells.client.renderer.item;
 
 import com.github.mim1q.minecells.item.weapon.bow.CustomCrossbowItem;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
+
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 /**

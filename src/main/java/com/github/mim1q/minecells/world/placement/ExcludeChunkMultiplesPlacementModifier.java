@@ -1,15 +1,18 @@
 package com.github.mim1q.minecells.world.placement;
 
 import com.github.mim1q.minecells.registry.MineCellsPlacementModifierTypes;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import java.util.stream.Stream;
+
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
+
+import java.util.stream.Stream;
 
 public class ExcludeChunkMultiplesPlacementModifier extends PlacementModifier {
     public static final Codec<ExcludeChunkMultiplesPlacementModifier> CODEC = RecordCodecBuilder

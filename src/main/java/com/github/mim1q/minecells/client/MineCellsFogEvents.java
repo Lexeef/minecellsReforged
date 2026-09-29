@@ -1,9 +1,11 @@
 package com.github.mim1q.minecells.client;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
+import com.github.mim1q.minecells.MineCells;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.material.FogType;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ViewportEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

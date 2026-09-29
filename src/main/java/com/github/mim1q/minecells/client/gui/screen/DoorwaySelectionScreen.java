@@ -1,25 +1,27 @@
 package com.github.mim1q.minecells.client.gui.screen;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock.DoorwayType;
 import com.github.mim1q.minecells.client.MineCellsClientData;
 import com.github.mim1q.minecells.dimension.MineCellsDimension;
-import com.github.mim1q.minecells.network.MineCellsNetwork;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.network.c2s.UpdateDoorwayC2SPacket;
+import com.github.mim1q.minecells.network.MineCellsNetwork;
 import com.github.mim1q.minecells.world.DoorwayRequirements;
 import com.github.mim1q.minecells.world.state.MineCellsData;
+
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;

@@ -1,16 +1,18 @@
 package com.github.mim1q.minecells.registry;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
 import com.github.mim1q.minecells.effect.MineCellsMobEffect;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.network.MineCellsNetwork;
 import com.github.mim1q.minecells.network.s2c.EffectFlagsS2CPacket;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.event.TickEvent;
+
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;

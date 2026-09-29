@@ -1,6 +1,5 @@
 package com.github.mim1q.minecells.registry;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.item.CellHolderItem;
 import com.github.mim1q.minecells.item.DimensionalRuneItem;
 import com.github.mim1q.minecells.item.HealthFlaskItem;
@@ -8,18 +7,6 @@ import com.github.mim1q.minecells.item.ResetRuneItem;
 import com.github.mim1q.minecells.item.weapon.AssassinsDaggerItem;
 import com.github.mim1q.minecells.item.weapon.BalancedBladeItem;
 import com.github.mim1q.minecells.item.weapon.BloodSwordItem;
-import com.github.mim1q.minecells.item.weapon.CrowbarItem;
-import com.github.mim1q.minecells.item.weapon.CustomMeleeWeaponItem;
-import com.github.mim1q.minecells.item.weapon.CursedSwordItem;
-import com.github.mim1q.minecells.item.weapon.ElectricWhipItem;
-import com.github.mim1q.minecells.item.weapon.FlintItem;
-import com.github.mim1q.minecells.item.weapon.FrostBlastItem;
-import com.github.mim1q.minecells.item.weapon.HattorisKatanaItem;
-import com.github.mim1q.minecells.item.weapon.LightningBoltItem;
-import com.github.mim1q.minecells.item.weapon.NutcrackerItem;
-import com.github.mim1q.minecells.item.weapon.PhaserItem;
-import com.github.mim1q.minecells.item.weapon.SpiteSwordItem;
-import com.github.mim1q.minecells.item.weapon.TentacleItem;
 import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType;
 import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
 import com.github.mim1q.minecells.item.weapon.bow.CustomCrossbowItem;
@@ -28,8 +15,22 @@ import com.github.mim1q.minecells.item.weapon.bow.MultipleNocksBowItem;
 import com.github.mim1q.minecells.item.weapon.bow.NervesOfSteelItem;
 import com.github.mim1q.minecells.item.weapon.bow.QuickBowItem;
 import com.github.mim1q.minecells.item.weapon.bow.SingleUseProjectileItem;
+import com.github.mim1q.minecells.item.weapon.CrowbarItem;
+import com.github.mim1q.minecells.item.weapon.CursedSwordItem;
+import com.github.mim1q.minecells.item.weapon.CustomMeleeWeaponItem;
+import com.github.mim1q.minecells.item.weapon.ElectricWhipItem;
+import com.github.mim1q.minecells.item.weapon.FlintItem;
+import com.github.mim1q.minecells.item.weapon.FrostBlastItem;
+import com.github.mim1q.minecells.item.weapon.HattorisKatanaItem;
+import com.github.mim1q.minecells.item.weapon.LightningBoltItem;
+import com.github.mim1q.minecells.item.weapon.NutcrackerItem;
+import com.github.mim1q.minecells.item.weapon.PhaserItem;
 import com.github.mim1q.minecells.item.weapon.shield.CustomShieldItem;
 import com.github.mim1q.minecells.item.weapon.shield.CustomShieldType;
+import com.github.mim1q.minecells.item.weapon.SpiteSwordItem;
+import com.github.mim1q.minecells.item.weapon.TentacleItem;
+import com.github.mim1q.minecells.MineCells;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -38,11 +39,13 @@ import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
+
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
 import org.jetbrains.annotations.Nullable;
 
 public final class MineCellsItems {
@@ -166,10 +169,6 @@ public final class MineCellsItems {
 
     private static RegistryObject<Item> registerSimple(String name) {
         return register(name, new Item.Properties());
-    }
-
-    private static RegistryObject<Item> registerDurable(String name, int durability) {
-        return register(name, new Item.Properties().stacksTo(1).durability(durability));
     }
 
     private static RegistryObject<ForgeSpawnEggItem> registerSpawnEgg(

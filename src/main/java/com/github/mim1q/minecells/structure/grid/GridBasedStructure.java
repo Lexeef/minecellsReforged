@@ -1,37 +1,41 @@
 package com.github.mim1q.minecells.structure.grid;
 
 import com.github.mim1q.minecells.registry.MineCellsStructureTypes;
-import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomData;
-import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.BetterPromenadeGridGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.BlackBridgeGridGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.PrisonGridGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.PromenadeWallGenerator;
 import com.github.mim1q.minecells.structure.grid.generator.RampartsGridGenerator;
+import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomData;
+import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator;
+
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
-import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+
 import org.slf4j.Logger;
+
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class GridBasedStructure extends Structure {

@@ -1,15 +1,17 @@
 package com.github.mim1q.minecells.client;
 
+import com.github.mim1q.minecells.config.MineCellsConfig;
+import com.github.mim1q.minecells.MineCells;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ViewportEvent;
+import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.config.MineCellsConfig;
-import net.minecraftforge.common.ForgeConfigSpec;
 
 @Mod.EventBusSubscriber(modid = MineCells.MOD_ID, value = Dist.CLIENT)
 public final class ScreenShakeClientEffects {

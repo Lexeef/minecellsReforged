@@ -1,8 +1,10 @@
 package com.github.mim1q.minecells.network.c2s;
 
 import com.github.mim1q.minecells.world.state.MineCellsData;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
+
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;

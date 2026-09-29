@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.entity.ai.goal.conjunctivius;
 
 import com.github.mim1q.minecells.entity.ai.goal.TargetRandomPlayerGoal;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
+
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;

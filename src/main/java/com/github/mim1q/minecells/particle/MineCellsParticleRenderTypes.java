@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.particle;
 
 import com.github.mim1q.minecells.config.MineCellsConfig;
+
 import net.minecraft.client.particle.ParticleRenderType;
 
 public final class MineCellsParticleRenderTypes {

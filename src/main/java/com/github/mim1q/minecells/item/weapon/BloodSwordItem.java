@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.effect.BleedingMobEffect;
+
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 

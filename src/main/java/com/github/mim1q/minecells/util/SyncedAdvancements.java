@@ -2,8 +2,8 @@ package com.github.mim1q.minecells.util;
 
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
 /**
  * Client-side mirror of the advancement completion state sent by {@code AdvancementHintsS2CPacket}.

@@ -1,22 +1,22 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
+import static java.lang.Math.max;
+import static org.joml.Math.clamp;
+
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-
-import static java.lang.Math.max;
-import static org.joml.Math.clamp;
+import java.util.List;
 
 public class TimedDashGoal<E extends Monster> extends TimedActionGoal<E> {
     protected final TimedDashSettings settings;

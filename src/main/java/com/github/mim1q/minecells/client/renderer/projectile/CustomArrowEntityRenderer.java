@@ -1,15 +1,17 @@
 package com.github.mim1q.minecells.client.renderer.projectile;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.nonliving.projectile.CustomArrowEntity;
 import com.github.mim1q.minecells.item.weapon.bow.CustomArrowType;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.util.RenderUtils;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 

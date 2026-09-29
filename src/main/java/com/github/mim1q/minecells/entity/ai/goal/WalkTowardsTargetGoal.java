@@ -1,8 +1,8 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 
 public class WalkTowardsTargetGoal extends MeleeAttackGoal {
     protected final double minDistance;

@@ -1,7 +1,5 @@
 package com.github.mim1q.minecells.registry;
 
-import com.github.mim1q.minecells.MineCells;
-import com.github.mim1q.minecells.block.blockentity.SetupBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.ArrowSignBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.BarrierControllerBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.CellCrafterBlockEntity;
@@ -12,11 +10,15 @@ import com.github.mim1q.minecells.block.blockentity.MineCellsSignBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.ReturnStoneBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.RiftBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.RunicVinePlantBlockEntity;
+import com.github.mim1q.minecells.block.blockentity.SetupBlockEntity;
 import com.github.mim1q.minecells.block.blockentity.SpawnerRuneBlockEntity;
 import com.github.mim1q.minecells.block.portal.TeleporterBlockEntity;
+import com.github.mim1q.minecells.MineCells;
+
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

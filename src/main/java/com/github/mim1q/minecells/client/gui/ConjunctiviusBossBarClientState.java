@@ -1,8 +1,8 @@
 package com.github.mim1q.minecells.client.gui;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Client-side tentacle counts for Conjunctivius custom boss bars.

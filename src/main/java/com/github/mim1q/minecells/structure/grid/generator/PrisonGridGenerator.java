@@ -3,12 +3,14 @@ package com.github.mim1q.minecells.structure.grid.generator;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
 import com.github.mim1q.minecells.structure.grid.util.Vec3iCursor;
-import javax.annotation.Nullable;
+
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Rotation;
+
+import javax.annotation.Nullable;
 
 public class PrisonGridGenerator extends MultipartGridGenerator {
     private static final ResourceLocation SPAWN = id("spawn/spawn");

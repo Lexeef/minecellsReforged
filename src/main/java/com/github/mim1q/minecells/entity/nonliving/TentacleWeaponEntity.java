@@ -3,24 +3,26 @@ package com.github.mim1q.minecells.entity.nonliving;
 import com.github.mim1q.minecells.item.weapon.TentacleItem;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
-import com.github.mim1q.minecells.util.MathUtils;
 import com.github.mim1q.minecells.util.animation.AnimationProperty;
-import net.minecraft.world.entity.HumanoidArm;
+import com.github.mim1q.minecells.util.MathUtils;
+
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+
 import net.minecraftforge.network.NetworkHooks;
 
 public class TentacleWeaponEntity extends Entity {

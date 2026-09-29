@@ -2,19 +2,20 @@ package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.config.MineCellsSyncedConfig;
 import com.github.mim1q.minecells.item.weapon.interfaces.WeaponWithAbility;
-import com.github.mim1q.minecells.network.MineCellsNetwork;
 import com.github.mim1q.minecells.network.c2s.UseTentacleWeaponC2SPacket;
+import com.github.mim1q.minecells.network.MineCellsNetwork;
 import com.github.mim1q.minecells.registry.MineCellsEntities;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
 import com.github.mim1q.minecells.valuecalculators.ValueCalculator;
 import com.github.mim1q.minecells.valuecalculators.ValueCalculators;
+
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.ClipContext;
@@ -24,8 +25,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
 import org.jetbrains.annotations.Nullable;
 
 public class TentacleItem extends CustomMeleeWeaponItem implements WeaponWithAbility {

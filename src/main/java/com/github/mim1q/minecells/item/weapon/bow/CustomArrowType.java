@@ -10,6 +10,7 @@ import com.github.mim1q.minecells.util.MineCellsExplosion;
 import com.github.mim1q.minecells.valuecalculators.ValueCalculator;
 import com.github.mim1q.minecells.valuecalculators.ValueCalculatorContext;
 import com.github.mim1q.minecells.valuecalculators.ValueCalculators;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
@@ -20,26 +21,27 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.ToDoubleFunction;
-import org.jetbrains.annotations.Nullable;
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Stats come from {@code data/minecells/value_calculators/ranged/<name>.json}; missing equations fall back to

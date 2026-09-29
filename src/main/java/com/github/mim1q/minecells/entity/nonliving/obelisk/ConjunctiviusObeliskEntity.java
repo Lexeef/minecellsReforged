@@ -1,10 +1,11 @@
 package com.github.mim1q.minecells.entity.nonliving.obelisk;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.registry.MineCellsItems;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ParticleUtils;
+
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;

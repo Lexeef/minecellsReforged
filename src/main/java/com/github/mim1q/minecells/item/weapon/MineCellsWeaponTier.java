@@ -1,8 +1,9 @@
 package com.github.mim1q.minecells.item.weapon;
 
 import com.github.mim1q.minecells.registry.MineCellsItems;
-import net.minecraft.world.item.Tier;
+
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.Tier;
 
 public enum MineCellsWeaponTier implements Tier {
     CELL_INFUSED_STEEL;

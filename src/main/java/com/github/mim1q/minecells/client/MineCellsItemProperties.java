@@ -1,10 +1,11 @@
 package com.github.mim1q.minecells.client;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.item.CellHolderItem;
 import com.github.mim1q.minecells.item.weapon.bow.CustomBowItem;
 import com.github.mim1q.minecells.item.weapon.bow.CustomCrossbowItem;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.registry.MineCellsItems;
+
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;

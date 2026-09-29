@@ -1,15 +1,16 @@
 package com.github.mim1q.minecells.entity.nonliving.obelisk;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.entity.boss.MineCellsBossEntity;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.registry.MineCellsStatusEffects;
+
 import net.minecraft.advancements.Advancement;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.Level;
 
 public abstract class BossObeliskEntity extends ObeliskEntity {

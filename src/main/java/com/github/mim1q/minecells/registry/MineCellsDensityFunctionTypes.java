@@ -3,9 +3,12 @@ package com.github.mim1q.minecells.registry;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.world.densityfunction.CliffDensityFunction;
 import com.github.mim1q.minecells.world.densityfunction.RingDensityFunction;
+
 import com.mojang.serialization.Codec;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.DensityFunction;
+
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;

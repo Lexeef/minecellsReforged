@@ -1,7 +1,8 @@
 package com.github.mim1q.minecells.compat;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.portal.DoorwayPortalBlock;
+import com.github.mim1q.minecells.MineCells;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;

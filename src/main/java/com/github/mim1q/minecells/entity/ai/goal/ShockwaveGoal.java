@@ -1,8 +1,11 @@
 package com.github.mim1q.minecells.entity.ai.goal;
 
+import static com.github.mim1q.minecells.util.MathUtils.radians;
+
 import com.github.mim1q.minecells.entity.nonliving.ShockwavePlacer;
 import com.github.mim1q.minecells.registry.MineCellsBlocks;
 import com.github.mim1q.minecells.util.MathUtils;
+
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -11,8 +14,6 @@ import net.minecraft.world.phys.Vec3;
 import java.util.EnumSet;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-
-import static com.github.mim1q.minecells.util.MathUtils.radians;
 
 public class ShockwaveGoal<E extends Monster> extends TimedActionGoal<E> {
     private final BlockState shockwaveBlock;

@@ -1,12 +1,14 @@
 package com.github.mim1q.minecells.client.renderer.blockentity;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.block.blockentity.CellCrafterBlockEntity;
 import com.github.mim1q.minecells.client.renderer.misc.AdvancementHintRenderer;
+import com.github.mim1q.minecells.MineCells;
+
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.MultiBufferSource;
+
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.MultiBufferSource;
 
 public class CellCrafterBlockEntityRenderer implements BlockEntityRenderer<CellCrafterBlockEntity> {
     private final AdvancementHintRenderer hintRenderer = new AdvancementHintRenderer(MineCells.id("cell_crafter"), 0xCCEFFF, null);

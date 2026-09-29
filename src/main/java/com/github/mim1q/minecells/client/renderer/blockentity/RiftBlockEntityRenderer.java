@@ -1,29 +1,32 @@
 package com.github.mim1q.minecells.client.renderer.blockentity;
 
-import com.github.mim1q.minecells.MineCells;
+import static com.github.mim1q.minecells.util.MathUtils.radians;
+import static org.joml.Math.clamp;
+import static org.joml.Math.sin;
+
 import com.github.mim1q.minecells.block.blockentity.RiftBlockEntity;
+import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.util.RenderUtils;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
+
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
+
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-
-import static com.github.mim1q.minecells.util.MathUtils.radians;
-import static org.joml.Math.clamp;
-import static org.joml.Math.sin;
 
 public final class RiftBlockEntityRenderer implements BlockEntityRenderer<RiftBlockEntity> {
     private static final ResourceLocation BASE_TEXTURE = MineCells.id("textures/blockentity/rift/base.png");

@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.entity.ai.goal.conjunctivius;
 
 import com.github.mim1q.minecells.entity.boss.ConjunctiviusEntity;
 import com.github.mim1q.minecells.registry.MineCellsSounds;
+
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.phys.Vec3;
 

@@ -2,6 +2,7 @@ package com.github.mim1q.minecells.entity.ai.goal.concierge;
 
 import com.github.mim1q.minecells.entity.ai.goal.TimedActionGoal;
 import com.github.mim1q.minecells.entity.boss.ConciergeEntity;
+
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
 

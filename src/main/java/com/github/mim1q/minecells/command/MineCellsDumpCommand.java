@@ -2,15 +2,18 @@ package com.github.mim1q.minecells.command;
 
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.world.state.MineCellsData;
+
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.commands.CommandSourceStack;
+
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
+
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.fml.loading.FMLPaths;
 

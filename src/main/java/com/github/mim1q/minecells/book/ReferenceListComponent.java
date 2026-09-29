@@ -1,20 +1,22 @@
 package com.github.mim1q.minecells.book;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import vazkii.patchouli.api.IComponentRenderContext;
 import vazkii.patchouli.api.ICustomComponent;
 import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.client.book.BookEntry;
-import vazkii.patchouli.client.book.gui.GuiBook;
 import vazkii.patchouli.client.book.gui.button.GuiButtonEntry;
+import vazkii.patchouli.client.book.gui.GuiBook;
+
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.function.UnaryOperator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +24,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.WeakHashMap;
-import java.util.function.UnaryOperator;
 
 /**
  * Referenced by class name from {@code patchouli_books/minecells_guidebook/en_us/templates/references.json}.

@@ -1,10 +1,12 @@
 package com.github.mim1q.minecells.particle.electric;
 
 import com.github.mim1q.minecells.registry.MineCellsParticles;
-import com.mojang.brigadier.StringReader;
+
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.StringReader;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;

@@ -1,10 +1,11 @@
 package com.github.mim1q.minecells.client.renderer;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.client.renderer.layer.GlowEyesLayer;
 import com.github.mim1q.minecells.client.renderer.monster.ConciergeEntityModel;
 import com.github.mim1q.minecells.client.renderer.monster.MineCellsMonsterModelLayers;
 import com.github.mim1q.minecells.entity.boss.ConciergeEntity;
+import com.github.mim1q.minecells.MineCells;
+
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;

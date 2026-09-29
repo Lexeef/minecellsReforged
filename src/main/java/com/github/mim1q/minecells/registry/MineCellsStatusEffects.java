@@ -1,16 +1,18 @@
 package com.github.mim1q.minecells.registry;
 
-import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.effect.BleedingMobEffect;
 import com.github.mim1q.minecells.effect.ElectrifiedMobEffect;
 import com.github.mim1q.minecells.effect.FrozenMobEffect;
 import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
 import com.github.mim1q.minecells.effect.MineCellsMobEffect;
 import com.github.mim1q.minecells.effect.ProtectedMobEffect;
+import com.github.mim1q.minecells.MineCells;
+
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

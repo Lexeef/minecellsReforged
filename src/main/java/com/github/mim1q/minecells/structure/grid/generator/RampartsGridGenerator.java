@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.structure.grid.generator;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomData;
 import com.github.mim1q.minecells.structure.grid.SpecialPointIds;
+
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;

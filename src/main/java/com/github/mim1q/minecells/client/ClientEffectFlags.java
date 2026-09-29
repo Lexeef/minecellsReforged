@@ -1,7 +1,9 @@
 package com.github.mim1q.minecells.client;
 
 import com.github.mim1q.minecells.effect.MineCellsEffectFlags;
+
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
+
 import net.minecraft.world.entity.Entity;
 
 public final class ClientEffectFlags {

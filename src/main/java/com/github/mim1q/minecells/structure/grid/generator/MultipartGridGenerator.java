@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.structure.grid.generator;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomData;
 import com.github.mim1q.minecells.structure.grid.GridPiecesGenerator.RoomGridGenerator;
 import com.github.mim1q.minecells.util.MathUtils;
+
 import net.minecraft.core.Vec3i;
 
 public abstract class MultipartGridGenerator extends RoomGridGenerator {

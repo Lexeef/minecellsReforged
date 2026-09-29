@@ -3,6 +3,7 @@ package com.github.mim1q.minecells.entity.nonliving.projectile;
 import com.github.mim1q.minecells.entity.nonliving.SimpleProjectileEntity;
 import com.github.mim1q.minecells.registry.MineCellsParticles;
 import com.github.mim1q.minecells.util.ParticleUtils;
+
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;

@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.entity;
 
 import com.github.mim1q.minecells.util.MineCellsExplosion;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;

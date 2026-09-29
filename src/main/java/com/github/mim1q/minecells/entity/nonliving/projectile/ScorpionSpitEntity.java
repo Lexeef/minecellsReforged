@@ -2,13 +2,14 @@ package com.github.mim1q.minecells.entity.nonliving.projectile;
 
 import com.github.mim1q.minecells.entity.nonliving.SimpleProjectileEntity;
 import com.github.mim1q.minecells.util.ParticleUtils;
+
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 public class ScorpionSpitEntity extends MagicOrbEntity {

@@ -1,12 +1,15 @@
 package com.github.mim1q.minecells.client;
 
 import com.github.mim1q.minecells.MineCells;
+
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
-import net.minecraft.client.Minecraft;
+
 import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.gui.screens.worldselection.ConfirmExperimentalFeaturesScreen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.server.packs.repository.Pack;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.eventbus.api.EventPriority;

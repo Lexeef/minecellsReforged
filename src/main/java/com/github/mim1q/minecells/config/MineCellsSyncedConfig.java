@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.config;
 
 import net.minecraft.network.FriendlyByteBuf;
+
 import org.jetbrains.annotations.Nullable;
 
 /**

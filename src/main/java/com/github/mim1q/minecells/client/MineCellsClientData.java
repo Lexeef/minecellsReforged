@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.client;
 
 import com.github.mim1q.minecells.world.state.PlayerSpecificMineCellsData;
+
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.LinkedHashMap;

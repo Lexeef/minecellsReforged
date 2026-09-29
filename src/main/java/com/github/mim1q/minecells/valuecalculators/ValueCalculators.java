@@ -3,23 +3,27 @@ package com.github.mim1q.minecells.valuecalculators;
 import com.github.mim1q.minecells.MineCells;
 import com.github.mim1q.minecells.network.MineCellsNetwork;
 import com.github.mim1q.minecells.network.s2c.SyncValueCalculatorsS2CPacket;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
+
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.network.PacketDistributor;
+
 import org.jetbrains.annotations.Nullable;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.ToDoubleFunction;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.function.ToDoubleFunction;
 
 public final class ValueCalculators {
     private static final Gson GSON = new GsonBuilder().create();

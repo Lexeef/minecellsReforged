@@ -1,6 +1,7 @@
 package com.github.mim1q.minecells.particle.colored;
 
 import com.mojang.serialization.Codec;
+
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 

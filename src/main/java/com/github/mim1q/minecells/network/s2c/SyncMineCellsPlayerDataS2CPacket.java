@@ -2,11 +2,13 @@ package com.github.mim1q.minecells.network.s2c;
 
 import com.github.mim1q.minecells.client.MineCellsClientPacketHandlers;
 import com.github.mim1q.minecells.world.state.PlayerSpecificMineCellsData;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;

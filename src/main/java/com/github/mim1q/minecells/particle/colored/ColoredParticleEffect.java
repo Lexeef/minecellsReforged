@@ -1,13 +1,14 @@
 package com.github.mim1q.minecells.particle.colored;
 
-import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.StringReader;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.FriendlyByteBuf;
+
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.FriendlyByteBuf;
 
 public record ColoredParticleEffect(ParticleType<?> type, int color) implements ParticleOptions {
     public static final ParticleOptions.Deserializer<ColoredParticleEffect> DESERIALIZER = new ParticleOptions.Deserializer<>() {

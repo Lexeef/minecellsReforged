@@ -4,20 +4,23 @@ import com.github.mim1q.minecells.item.weapon.interfaces.CrittingWeapon;
 import com.github.mim1q.minecells.valuecalculators.ValueCalculator;
 import com.github.mim1q.minecells.valuecalculators.ValueCalculatorContext;
 import com.github.mim1q.minecells.valuecalculators.ValueCalculators;
+
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
+
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
+
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.Set;
 
 public class CustomMeleeWeaponItem extends SwordItem implements CrittingWeapon {
     private static final Set<CustomMeleeWeaponItem> ALL_MELEE_WEAPONS = new CopyOnWriteArraySet<>();
